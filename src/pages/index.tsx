@@ -1,9 +1,5 @@
-import styles from './index.module.scss';
+import Members from '@/screens/Members';
 
-const Page = () => (
-  <h1 className={styles.heading} data-cy="heading">
-    Hello, World!
-  </h1>
-);
+const Page = () => <Members />;
 
 export default Page;
