@@ -2,14 +2,17 @@ import MemberList from '@/features/members/components/MemberList';
 import axios from 'axios';
 import useSWR from 'swr';
 
-import type { Member } from '@/features/members/types/Member';
+import type { MembersResponseData } from '@/pages/api/members';
 
 const Members = () => {
-  const { data, isLoading } = useSWR('/api/members', async (url: string) => {
-    return axios
-      .get<{ members: Member[] }>(url)
-      .then((response) => response.data);
-  });
+  const { data, isLoading } = useSWR<MembersResponseData>(
+    '/api/members',
+    async (url: string) => {
+      return axios
+        .get<MembersResponseData>(url)
+        .then((response) => response.data);
+    },
+  );
 
   if (isLoading) {
     return <div>Loading members...</div>;

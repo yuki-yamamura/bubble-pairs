@@ -1,0 +1,36 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Sex {
+  NOT_KNOWN
+  MALE
+  FEMALE
+}
+
+enum Level {
+  BEGINNER
+  ELEMENTARY
+  INTERMEDIATE
+  ADVANCED
+}
+
+model Member {
+  id          Int      @id @default(autoincrement())
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @map("updated_at")
+  name        String
+  kana        String?
+  displayName String?  @map("display_name")
+  sex         Sex
+  level       Level
+  avatar      String
+  note        String?
+
+  @@map("members")
+}

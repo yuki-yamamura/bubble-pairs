@@ -1,6 +1,6 @@
 import ListItem from './ListItem';
 
-import type { Member } from '@/features/members/types/Member';
+import type { Member } from '@prisma/client';
 
 import styles from './index.module.scss';
 
