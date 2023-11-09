@@ -1,4 +1,8 @@
+import ListItem from './ListItem';
+
 import type { Member } from '@/features/members/types/Member';
+
+import styles from './index.module.scss';
 
 type Props = {
   members: Member[];
@@ -6,9 +10,11 @@ type Props = {
 
 const MemberList = ({ members }: Props) => {
   return (
-    <ul>
+    <ul className={styles.module}>
       {members.map((member) => (
-        <li key={member.id}>{member.displayName ?? member.name}</li>
+        <li key={member.id}>
+          <ListItem member={member} />
+        </li>
       ))}
     </ul>
   );

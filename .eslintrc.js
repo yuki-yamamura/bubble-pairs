@@ -89,5 +89,6 @@ module.exports = {
       { blankLine: 'always', prev: '*', next: 'return' },
       { blankLine: 'always', prev: '*', next: 'export' },
     ],
+    '@next/next/no-img-element': 'off',
   },
 };
