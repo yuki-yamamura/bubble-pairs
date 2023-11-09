@@ -1,13 +1,7 @@
-import MemberList from '@/features/members/components/MemberList';
-import { fakeMembers } from '@/mocks/fake-data/members';
+import Members from '@/features/members/components';
 
-const Members = () => {
-  return (
-    <>
-      <h1>Members</h1>
-      <MemberList members={fakeMembers} />
-    </>
-  );
+const MembersScreen = () => {
+  return <Members />;
 };
 
-export default Members;
+export default MembersScreen;

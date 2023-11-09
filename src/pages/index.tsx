@@ -1,5 +1,5 @@
-import Members from '@/screens/Members';
+import MembersScreen from '@/screens/Members';
 
-const Page = () => <Members />;
+const Page = () => <MembersScreen />;
 
 export default Page;
