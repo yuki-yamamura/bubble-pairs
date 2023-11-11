@@ -1,20 +1,29 @@
+import { useMembers } from './hooks/useMembers';
+import useSort from './hooks/useSort';
 import Component from '../presentation';
-import axios from 'axios';
-import useSWR from 'swr';
-
-import type { MembersResponseData } from '@/pages/api/members';
+import { useState } from 'react';
 
 const Members = () => {
-  const { data, isLoading } = useSWR('/api/members', async (url: string) => {
-    return axios
-      .get<MembersResponseData>(url)
-      .then((response) => response.data);
-  });
-  if (!data) {
-    return <div>Something went wrong.</div>;
-  }
+  const [isSortModalOpen, setIsSortModalOpen] = useState(false);
+  const { members, isError, isLoading } = useMembers();
+  const { options } = useSort();
 
-  return <Component isLoading={isLoading} members={data.members} />;
+  const handleSortModalToggle = () => {
+    setIsSortModalOpen((previousState) => !previousState);
+  };
+
+  return (
+    <>
+      <Component
+        isError={isError}
+        isLoading={isLoading}
+        members={members}
+        options={options}
+        isSortModalOpen={isSortModalOpen}
+        onSortModalToggle={handleSortModalToggle}
+      />
+    </>
+  );
 };
 
 export default Members;
