@@ -1,9 +1,4 @@
-import type { Member } from '@prisma/client';
-
-export type SortKey = keyof Pick<
-  Member,
-  'createdAt' | 'kana' | 'sex' | 'level'
->;
+import type { SortKey } from '@/features/members/types/SortKey';
 
 export const options: {
   label: string;
@@ -14,8 +9,8 @@ export const options: {
     value: 'createdAt',
   },
   {
-    label: '名前順',
-    value: 'kana',
+    label: '表示名順',
+    value: 'displayName',
   },
   {
     label: '性別順',

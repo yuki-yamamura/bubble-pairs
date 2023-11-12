@@ -1,6 +1,6 @@
 import { $Enums } from '@prisma/client';
 
-import type { SortKey } from './options';
+import type { SortKey } from '@/features/members/types/SortKey';
 import type { Member } from '@prisma/client';
 
 export const sortMembers = (members: Member[], sortKey: SortKey): Member[] => {
@@ -11,19 +11,12 @@ export const sortMembers = (members: Member[], sortKey: SortKey): Member[] => {
       case 'createdAt': {
         return (a: Member, b: Member) => (a.createdAt > b.createdAt ? 1 : -1);
       }
-      case 'kana': {
+      case 'displayName': {
         return (a: Member, b: Member) => {
-          if (a[sortKey] === b[sortKey]) {
-            return 0;
-          }
-          if (a[sortKey] === null) {
-            return 1;
-          }
-          if (b[sortKey] === null) {
-            return -1;
-          }
-
-          return (a[sortKey] as string) > (b[sortKey] as string) ? 1 : -1;
+          return (a[sortKey] ?? a['kana'] ?? b['name']) >
+            (b[sortKey] ?? b['kana'] ?? b['name'])
+            ? 1
+            : -1;
         };
       }
       case 'level': {

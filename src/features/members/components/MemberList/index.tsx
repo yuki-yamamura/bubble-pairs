@@ -10,7 +10,7 @@ type Props = {
 
 const MemberList = ({ members }: Props) => {
   return (
-    <ul className={styles.module}>
+    <ul className={styles.module} aria-label="members">
       {members.map((member) => (
         <li key={member.id}>
           <ListItem member={member} />

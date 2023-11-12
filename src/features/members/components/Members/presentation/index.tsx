@@ -1,16 +1,20 @@
-import RadioGroup from '@/components/RadioGroup';
 import FunctionButton from '@/features/members/components/FunctionButton';
 import MemberList from '@/features/members/components/MemberList';
-import FunctionModal from '@/features/members/components/modals/FunctionModal';
+import SortModal from '@/features/members/components/modals/SortModal';
 
 import type { Options } from '@/components/RadioGroup';
+import type { Inputs } from '@/features/members/components/modals/SortModal';
+import type { SortKey } from '@/features/members/types/SortKey';
 import type { Member } from '@prisma/client';
+import type { SubmitHandler } from 'react-hook-form';
 
 type Props = {
   isError: boolean;
   isLoading: boolean;
   members: Member[];
   options: Options;
+  selectedSortKey: SortKey;
+  onSubmit: SubmitHandler<Inputs>;
   isSortModalOpen: boolean;
   onSortModalToggle: () => void;
 };
@@ -19,6 +23,8 @@ const Component = ({
   isLoading,
   members,
   options,
+  selectedSortKey,
+  onSubmit,
   isSortModalOpen,
   onSortModalToggle,
 }: Props) => {
@@ -36,14 +42,13 @@ const Component = ({
       <FunctionButton label="並び替え" onClick={onSortModalToggle} />
       <MemberList members={members} />
       {isSortModalOpen && (
-        <FunctionModal
+        <SortModal
           title="並び替え"
-          // todo: replace a dummy func.
-          onApplyButtonClick={() => console.log('this is a dummy func.')}
+          options={options}
+          selectedSortKey={selectedSortKey}
+          onSubmit={onSubmit}
           onCloseButtonClick={onSortModalToggle}
-        >
-          <RadioGroup options={options} />
-        </FunctionModal>
+        />
       )}
     </>
   );

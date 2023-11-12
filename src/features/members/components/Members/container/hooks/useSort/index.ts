@@ -2,7 +2,7 @@ import { options } from './options';
 import { sortMembers } from './sortMembers';
 import { useCallback, useState } from 'react';
 
-import type { SortKey } from './options';
+import type { SortKey } from '@/features/members/types/SortKey';
 import type { Member } from '@prisma/client';
 
 const useSort = (): {
