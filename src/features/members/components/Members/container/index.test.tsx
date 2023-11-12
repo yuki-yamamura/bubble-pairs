@@ -32,13 +32,16 @@ describe('Members', () => {
   });
 
   describe('if a user clicks the sort button', () => {
-    test('should render a modal to select a sort key', async () => {
+    let user: UserEvent;
+
+    beforeEach(async () => {
+      user = userEvent.setup();
+
       render(<Members />);
-      const user = userEvent.setup();
+      await user.click(screen.getByRole('button', { name: '並び替え' }));
+    });
 
-      const sortButton = screen.getByRole('button', { name: '並び替え' });
-      await user.click(sortButton);
-
+    test('should render a modal to select a sort key', () => {
       const form = screen.getByRole('form');
       const radioButtons = within(form).getAllByRole<HTMLInputElement>('radio');
 
@@ -57,15 +60,6 @@ describe('Members', () => {
     });
 
     describe('each sort key should work correctly', () => {
-      let user: UserEvent;
-
-      beforeEach(async () => {
-        user = userEvent.setup();
-
-        render(<Members />);
-        await user.click(screen.getByRole('button', { name: '並び替え' }));
-      });
-
       describe('if a user selects the radio button labeled by "表示名順"', () => {
         test('should sort members by display name or kana or name', async () => {
           await user.click(screen.getByRole('radio', { name: '表示名順' }));
