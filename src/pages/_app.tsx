@@ -7,8 +7,10 @@ import '@/styles/globals.scss';
 const App = ({ Component, pageProps }: AppProps) => {
   const [shouldRender, setShouldRender] = useState(false);
 
+  // workaround for delaying initial render to make sure MSW is enabled.
+  // see https://github.com/mswjs/msw/discussions/1049#discussioncomment-1941348
   useEffect(() => {
-    void import('@/mocks/init-mocks').then(async ({ initMocks }) => {
+    void import('@/mocks/initMocks').then(async ({ initMocks }) => {
       await initMocks();
       setShouldRender(true);
     });
