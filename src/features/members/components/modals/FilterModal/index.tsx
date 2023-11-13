@@ -49,7 +49,8 @@ const FunctionModal = ({
       </header>
       <form
         id="filter-members-form"
-        onSubmit={handleSubmit(onSubmit)}
+        // onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(...args) => void handleSubmit(onSubmit)(...args)}
         role="form"
       >
         <fieldset className={styles.sexGroup}>

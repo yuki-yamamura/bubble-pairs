@@ -41,7 +41,7 @@ const FunctionModal = ({
       </header>
       <form
         id="sort-members-form"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(...args) => void handleSubmit(onSubmit)(...args)}
         role="form"
       >
         {options.map(({ label, value }) => (
