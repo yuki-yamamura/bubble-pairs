@@ -1,15 +1,16 @@
 import { options } from './options';
-import { sortMembers } from './sortMembers';
+// import sortMembers as another name to avoid conflict.
+import { sortMembers as sort } from './sortMembers';
 import { useCallback, useState } from 'react';
 
 import type { SortKey } from '@/features/members/types/SortKey';
 import type { Member } from '@prisma/client';
 
-const useSort = (): {
+export const useSort = (): {
   options: typeof options;
   selectedSortKey: SortKey;
   selectSortKey: (sortKey: SortKey) => void;
-  sortMembers: (members: Member[], sortKey: SortKey) => Member[];
+  sortMembers: (members: Member[]) => Member[];
 } => {
   const [selectedSortKey, setSelectedSortKey] = useState<SortKey>('createdAt');
 
@@ -17,13 +18,15 @@ const useSort = (): {
     (sortKey: SortKey) => setSelectedSortKey(sortKey),
     [],
   );
+  const sortMembers = useCallback(
+    (members: Member[]) => sort(members, selectedSortKey),
+    [selectedSortKey],
+  );
 
   return {
     options,
     selectedSortKey,
     selectSortKey,
-    sortMembers: useCallback(sortMembers, []),
+    sortMembers,
   };
 };
-
-export default useSort;

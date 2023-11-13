@@ -29,6 +29,14 @@ describe('Members', () => {
 
       expect(button).toBeInTheDocument();
     });
+
+    test('should render a button to filter members', () => {
+      render(<Members />);
+
+      const filterButton = screen.getByRole('button', { name: '絞り込み' });
+
+      expect(filterButton).toBeInTheDocument();
+    });
   });
 
   describe('if a user clicks the sort button', () => {

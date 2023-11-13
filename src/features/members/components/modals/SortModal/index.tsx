@@ -1,10 +1,11 @@
-import ApplyButton from './ApplyButton';
-import CloseButton from './CloseButton';
+import ApplyButton from '../ApplyButton';
+import CloseButton from '../CloseButton';
 import Modal from '@/components/Modal';
-import { type SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 import type { Options } from '@/components/RadioGroup';
 import type { SortKey } from '@/features/members/types/SortKey';
+import type { SubmitHandler } from 'react-hook-form';
 
 import styles from './index.module.scss';
 
@@ -36,7 +37,7 @@ const FunctionModal = ({
       <header className={styles.header}>
         <CloseButton onClick={onCloseButtonClick} />
         <div>{title}</div>
-        <ApplyButton />
+        <ApplyButton form="sort-members-form" />
       </header>
       <form
         id="sort-members-form"
