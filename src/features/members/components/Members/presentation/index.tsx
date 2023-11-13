@@ -24,6 +24,7 @@ type Props = {
   onFilterFormSubmit: SubmitHandler<FilterFormInputs>;
   isSortModalOpen: boolean;
   isFilterModalOpen: boolean;
+  shouldShowEmptyState: boolean;
   onSortModalToggle: () => void;
   onFilterModalToggle: () => void;
 };
@@ -41,6 +42,7 @@ const Component = ({
   onFilterFormSubmit,
   isSortModalOpen,
   isFilterModalOpen,
+  shouldShowEmptyState,
   onSortModalToggle,
   onFilterModalToggle,
 }: Props) => {
@@ -57,7 +59,11 @@ const Component = ({
       <h1>Members</h1>
       <FunctionButton label="並び替え" onClick={onSortModalToggle} />
       <FunctionButton label="絞り込み" onClick={onFilterModalToggle} />
-      <MemberList members={members} />
+      {shouldShowEmptyState ? (
+        <div>該当するメンバーがいません。</div>
+      ) : (
+        <MemberList members={members} />
+      )}
       {isSortModalOpen && (
         <SortModal
           title="並び替え"

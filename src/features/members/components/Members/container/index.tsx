@@ -24,6 +24,12 @@ const Members = () => {
 
   const displayMembers = sortMembers(filterMembers(members));
 
+  // if any filter condition is selected and there's no member that should be displayed,
+  // render an empty state alternatively.
+  const shouldShowEmptyState =
+    (selectedSexes.length !== 0 || selectedLevels.length !== 0) &&
+    displayMembers.length === 0;
+
   const handleSortModalToggle = () => {
     setIsSortModalOpen((previousState) => !previousState);
   };
@@ -56,6 +62,7 @@ const Members = () => {
         onFilterFormSubmit={handleFilterFormSubmit}
         isSortModalOpen={isSortModalOpen}
         isFilterModalOpen={isFilterModalOpen}
+        shouldShowEmptyState={shouldShowEmptyState}
         onSortModalToggle={handleSortModalToggle}
         onFilterModalToggle={handleFilterModalToggle}
       />

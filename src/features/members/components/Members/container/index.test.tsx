@@ -133,4 +133,146 @@ describe('Members', () => {
       });
     });
   });
+
+  describe('if a user clicks the filter button', () => {
+    let user: UserEvent;
+
+    beforeEach(async () => {
+      user = userEvent.setup();
+
+      render(<Members />);
+      await user.click(screen.getByRole('button', { name: '絞り込み' }));
+    });
+
+    test('should render a modal to select filter conditions', () => {
+      const sexGroup = screen.getByRole('group', {
+        name: '性別',
+      });
+      const levelGroup = screen.getByRole('group', {
+        name: 'レベル',
+      });
+      const sexOptions = within(sexGroup).getAllByRole('checkbox');
+      const levelOptions = within(levelGroup).getAllByRole('checkbox');
+
+      const sexLabels = ['男性', '女性', '不明'];
+      for (let i = 0; i < sexLabels.length; i++) {
+        expect(sexOptions[i]).toHaveAccessibleName(sexLabels[i]);
+        expect(sexOptions[i]).not.toBeChecked();
+      }
+      const levelLabels = ['入門', '初級', '中級', '上級'];
+      for (let i = 0; i < levelLabels.length; i++) {
+        expect(levelOptions[i]).toHaveAccessibleName(levelLabels[i]);
+        expect(levelOptions[i]).not.toBeChecked();
+      }
+    });
+
+    describe('if a user selects an options in the sex group', () => {
+      test('should filter members correctly', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '男性' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        const members = within(
+          screen.getByRole('list', { name: /members/i }),
+        ).getAllByRole('listitem');
+        expect(members).toHaveLength(1);
+
+        const expectedNames = ['吉田 茂'];
+        for (let i = 0; i < members.length; i++) {
+          expect(members[i]).toHaveTextContent(expectedNames[i]);
+        }
+      });
+    });
+
+    describe('if a user selects an options in the level group', () => {
+      test('should filter members correctly', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '中級' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        const members = within(
+          screen.getByRole('list', { name: /members/i }),
+        ).getAllByRole('listitem');
+        expect(members).toHaveLength(1);
+
+        const expectedNames = ['ミノ'];
+        for (let i = 0; i < members.length; i++) {
+          expect(members[i]).toHaveTextContent(expectedNames[i]);
+        }
+      });
+    });
+
+    describe('if a user selects both sex and level options', () => {
+      test('should filter members correctly', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '上級' }));
+        await user.click(screen.getByRole('checkbox', { name: '入門' }));
+        await user.click(screen.getByRole('checkbox', { name: '女性' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        const members = within(
+          screen.getByRole('list', { name: /members/i }),
+        ).getAllByRole('listitem');
+        expect(members).toHaveLength(1);
+
+        const expectedNames = ['ユカリ'];
+        for (let i = 0; i < members.length; i++) {
+          expect(members[i]).toHaveTextContent(expectedNames[i]);
+        }
+      });
+    });
+
+    describe('if a user selects conditions that do not match any members', () => {
+      test('should show an empty state', async () => {
+        expect(
+          screen.queryByText('該当するメンバーがいません。'),
+        ).not.toBeInTheDocument();
+
+        await user.click(screen.getByRole('checkbox', { name: '上級' }));
+        await user.click(screen.getByRole('checkbox', { name: '男性' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        expect(
+          screen.queryByRole('list', { name: /members/i }),
+        ).not.toBeInTheDocument();
+        expect(
+          screen.getByText('該当するメンバーがいません。'),
+        ).toBeInTheDocument();
+      });
+    });
+
+    describe('if a user does not select any filter condition', () => {
+      test('should show the same members before opening the modal', async () => {
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        const members = within(
+          screen.getByRole('list', { name: /members/i }),
+        ).getAllByRole('listitem');
+        expect(members).toHaveLength(4);
+
+        const expectedNames = ['ミノ', 'Sさん', '吉田 茂', 'ユカリ'];
+        for (let i = 0; i < members.length; i++) {
+          expect(members[i]).toHaveTextContent(expectedNames[i]);
+        }
+      });
+    });
+
+    describe('if a user selects some of the conditions, then clicks the cancel button', () => {
+      test('should show the same members before opening the modal', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '初級' }));
+        await user.click(screen.getByRole('checkbox', { name: '不明' }));
+        await user.click(screen.getByRole('button', { name: 'キャンセル' }));
+
+        const members = within(
+          screen.getByRole('list', { name: /members/i }),
+        ).getAllByRole('listitem');
+        expect(members).toHaveLength(4);
+
+        const expectedNames = ['ミノ', 'Sさん', '吉田 茂', 'ユカリ'];
+        for (let i = 0; i < members.length; i++) {
+          expect(members[i]).toHaveTextContent(expectedNames[i]);
+        }
+      });
+    });
+  });
+  test('array', () => {
+    expect([].length === 0).toBeTruthy();
+  });
 });
