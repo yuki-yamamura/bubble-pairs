@@ -1,9 +1,10 @@
 import ApplyButton from '../ApplyButton';
 import CloseButton from '../CloseButton';
 import Modal from '@/components/Modal';
+import { levelOptions } from '@/features/members/constants/levelOptions';
+import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useForm } from 'react-hook-form';
 
-import type { Options } from '@/components/RadioGroup';
 import type { Level, Sex } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 
@@ -16,8 +17,6 @@ export type Inputs = {
 
 type Props = {
   title: string;
-  sexOptions: Options;
-  levelOptions: Options;
   selectedSex: Sex[];
   selectedLevel: Level[];
   onSubmit: SubmitHandler<Inputs>;
@@ -26,8 +25,6 @@ type Props = {
 
 const FunctionModal = ({
   title,
-  sexOptions,
-  levelOptions,
   selectedSex,
   selectedLevel,
   onSubmit,

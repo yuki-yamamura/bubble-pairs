@@ -13,8 +13,6 @@ const Members = () => {
   const { members, isError, isLoading } = useMembers();
   const { options, selectSortKey, selectedSortKey, sortMembers } = useSort();
   const {
-    sexOptions,
-    levelOptions,
     selectedSexes,
     selectedLevels,
     selectSexes,
@@ -53,8 +51,6 @@ const Members = () => {
         isLoading={isLoading}
         members={displayMembers}
         options={options}
-        sexOptions={sexOptions}
-        levelOptions={levelOptions}
         selectedSortKey={selectedSortKey}
         selectedSex={selectedSexes}
         selectedLevels={selectedLevels}

@@ -1,20 +1,15 @@
 import { filterMembers as filter } from './filterMembers';
-import * as options from './options';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useState } from 'react';
 
 import type { Level, Member, Sex } from '@prisma/client';
 
 export const useFilter = (): {
-  sexOptions: typeof options.sexOptions;
-  levelOptions: typeof options.levelOptions;
   selectedSexes: Sex[];
   selectedLevels: Level[];
   selectSexes: (sexes: Sex[]) => void;
   selectLevels: (levels: Level[]) => void;
   filterMembers: (member: Member[]) => Member[];
 } => {
-  const sexOptions = useMemo(() => options.sexOptions, []);
-  const levelOptions = useMemo(() => options.levelOptions, []);
   const [selectedSexes, setSelectedSexes] = useState<Sex[]>([]);
   const [selectedLevels, setSelectedLevels] = useState<Level[]>([]);
 
@@ -33,8 +28,6 @@ export const useFilter = (): {
   );
 
   return {
-    sexOptions,
-    levelOptions,
     selectedSexes,
     selectedLevels,
     selectSexes,

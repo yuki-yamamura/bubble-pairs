@@ -15,8 +15,6 @@ type Props = {
   isLoading: boolean;
   members: Member[];
   options: Options;
-  sexOptions: Options;
-  levelOptions: Options;
   selectedSortKey: SortKey;
   selectedSex: Sex[];
   selectedLevels: Level[];
@@ -33,8 +31,6 @@ const Component = ({
   isLoading,
   members,
   options,
-  sexOptions,
-  levelOptions,
   selectedSortKey,
   selectedSex,
   selectedLevels,
@@ -76,8 +72,6 @@ const Component = ({
       {isFilterModalOpen && (
         <FilterModal
           title="絞り込み"
-          sexOptions={sexOptions}
-          levelOptions={levelOptions}
           selectedSex={selectedSex}
           selectedLevel={selectedLevels}
           onSubmit={onFilterFormSubmit}
