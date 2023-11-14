@@ -2,7 +2,7 @@ import { useFilter } from './hooks/useFilter';
 import { useMembers } from './hooks/useMembers';
 import { useSort } from './hooks/useSort';
 import Component from '@/features/members/components/Members/presentation';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import type { SortKey } from '@/features/members/types/SortKey';
 import type { Level, Sex } from '@prisma/client';
@@ -20,7 +20,16 @@ const Members = () => {
     filterMembers,
   } = useFilter();
 
-  const displayMembers = sortMembers(filterMembers(members));
+  const displayMembers = useMemo(() => {
+    let _members = members;
+
+    (() => {
+      _members = sortMembers(_members);
+      _members = filterMembers(_members);
+    })();
+
+    return _members;
+  }, [filterMembers, members, sortMembers]);
 
   // if any filter condition is selected and there's no member that should be displayed,
   // render an empty state alternatively.
