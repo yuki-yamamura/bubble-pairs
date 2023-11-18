@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 
 import type { AppProps } from 'next/app';
 
+import '@unocss/reset/tailwind.css';
 import '@/styles/globals.scss';
 
 const App = ({ Component, pageProps }: AppProps) => {
