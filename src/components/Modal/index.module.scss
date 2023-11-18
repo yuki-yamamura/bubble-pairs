@@ -1,12 +1,12 @@
 .module {
   position: absolute;
-  top: 70px;
-  bottom: 70px;
+  top: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
   width: 100vw;
+  margin-inline: 16px;
   background-color: white;
   border-radius: 12px;
   box-shadow: rgb(100 100 111 / 30%) 0 7px 29px 0;

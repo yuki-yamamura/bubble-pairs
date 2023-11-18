@@ -1,3 +1,5 @@
+import NewMemberModal from '../../modals/NewMemberModal';
+import NewMemberButton from '../../NewMemberButton';
 import FunctionButton from '@/features/members/components/FunctionButton';
 import MemberList from '@/features/members/components/MemberList';
 import FilterModal from '@/features/members/components/modals/FilterModal';
@@ -22,9 +24,11 @@ type Props = {
   onFilterFormSubmit: SubmitHandler<FilterFormInputs>;
   isSortModalOpen: boolean;
   isFilterModalOpen: boolean;
+  isNewMemberModalOpen: boolean;
   shouldShowEmptyState: boolean;
   onSortModalToggle: () => void;
   onFilterModalToggle: () => void;
+  onNewMemberModalToggle: () => void;
 };
 const Component = ({
   isError,
@@ -38,9 +42,11 @@ const Component = ({
   onFilterFormSubmit,
   isSortModalOpen,
   isFilterModalOpen,
+  isNewMemberModalOpen,
   shouldShowEmptyState,
   onSortModalToggle,
   onFilterModalToggle,
+  onNewMemberModalToggle,
 }: Props) => {
   if (isLoading) {
     return <div>Loading members...</div>;
@@ -55,6 +61,7 @@ const Component = ({
       <h1>Members</h1>
       <FunctionButton label="並び替え" onClick={onSortModalToggle} />
       <FunctionButton label="絞り込み" onClick={onFilterModalToggle} />
+      <NewMemberButton onClick={onNewMemberModalToggle} />
       {shouldShowEmptyState ? (
         <div>該当するメンバーがいません。</div>
       ) : (
@@ -78,6 +85,7 @@ const Component = ({
           onCloseButtonClick={onFilterModalToggle}
         />
       )}
+      {isNewMemberModalOpen && <NewMemberModal />}
     </>
   );
 };

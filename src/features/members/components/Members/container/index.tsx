@@ -10,6 +10,7 @@ import type { Level, Sex } from '@prisma/client';
 const Members = () => {
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
+  const [isNewMemberModalOpen, setIsNewMemberModalOpen] = useState(false);
   const { members, isError, isLoading } = useMembers();
   const { options, selectSortKey, selectedSortKey, sortMembers } = useSort();
   const {
@@ -43,6 +44,9 @@ const Members = () => {
   const handleFilterModalToggle = () => {
     setIsFilterModalOpen((previousState) => !previousState);
   };
+  const handleNewMemberModalToggle = () => {
+    setIsNewMemberModalOpen((previousState) => !previousState);
+  };
   const handleSortFormSubmit = (data: { sortKey: SortKey }) => {
     selectSortKey(data.sortKey);
     setIsSortModalOpen(false);
@@ -67,9 +71,11 @@ const Members = () => {
         onFilterFormSubmit={handleFilterFormSubmit}
         isSortModalOpen={isSortModalOpen}
         isFilterModalOpen={isFilterModalOpen}
+        isNewMemberModalOpen={isNewMemberModalOpen}
         shouldShowEmptyState={shouldShowEmptyState}
         onSortModalToggle={handleSortModalToggle}
         onFilterModalToggle={handleFilterModalToggle}
+        onNewMemberModalToggle={handleNewMemberModalToggle}
       />
     </>
   );
