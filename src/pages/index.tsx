@@ -1,9 +1,3 @@
-import MembersScreen from '@/screens/MembersScreen';
-
-const Page = () => (
-  <>
-    <MembersScreen />
-  </>
-);
+const Page = () => <div>Home</div>;
 
 export default Page;

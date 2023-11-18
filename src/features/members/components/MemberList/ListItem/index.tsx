@@ -8,13 +8,7 @@ type Props = {
 
 const ListItem = ({ member }: Props) => (
   <div className={styles.module}>
-    <img
-      src={member.avatar}
-      alt={'avatar'}
-      height={32}
-      width={32}
-      className={styles.avatar}
-    />
+    <img src={member.avatar} alt={'avatar'} className={styles.image} />
     <div>{member.displayName ?? member.name}</div>
   </div>
 );

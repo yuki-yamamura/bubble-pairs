@@ -11,16 +11,16 @@ import styles from './index.module.scss';
 
 type Inputs = Omit<Member, 'id' | 'createdAt' | 'updatedAt' | 'avatar'>;
 
-type Props = {
-  onSubmit: SubmitHandler<Inputs>;
-};
-
-const NewMemberForm = ({ onSubmit }: Props) => {
+const NewMemberForm = () => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>({ resolver: zodResolver(schema) });
+
+  const onSubmit: SubmitHandler<Inputs> = () => {
+    console.log('this is a dummy function');
+  };
 
   return (
     <form

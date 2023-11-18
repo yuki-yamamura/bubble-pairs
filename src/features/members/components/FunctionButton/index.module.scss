@@ -1,0 +1,16 @@
+.module {
+  display: flex;
+  display: inline-flex;
+  column-gap: 4px;
+  align-items: center;
+  padding-block: 2px;
+  padding-inline: 6px;
+  font-size: 14px;
+  border: 1px solid black;
+  border-radius: 4px;
+
+  &[data-active='true'] {
+    color: #1e90ff;
+    border: 1px solid #1e90ff;
+  }
+}

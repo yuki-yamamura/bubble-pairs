@@ -2,6 +2,7 @@ import { useFilter } from './hooks/useFilter';
 import { useMembers } from './hooks/useMembers';
 import { useSort } from './hooks/useSort';
 import Component from '@/features/members/components/Members/presentation';
+import { useRouter } from 'next/router';
 import { useMemo, useState } from 'react';
 
 import type { SortKey } from '@/features/members/types/SortKey';
@@ -10,7 +11,6 @@ import type { Level, Sex } from '@prisma/client';
 const Members = () => {
   const [isSortModalOpen, setIsSortModalOpen] = useState(false);
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
-  const [isNewMemberModalOpen, setIsNewMemberModalOpen] = useState(false);
   const { members, isError, isLoading } = useMembers();
   const { options, selectSortKey, selectedSortKey, sortMembers } = useSort();
   const {
@@ -20,6 +20,7 @@ const Members = () => {
     selectLevels,
     filterMembers,
   } = useFilter();
+  const router = useRouter();
 
   const displayMembers = useMemo(() => {
     let _members = members;
@@ -44,9 +45,6 @@ const Members = () => {
   const handleFilterModalToggle = () => {
     setIsFilterModalOpen((previousState) => !previousState);
   };
-  const handleNewMemberModalToggle = () => {
-    setIsNewMemberModalOpen((previousState) => !previousState);
-  };
   const handleSortFormSubmit = (data: { sortKey: SortKey }) => {
     selectSortKey(data.sortKey);
     setIsSortModalOpen(false);
@@ -55,6 +53,9 @@ const Members = () => {
     selectSexes(data.sexes);
     selectLevels(data.levels);
     setIsFilterModalOpen(false);
+  };
+  const handleNewMemberButtonClick = () => {
+    void router.push('/members/new');
   };
 
   return (
@@ -71,11 +72,10 @@ const Members = () => {
         onFilterFormSubmit={handleFilterFormSubmit}
         isSortModalOpen={isSortModalOpen}
         isFilterModalOpen={isFilterModalOpen}
-        isNewMemberModalOpen={isNewMemberModalOpen}
         shouldShowEmptyState={shouldShowEmptyState}
         onSortModalToggle={handleSortModalToggle}
         onFilterModalToggle={handleFilterModalToggle}
-        onNewMemberModalToggle={handleNewMemberModalToggle}
+        onClickNewMemberButton={handleNewMemberButtonClick}
       />
     </>
   );

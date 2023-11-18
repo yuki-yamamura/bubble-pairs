@@ -1,9 +1,11 @@
 .module {
   display: flex;
-  gap: 1rem;
+  gap: 16px;
   align-items: center;
 }
 
-.avatar {
+.image {
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
 }

@@ -1,9 +1,9 @@
-import NewMemberModal from '../../modals/NewMemberModal';
 import NewMemberButton from '../../NewMemberButton';
 import FunctionButton from '@/features/members/components/FunctionButton';
 import MemberList from '@/features/members/components/MemberList';
 import FilterModal from '@/features/members/components/modals/FilterModal';
 import SortModal from '@/features/members/components/modals/SortModal';
+import { MdFilterAlt, MdSort } from 'react-icons/md';
 
 import type { Options } from '@/components/RadioGroup';
 import type { Inputs as FilterFormInputs } from '@/features/members/components/modals/FilterModal';
@@ -11,6 +11,8 @@ import type { Inputs as SortFormInputs } from '@/features/members/components/mod
 import type { SortKey } from '@/features/members/types/SortKey';
 import type { Level, Member, Sex } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
+
+import styles from './index.module.scss';
 
 type Props = {
   isError: boolean;
@@ -24,11 +26,10 @@ type Props = {
   onFilterFormSubmit: SubmitHandler<FilterFormInputs>;
   isSortModalOpen: boolean;
   isFilterModalOpen: boolean;
-  isNewMemberModalOpen: boolean;
   shouldShowEmptyState: boolean;
   onSortModalToggle: () => void;
   onFilterModalToggle: () => void;
-  onNewMemberModalToggle: () => void;
+  onClickNewMemberButton: () => void;
 };
 const Component = ({
   isError,
@@ -42,11 +43,10 @@ const Component = ({
   onFilterFormSubmit,
   isSortModalOpen,
   isFilterModalOpen,
-  isNewMemberModalOpen,
   shouldShowEmptyState,
   onSortModalToggle,
   onFilterModalToggle,
-  onNewMemberModalToggle,
+  onClickNewMemberButton,
 }: Props) => {
   if (isLoading) {
     return <div>Loading members...</div>;
@@ -57,11 +57,21 @@ const Component = ({
   }
 
   return (
-    <>
-      <h1>Members</h1>
-      <FunctionButton label="並び替え" onClick={onSortModalToggle} />
-      <FunctionButton label="絞り込み" onClick={onFilterModalToggle} />
-      <NewMemberButton onClick={onNewMemberModalToggle} />
+    <div className={styles.module}>
+      <div className={styles.buttons}>
+        <FunctionButton
+          label="並び替え"
+          Icon={MdSort}
+          isActive={selectedSortKey !== 'createdAt'}
+          onClick={onSortModalToggle}
+        />
+        <FunctionButton
+          label="絞り込み"
+          Icon={MdFilterAlt}
+          isActive={selectedSex.length !== 0 || selectedLevels.length !== 0}
+          onClick={onFilterModalToggle}
+        />
+      </div>
       {shouldShowEmptyState ? (
         <div>該当するメンバーがいません。</div>
       ) : (
@@ -85,8 +95,10 @@ const Component = ({
           onCloseButtonClick={onFilterModalToggle}
         />
       )}
-      {isNewMemberModalOpen && <NewMemberModal />}
-    </>
+      <div className={styles.buttonContainer}>
+        <NewMemberButton onClick={onClickNewMemberButton} />
+      </div>
+    </div>
   );
 };
 
