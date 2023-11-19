@@ -1,3 +1,8 @@
+import FormField from '../FormField';
+import RadioGroup from '../FormField/RadioGroup';
+import Textarea from '../FormField/Textarea';
+import Textbox from '../FormField/Textbox';
+import Button from '@/components/Button';
 import { levelOptions } from '@/features/members/constants/levelOptions';
 import { sexOptions } from '@/features/members/constants/sexOptions';
 import { schema } from '@/features/members/validation';
@@ -36,64 +41,25 @@ const NewMemberForm = () => {
       onSubmit={(...args) => void handleSubmit(onSubmit)(...args)}
       className={styles.module}
     >
-      <label className={styles.label}>
-        <span className={styles.labelText}>名前（必須）</span>
-        <input type="text" {...register('name')} className={styles.textbox} />
-        {errors.name && (
-          <div role="alert" className={styles.error}>
-            {errors.name.message}
-          </div>
-        )}
-      </label>
-      <label className={styles.label}>
-        <span className={styles.labelText}>かな</span>
-        <input type="text" {...register('kana')} className={styles.textbox} />
-      </label>
-      <label className={styles.label}>
-        <span className={styles.labelText}>表示名</span>
-        <input
-          type="text"
-          {...register('displayName')}
-          className={styles.textbox}
-        />
-      </label>
-      <label className={styles.label}>
-        <span className={styles.labelText}>性別（必須）</span>
-        {/* todo: separate this radio group as a component. */}
-        <div radioGroup="sex" className={styles.radioGroup}>
-          {sexOptions.map(({ label, value }) => (
-            <label key={value}>
-              <span className={styles.radioLabel}>{label}</span>
-              <input
-                type="radio"
-                value={value}
-                {...register('sex')}
-                checked={value === 'MALE'}
-              />
-            </label>
-          ))}
-        </div>
-      </label>
-      <label className={styles.label}>
-        <span className={styles.labelText}>レベル（必須）</span>
-        {/* todo: separate this radio group as a component. */}
-        <div radioGroup="level" className={styles.radioGroup}>
-          {levelOptions.map(({ label, value }) => (
-            <label key={value}>
-              <span className={styles.radioLabel}>{label}</span>
-              <input type="radio" value={value} {...register('level')} />
-            </label>
-          ))}
-        </div>
-      </label>
-      <label className={styles.label}>
-        <span className={styles.labelText}>メモ</span>
-        <textarea {...register('note')} className={styles.textbox} />
-      </label>
-      {/* todo: separate this radio group as a component. */}
-      <button type="submit" className={styles.submitButton}>
-        メンバーを追加する
-      </button>
+      <FormField labelText="名前（必須）" errorMessage={errors.name?.message}>
+        <Textbox name="name" register={register} />
+      </FormField>
+      <FormField labelText="かな">
+        <Textbox name="kana" register={register} />
+      </FormField>
+      <FormField labelText="表示名">
+        <Textbox name="displayName" register={register} />
+      </FormField>
+      <FormField labelText="性別（必須）">
+        <RadioGroup options={sexOptions} name="sex" register={register} />
+      </FormField>
+      <FormField labelText="レベル（必須）">
+        <RadioGroup options={levelOptions} name="level" register={register} />
+      </FormField>
+      <FormField labelText="メモ">
+        <Textarea name="note" register={register} />
+      </FormField>
+      <Button type="submit" text="メンバーを追加する" color="green" />
     </form>
   );
 };

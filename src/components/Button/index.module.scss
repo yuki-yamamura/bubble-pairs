@@ -1,0 +1,25 @@
+.module {
+  display: inline-flex;
+  width: fit-content;
+  padding: 8px;
+  margin-top: 24px;
+  color: #04aa6d;
+  border: 1px solid #04aa6d;
+  border-radius: 4px;
+
+  &[data-color='red'] {
+    color: #ef3340;
+    border-color: #ef3340;
+  }
+
+  &:hover,
+  &:focus {
+    color: white;
+    background-color: #04aa6d;
+    transition-duration: 500ms;
+
+    &[data-color='red'] {
+      background-color: #ef3340;
+    }
+  }
+}
