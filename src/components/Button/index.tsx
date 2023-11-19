@@ -6,7 +6,7 @@ type Props = React.ComponentPropsWithoutRef<'button'> & {
 };
 
 const Button = ({ text, color, ...rest }: Props) => (
-  <button {...rest} data-color={color} className={styles.module}>
+  <button data-color={color} {...rest} className={styles.module}>
     {text}
   </button>
 );

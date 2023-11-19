@@ -1,26 +1,21 @@
-@use '@/styles/_variables' as *;
+@use '@/styles/colors' as *;
 
 .module {
-  $btn-color: $green;
-
-  padding: 8px;
-  color: $btn-color;
-  border: 1px solid $btn-color;
-  border-radius: 4px;
+  --color: #{$green};
 
   &[data-color='red'] {
-    color: $red;
-    border-color: $red;
+    --color: #{$red};
   }
+
+  padding: 0.5rem;
+  color: var(--color);
+  border: 1px solid var(--color);
+  border-radius: 0.25rem;
 
   &:hover,
   &:focus {
-    color: white;
-    background-color: $btn-color;
+    color: $white;
+    background-color: var(--color);
     transition-duration: 500ms;
-
-    &[data-color='red'] {
-      background-color: $red;
-    }
   }
 }
