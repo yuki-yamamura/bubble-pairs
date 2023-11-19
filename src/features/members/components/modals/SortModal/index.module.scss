@@ -1,4 +1,28 @@
-.header {
+@use '@/styles/_variables' as *;
+
+.button {
+  margin-top: 24px;
+  color: $blue;
+
+  &:hover,
+  :focus {
+    opacity: 0.7;
+  }
+}
+
+.buttons {
   display: flex;
-  column-gap: 1rem;
+  column-gap: 32px;
+}
+
+.title {
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.description {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: $darkGray;
 }

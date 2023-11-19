@@ -1,4 +1,12 @@
-.radioGroup {
+@use '@/styles/_variables' as *;
+
+.module {
   display: flex;
   flex-direction: column;
+  row-gap: 4px;
+  color: $darkGray;
+}
+
+.radio {
+  margin-right: 4px;
 }

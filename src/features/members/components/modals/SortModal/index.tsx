@@ -1,58 +1,78 @@
-import ApplyButton from '../ApplyButton';
-import CloseButton from '../CloseButton';
 import Modal from '@/components/Modal';
-import { useForm } from 'react-hook-form';
+import RadioGroup from '@/components/RadioGroup';
+import { forwardRef, useState } from 'react';
 
-import type { Options } from '@/components/RadioGroup';
 import type { SortKey } from '@/features/members/types/SortKey';
-import type { SubmitHandler } from 'react-hook-form';
+import type { Option } from '@/types/Option';
 
 import styles from './index.module.scss';
 
-export type Inputs = {
+export type FormValues = {
   sortKey: SortKey;
 };
 
 type Props = {
   title: string;
-  options: Options;
-  selectedSortKey: SortKey;
-  onSubmit: SubmitHandler<Inputs>;
-  onCloseButtonClick: () => void;
+  description: string;
+  options: Option[];
+  initialSortKey: SortKey;
+  selectSortKey: (sortKey: SortKey) => void;
+  closeModal: () => void;
 };
 
-const FunctionModal = ({
-  title,
-  options,
-  selectedSortKey,
-  onCloseButtonClick,
-  onSubmit,
-}: Props) => {
-  const { register, handleSubmit } = useForm<Inputs>({
-    defaultValues: { sortKey: selectedSortKey },
-  });
+const SortModal = forwardRef<HTMLDialogElement, Props>(function SortModal(
+  {
+    title,
+    description,
+    options,
+    initialSortKey,
+    selectSortKey,
+    closeModal,
+  }: Props,
+  ref,
+) {
+  const [selectedSortKey, setSelectedSortKey] =
+    useState<SortKey>(initialSortKey);
+
+  const handleApplyButtonClick = () => {
+    selectSortKey(selectedSortKey);
+    closeModal();
+  };
+  const handleCancelButtonClick = () => {
+    closeModal();
+  };
+  const handleSortKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedSortKey(e.currentTarget.value as SortKey);
+  };
 
   return (
-    <Modal>
-      <header className={styles.header}>
-        <CloseButton onClick={onCloseButtonClick} />
-        <div>{title}</div>
-        <ApplyButton form="sort-members-form" />
-      </header>
-      <form
-        id="sort-members-form"
-        onSubmit={(...args) => void handleSubmit(onSubmit)(...args)}
-        role="form"
-      >
-        {options.map(({ label, value }) => (
-          <label key={value}>
-            <input type="radio" value={value} {...register('sortKey')} />
-            {label}
-          </label>
-        ))}
-      </form>
+    <Modal ref={ref}>
+      <h2 className={styles.title}>{title}</h2>
+      <p className={styles.description}>{description}</p>
+      <RadioGroup
+        radioGroup="sort-key"
+        selectedValue={selectedSortKey}
+        options={options}
+        onChange={handleSortKeyChange}
+      />
+      <div className={styles.buttons}>
+        <button
+          type="button"
+          onClick={handleCancelButtonClick}
+          className={styles.button}
+        >
+          キャンセル
+        </button>
+        <button
+          type="submit"
+          onClick={handleApplyButtonClick}
+          className={styles.button}
+        >
+          適用
+        </button>
+      </div>
     </Modal>
   );
-};
+});
 
-export default FunctionModal;
+export default SortModal;
