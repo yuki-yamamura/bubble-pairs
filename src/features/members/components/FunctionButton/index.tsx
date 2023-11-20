@@ -3,22 +3,22 @@ import type { IconType } from 'react-icons';
 import styles from './index.module.scss';
 
 type Props = {
-  label: string;
   Icon: IconType;
   isActive: boolean;
-  onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  label: string;
+  onClick: () => void;
 };
 
-const FunctionButton = ({ label, Icon, isActive, onClick }: Props) => {
+const FunctionButton = ({ Icon, isActive, label, onClick }: Props) => {
   return (
     <button
       type="button"
+      data-active={isActive}
       onClick={onClick}
       className={styles.module}
-      data-active={isActive}
     >
-      <Icon />
-      <span>{label}</span>
+      <Icon aria-hidden />
+      {label}
     </button>
   );
 };

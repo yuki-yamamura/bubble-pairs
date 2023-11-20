@@ -1,16 +1,18 @@
+@use '@/styles/colors' as *;
+
 .module {
-  display: flex;
   display: inline-flex;
-  column-gap: 4px;
+  column-gap: 0.25rem;
   align-items: center;
-  padding-block: 2px;
-  padding-inline: 6px;
+  padding-block: 0.125rem;
+  padding-inline: 0.375rem;
   font-size: 14px;
-  border: 1px solid black;
-  border-radius: 4px;
+  color: $darkGray;
+  border: 1px solid $darkGray;
+  border-radius: 0.25rem;
 
   &[data-active='true'] {
-    color: #1e90ff;
-    border: 1px solid #1e90ff;
+    color: $blue;
+    border-color: $blue;
   }
 }
