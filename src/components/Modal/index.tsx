@@ -6,6 +6,8 @@ type Props = {
   children: React.ReactNode;
 };
 
+// todo: prevent users from scrolling when modal is open.
+// todo: close modal when clicking in backdrop.
 const Modal = forwardRef<HTMLDialogElement, Props>(function Modal(
   { children },
   ref,
