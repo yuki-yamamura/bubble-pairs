@@ -4,11 +4,11 @@ import { sortMembers as sort } from './sortMembers';
 import { useCallback, useState } from 'react';
 
 import type { SortKey } from '@/features/members/types/SortKey';
-import type { Option } from '@/types/Option';
+import type { Options } from '@/types/Options';
 import type { Member } from '@prisma/client';
 
 export const useSort = (): {
-  options: Option[];
+  options: Options;
   selectedSortKey: SortKey;
   selectSortKey: (sortKey: SortKey) => void;
   sortMembers: (members: Member[]) => Member[];

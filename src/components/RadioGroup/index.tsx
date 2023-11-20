@@ -1,32 +1,42 @@
-import type { Option } from '@/types/Option';
+import type { Options } from '@/types/Options';
 
 import styles from './index.module.scss';
 
 type Props = {
-  radioGroup: string;
-  selectedValue: string;
-  options: Option[];
+  defaultValue: string;
+  flexDirection: 'row' | 'column';
+  name: string;
+  options: Options;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const RadioGroup = ({
-  radioGroup,
-  selectedValue,
+  defaultValue,
+  flexDirection,
+  name,
   options,
   onChange,
 }: Props) => (
-  <div radioGroup={radioGroup} role="radiogroup" className={styles.module}>
-    {options.map(({ labelText, value }) => (
+  <div
+    role="radiogroup"
+    className={styles.module}
+    style={
+      {
+        '--flex-direction': flexDirection,
+      } as React.CSSProperties
+    }
+  >
+    {options.map(({ label, value }) => (
       <label key={value}>
         <input
           type="radio"
-          name={radioGroup}
+          name={name}
           value={value}
-          checked={selectedValue === value}
+          defaultChecked={value === defaultValue}
           onChange={onChange}
           className={styles.radio}
         />
-        {labelText}
+        {label}
       </label>
     ))}
   </div>

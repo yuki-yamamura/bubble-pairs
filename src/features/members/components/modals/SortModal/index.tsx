@@ -3,7 +3,7 @@ import RadioGroup from '@/components/RadioGroup';
 import { forwardRef, useState } from 'react';
 
 import type { SortKey } from '@/features/members/types/SortKey';
-import type { Option } from '@/types/Option';
+import type { Options } from '@/types/Options';
 
 import styles from './index.module.scss';
 
@@ -14,7 +14,7 @@ export type FormValues = {
 type Props = {
   title: string;
   description: string;
-  options: Option[];
+  options: Options;
   initialSortKey: SortKey;
   selectSortKey: (sortKey: SortKey) => void;
   closeModal: () => void;
@@ -50,8 +50,9 @@ const SortModal = forwardRef<HTMLDialogElement, Props>(function SortModal(
       <h2 className={styles.title}>{title}</h2>
       <p className={styles.description}>{description}</p>
       <RadioGroup
-        radioGroup="sort-key"
-        selectedValue={selectedSortKey}
+        defaultValue={options[0].value}
+        flexDirection="column"
+        name="sort-key"
         options={options}
         onChange={handleSortKeyChange}
       />

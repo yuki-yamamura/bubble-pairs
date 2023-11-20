@@ -1,12 +1,14 @@
-@use '@/styles/_colors' as *;
+@use '@/styles/colors' as *;
 
 .module {
+  --flex-direction: 'row';
+
   display: flex;
-  flex-direction: column;
-  row-gap: 4px;
-  color: $darkGray;
+  flex-direction: var(--flex-direction);
+  row-gap: 0.5rem;
+  column-gap: 0.75rem;
 }
 
 .radio {
-  margin-right: 4px;
+  margin-right: 0.25rem;
 }

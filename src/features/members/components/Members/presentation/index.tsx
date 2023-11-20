@@ -9,7 +9,7 @@ import { MdFilterAlt, MdSort } from 'react-icons/md';
 import type { Inputs as FilterFormInputs } from '@/features/members/components/modals/FilterModal';
 import type { FormValues } from '@/features/members/components/modals/SortModal';
 import type { SortKey } from '@/features/members/types/SortKey';
-import type { Option } from '@/types/Option';
+import type { Options } from '@/types/Options';
 import type { Level, Member, Sex } from '@prisma/client';
 import type { SubmitHandler } from 'react-hook-form';
 
@@ -19,7 +19,7 @@ type Props = {
   isError: boolean;
   isLoading: boolean;
   members: Member[];
-  options: Option[];
+  options: Options;
   initialSortKey: SortKey;
   selectedSortKey: SortKey;
   selectedSex: Sex[];
@@ -85,7 +85,7 @@ const Component = forwardRef<HTMLDialogElement, Props>(
         )}
         <SortModal
           title="並び替え"
-          description="選択したキーの昇順にメンバーを並び替えます。"
+          description="選択した項目の昇順にメンバーを並び替えます。"
           options={options}
           initialSortKey={initialSortKey}
           selectSortKey={selectSortKey}
