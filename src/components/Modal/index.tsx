@@ -2,9 +2,7 @@ import React, { forwardRef } from 'react';
 
 import styles from './index.module.scss';
 
-type Props = {
-  children: React.ReactNode;
-};
+type Props = React.PropsWithChildren;
 
 // todo: prevent users from scrolling when modal is open.
 // todo: close modal when clicking in backdrop.

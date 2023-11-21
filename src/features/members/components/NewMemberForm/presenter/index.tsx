@@ -18,59 +18,45 @@ type Props = {
 const Component = ({ fieldValues, fieldErrors, onSubmit }: Props) => {
   return (
     <form onSubmit={onSubmit} className={styles.module}>
-      <div className={styles.field}>
-        <label htmlFor="name" className={styles.label}>
-          名前（必須）
-        </label>
+      <label className={styles.label}>
+        名前（必須）
         <Textbox id="name" {...fieldValues.name} />
-        {fieldErrors.name && (
-          <div role="alert" className={styles.alert}>
-            {fieldErrors.name?.message}
-          </div>
-        )}
-      </div>
-      <div className={styles.field}>
-        <label htmlFor="kana" className={styles.label}>
-          かな
-        </label>
+      </label>
+      {fieldErrors.name && (
+        <div role="alert" className={styles.alert}>
+          {fieldErrors.name?.message}
+        </div>
+      )}
+      <label className={styles.label}>
+        かな
         <Textbox id="kana" {...fieldValues.kana} />
-      </div>
-      <div className={styles.field}>
-        <label htmlFor="displayName" className={styles.label}>
-          表示名
-        </label>
+      </label>
+      <label className={styles.label}>
+        表示名
         <Textbox id="displayName" {...fieldValues.displayName} />
-      </div>
-      <div className={styles.field}>
-        <label htmlFor="sex" className={styles.label}>
-          性別（必須）
-        </label>
+      </label>
+      <fieldset>
+        <legend className={styles.legend}>性別（必須）</legend>
         <RadioGroup
-          id="sex"
           defaultValue={sexOptions[0].value}
           flexDirection="row"
           options={sexOptions}
           {...fieldValues.sex}
         />
-      </div>
-      <div className={styles.field}>
-        <label htmlFor="level" className={styles.label}>
-          レベル（必須）
-        </label>
+      </fieldset>
+      <fieldset>
+        <legend className={styles.legend}>レベル（必須）</legend>
         <RadioGroup
-          id="level"
           defaultValue={levelOptions[0].value}
           flexDirection="row"
           options={levelOptions}
           {...fieldValues.level}
         />
-      </div>
-      <div className={styles.field}>
-        <label htmlFor="note" className={styles.label}>
-          メモ
-        </label>
+      </fieldset>
+      <label className={styles.label}>
+        メモ
         <Textarea id="note" {...fieldValues.note} />
-      </div>
+      </label>
       <Button type="submit" text="メンバーを追加する" color="green" />
     </form>
   );

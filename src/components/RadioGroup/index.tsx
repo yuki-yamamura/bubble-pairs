@@ -9,17 +9,15 @@ type Props = {
   flexDirection: 'row' | 'column';
   name: string;
   options: Options;
-  id?: string;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const RadioGroup = forwardRef<HTMLInputElement, Props>(function RadioGroup(
-  { defaultValue, flexDirection, name, options, id, onChange }: Props,
+  { defaultValue, flexDirection, name, options, onChange }: Props,
   ref,
 ) {
   return (
     <div
-      id={id}
       role="radiogroup"
       className={styles.module}
       style={
