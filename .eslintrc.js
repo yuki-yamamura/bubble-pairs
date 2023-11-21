@@ -90,5 +90,13 @@ module.exports = {
       { blankLine: 'always', prev: '*', next: 'export' },
     ],
     '@next/next/no-img-element': 'off',
+    '@typescript-eslint/no-misused-promises': [
+      2,
+      {
+        checksVoidReturn: {
+          attributes: false,
+        },
+      },
+    ],
   },
 };
