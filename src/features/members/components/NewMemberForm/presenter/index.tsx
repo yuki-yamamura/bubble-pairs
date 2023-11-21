@@ -1,33 +1,31 @@
-import { useMemberForm } from './hooks/useMemberForm';
-import { levelOptions } from '../../constants/levelOptions';
-import { sexOptions } from '../../constants/sexOptions';
 import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import Textarea from '@/components/Textarea';
 import Textbox from '@/components/Textbox';
+import { levelOptions } from '@/features/members/constants/levelOptions';
+import { sexOptions } from '@/features/members/constants/sexOptions';
 
-import type { SubmitHandler } from './hooks/useMemberForm';
+import type { FieldErrors, FieldValues } from '../hooks/useMemberForm';
 
 import styles from './index.module.scss';
 
-const NewMemberForm = () => {
-  const { fieldValues, handleSubmit, errors } = useMemberForm();
+type Props = {
+  fieldValues: FieldValues;
+  fieldErrors: FieldErrors;
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+};
 
-  const onSubmit: SubmitHandler = (data) => {
-    // todo: implement logic to submit form data.
-    console.log(data);
-  };
-
+const Component = ({ fieldValues, fieldErrors, onSubmit }: Props) => {
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={styles.module}>
+    <form onSubmit={onSubmit} className={styles.module}>
       <div className={styles.field}>
         <label htmlFor="name" className={styles.label}>
           名前（必須）
         </label>
-        <Textbox id="name" {...filedValues.name} />
-        {errors.name && (
+        <Textbox id="name" {...fieldValues.name} />
+        {fieldErrors.name && (
           <div role="alert" className={styles.alert}>
-            {errors.name.message}
+            {fieldErrors.name?.message}
           </div>
         )}
       </div>
@@ -35,13 +33,13 @@ const NewMemberForm = () => {
         <label htmlFor="kana" className={styles.label}>
           かな
         </label>
-        <Textbox id="kana" {...filedValues.kana} />
+        <Textbox id="kana" {...fieldValues.kana} />
       </div>
       <div className={styles.field}>
         <label htmlFor="displayName" className={styles.label}>
           表示名
         </label>
-        <Textbox id="displayName" {...filedValues.displayName} />
+        <Textbox id="displayName" {...fieldValues.displayName} />
       </div>
       <div className={styles.field}>
         <label htmlFor="sex" className={styles.label}>
@@ -52,7 +50,7 @@ const NewMemberForm = () => {
           defaultValue={sexOptions[0].value}
           flexDirection="row"
           options={sexOptions}
-          {...filedValues.sex}
+          {...fieldValues.sex}
         />
       </div>
       <div className={styles.field}>
@@ -64,18 +62,18 @@ const NewMemberForm = () => {
           defaultValue={levelOptions[0].value}
           flexDirection="row"
           options={levelOptions}
-          {...filedValues.level}
+          {...fieldValues.level}
         />
       </div>
       <div className={styles.field}>
         <label htmlFor="note" className={styles.label}>
           メモ
         </label>
-        <Textarea id="note" {...filedValues.note} />
+        <Textarea id="note" {...fieldValues.note} />
       </div>
       <Button type="submit" text="メンバーを追加する" color="green" />
     </form>
   );
 };
 
-export default NewMemberForm;
+export default Component;

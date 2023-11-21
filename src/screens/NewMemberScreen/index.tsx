@@ -1,4 +1,4 @@
-import NewMemberForm from '@/features/members/components/NewMemberForm';
+import NewMemberForm from '@/features/members/components/NewMemberForm/container';
 
 import styles from './index.module.scss';
 

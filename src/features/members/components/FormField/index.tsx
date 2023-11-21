@@ -1,6 +1,6 @@
 import type RadioGroup from './RadioGroup';
-import type Textarea from './Textarea';
 import type Textbox from './Textbox';
+import type Textarea from '../../../../components/Textarea';
 
 import styles from './index.module.scss';
 
