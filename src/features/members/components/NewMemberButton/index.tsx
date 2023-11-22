@@ -6,7 +6,7 @@ type Props = React.ComponentPropsWithoutRef<'button'>;
 
 const NewMemberButton = (props: Props) => (
   <button type="button" {...props} className={styles.module}>
-    <AiOutlineUserAdd aria-label="add user" size={20} color="white" />
+    <AiOutlineUserAdd aria-hidden size={20} className={styles.image} />
   </button>
 );
 
