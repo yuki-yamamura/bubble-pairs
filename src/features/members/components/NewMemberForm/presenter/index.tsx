@@ -2,20 +2,27 @@ import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import Textarea from '@/components/Textarea';
 import Textbox from '@/components/Textbox';
-import { levelOptions } from '@/features/members/constants/levelOptions';
-import { sexOptions } from '@/features/members/constants/sexOptions';
 
 import type { FieldErrors, FieldValues } from '../hooks/useMemberForm';
+import type { Options } from '@/types/Options';
 
 import styles from './index.module.scss';
 
 type Props = {
   fieldValues: FieldValues;
   fieldErrors: FieldErrors;
+  levelOptions: Options;
+  sexOptions: Options;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-const Component = ({ fieldValues, fieldErrors, onSubmit }: Props) => {
+const Component = ({
+  fieldValues,
+  fieldErrors,
+  levelOptions,
+  sexOptions,
+  onSubmit,
+}: Props) => {
   return (
     <form onSubmit={onSubmit} className={styles.module}>
       <label className={styles.label}>
@@ -55,9 +62,11 @@ const Component = ({ fieldValues, fieldErrors, onSubmit }: Props) => {
       </fieldset>
       <label className={styles.label}>
         メモ
-        <Textarea id="note" {...fieldValues.note} />
+        <Textarea {...fieldValues.note} />
       </label>
-      <Button type="submit" text="メンバーを追加する" color="green" />
+      <div className={styles.buttonContainer}>
+        <Button type="submit" text="メンバーを追加する" color="green" />
+      </div>
     </form>
   );
 };

@@ -1,18 +1,18 @@
-import { schema } from '@/features/members/validation';
+import { memberSchema } from '@/features/members/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ReactHookForm from 'react-hook-form';
 
-import type { Schema } from '@/features/members/validation';
+import type { MemberSchema } from '@/features/members/validation';
 
-type SubmitHandler = ReactHookForm.UseFormHandleSubmit<Schema>;
+type SubmitHandler = ReactHookForm.UseFormHandleSubmit<MemberSchema>;
 
 export type FieldValues = {
-  [P in keyof Schema]: ReactHookForm.UseFormRegisterReturn<P>;
+  [P in keyof MemberSchema]: ReactHookForm.UseFormRegisterReturn<P>;
 };
 
-export type FieldErrors = ReactHookForm.FieldErrors<Schema>;
+export type FieldErrors = ReactHookForm.FieldErrors<MemberSchema>;
 
-const defaultValues: Schema = {
+const defaultValues: MemberSchema = {
   name: '',
   kana: null,
   displayName: null,
@@ -30,12 +30,12 @@ export const useMemberForm = (): {
     register,
     handleSubmit,
     formState: { errors },
-  } = ReactHookForm.useForm<Schema>({
+  } = ReactHookForm.useForm<MemberSchema>({
     defaultValues,
-    resolver: zodResolver(schema),
+    resolver: zodResolver(memberSchema),
   });
 
-  const fieldValues = {
+  const fieldValues: FieldValues = {
     name: register('name'),
     kana: register('kana'),
     displayName: register('displayName'),

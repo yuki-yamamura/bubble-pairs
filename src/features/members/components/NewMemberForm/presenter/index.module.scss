@@ -7,11 +7,15 @@
   width: 100%;
 }
 
+.alert {
+  color: $red;
+}
+
+.buttonContainer {
+  align-self: center;
+}
+
 .label,
 .legend {
   font-weight: bold;
-}
-
-.alert {
-  color: $red;
 }

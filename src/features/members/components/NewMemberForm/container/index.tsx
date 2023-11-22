@@ -1,5 +1,7 @@
 import { useMemberForm } from '../hooks/useMemberForm';
 import Component from '../presenter';
+import { levelOptions } from '@/features/members/constants/levelOptions';
+import { sexOptions } from '@/features/members/constants/sexOptions';
 
 const NewMemberForm = () => {
   const {
@@ -17,6 +19,8 @@ const NewMemberForm = () => {
     <Component
       fieldValues={fieldValues}
       fieldErrors={fieldErrors}
+      levelOptions={levelOptions}
+      sexOptions={sexOptions}
       onSubmit={handleSubmit}
     />
   );
