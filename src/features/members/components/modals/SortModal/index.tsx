@@ -1,79 +1,48 @@
-import Modal from '@/components/Modal';
 import RadioGroup from '@/components/RadioGroup';
-import { forwardRef, useState } from 'react';
+import FunctionModal from '@/features/members/components/FunctionModal';
+import { sortKeyOptions } from '@/features/members/constants/sortKeyOptions';
+import { useState } from 'react';
 
 import type { SortKey } from '@/features/members/types/SortKey';
-import type { Options } from '@/types/Options';
-
-import styles from './index.module.scss';
-
-export type FormValues = {
-  sortKey: SortKey;
-};
+import type { Dispatch, RefObject, SetStateAction } from 'react';
 
 type Props = {
-  title: string;
-  description: string;
-  options: Options;
-  initialSortKey: SortKey;
-  selectSortKey: (sortKey: SortKey) => void;
-  closeModal: () => void;
+  setSelectedSortKey: Dispatch<SetStateAction<SortKey>>;
+  dialogRef: RefObject<HTMLDialogElement>;
 };
 
-const SortModal = forwardRef<HTMLDialogElement, Props>(function SortModal(
-  {
-    title,
-    description,
-    options,
-    initialSortKey,
-    selectSortKey,
-    closeModal,
-  }: Props,
-  ref,
-) {
-  const [selectedSortKey, setSelectedSortKey] =
-    useState<SortKey>(initialSortKey);
+const SortModal = ({ setSelectedSortKey, dialogRef }: Props) => {
+  const defaultSortKey = sortKeyOptions[0].value;
+  const [currentSortKey, setCurrentSortKey] = useState<SortKey>(defaultSortKey);
 
+  const handleSortKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentSortKey(e.currentTarget.value as SortKey);
+  };
   const handleApplyButtonClick = () => {
-    selectSortKey(selectedSortKey);
-    closeModal();
+    setSelectedSortKey(currentSortKey);
+    dialogRef.current?.close();
   };
   const handleCancelButtonClick = () => {
-    closeModal();
-  };
-  const handleSortKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedSortKey(e.currentTarget.value as SortKey);
+    dialogRef.current?.close();
   };
 
   return (
-    <Modal ref={ref}>
-      <h2 className={styles.title}>{title}</h2>
-      <p className={styles.description}>{description}</p>
+    <FunctionModal
+      description="選択した項目の昇順にメンバーを並び替えます。"
+      title="並び替え"
+      onApplyButtonClick={handleApplyButtonClick}
+      onCancelButtonClick={handleCancelButtonClick}
+      ref={dialogRef}
+    >
       <RadioGroup
-        defaultValue={options[0].value}
+        defaultValue={defaultSortKey}
         flexDirection="column"
-        name="sort-key"
-        options={options}
+        name="sort"
+        options={sortKeyOptions}
         onChange={handleSortKeyChange}
       />
-      <div className={styles.buttons}>
-        <button
-          type="button"
-          onClick={handleCancelButtonClick}
-          className={styles.button}
-        >
-          キャンセル
-        </button>
-        <button
-          type="submit"
-          onClick={handleApplyButtonClick}
-          className={styles.button}
-        >
-          適用
-        </button>
-      </div>
-    </Modal>
+    </FunctionModal>
   );
-});
+};
 
 export default SortModal;

@@ -12,3 +12,10 @@
 .radio {
   margin-right: 0.25rem;
 }
+
+.label,
+.radio {
+  &:hover {
+    cursor: pointer;
+  }
+}

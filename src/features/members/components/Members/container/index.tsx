@@ -5,14 +5,12 @@ import Component from '@/features/members/components/Members/presentation';
 import { useRouter } from 'next/router';
 import { useMemo, useRef, useState } from 'react';
 
-import type { FormValues } from '../../modals/SortModal';
 import type { Level, Sex } from '@prisma/client';
-import type { SubmitHandler } from 'react-hook-form';
 
 const Members = () => {
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const { members, isError, isLoading } = useMembers();
-  const { options, selectSortKey, selectedSortKey, sortMembers } = useSort();
+  const { selectedSortKey, setSelectedSortKey, sortMembers } = useSort();
   const {
     selectedSexes,
     selectedLevels,
@@ -43,7 +41,6 @@ const Members = () => {
   const toggleSortModal = () => {
     const dialog = dialogRef.current;
     if (!dialog) return;
-
     if (dialog.open) {
       dialog.close();
     } else {
@@ -61,32 +58,23 @@ const Members = () => {
   const handleNewMemberButtonClick = () => {
     void router.push('/members/new');
   };
-  const handleSortModalSubmit: SubmitHandler<FormValues> = (data) => {
-    selectSortKey(data.sortKey);
-    if (dialogRef.current) {
-      dialogRef.current.close();
-    }
-  };
 
   return (
     <Component
       isError={isError}
       isLoading={isLoading}
       members={displayMembers}
-      options={options}
-      initialSortKey="createdAt"
       selectedSortKey={selectedSortKey}
       selectedSex={selectedSexes}
       selectedLevels={selectedLevels}
-      selectSortKey={selectSortKey}
+      setSelectedSortKey={setSelectedSortKey}
       onFilterFormSubmit={handleFilterFormSubmit}
       isFilterModalOpen={isFilterModalOpen}
       toggleSortModal={toggleSortModal}
       shouldShowEmptyState={shouldShowEmptyState}
       onFilterModalToggle={handleFilterModalToggle}
       onClickNewMemberButton={handleNewMemberButtonClick}
-      onSortModalSubmit={handleSortModalSubmit}
-      ref={dialogRef}
+      sortModalDialogRef={dialogRef}
     />
   );
 };

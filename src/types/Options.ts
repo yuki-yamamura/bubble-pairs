@@ -1,4 +1,4 @@
-export type Options = {
+export type Options<T extends string = string> = {
   label: string;
-  value: string;
+  value: T;
 }[];

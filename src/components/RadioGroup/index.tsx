@@ -27,7 +27,7 @@ const RadioGroup = forwardRef<HTMLInputElement, Props>(function RadioGroup(
       }
     >
       {options.map(({ label, value }) => (
-        <label key={value}>
+        <label key={value} className={styles.label}>
           <input
             type="radio"
             name={name}
