@@ -1,23 +1,27 @@
-import { useFilter } from './hooks/useFilter';
-import { useMembers } from './hooks/useMembers';
-import { useSort } from './hooks/useSort';
-import Component from '@/features/members/components/Members/presentation';
+import { useFilter } from '../hooks/useFilter';
+import { useMembers } from '../hooks/useMembers';
+import { useSort } from '../hooks/useSort';
+import Component from '../presenter';
 import { useRouter } from 'next/router';
 import { useMemo, useRef } from 'react';
 
 const Members = () => {
   const { members, isError, isLoading } = useMembers();
-  const { selectedSortKey, setSelectedSortKey, sortMembers } = useSort();
   const {
+    levelOptions,
+    sexOptions,
     selectedSexes,
     selectedLevels,
     setSelectedSexes,
     setSelectedLevels,
     filterMembers,
   } = useFilter();
+  const { sortKeyOptions, selectedSortKey, setSelectedSortKey, sortMembers } =
+    useSort();
+
   const router = useRouter();
-  const filterModalDialogRef = useRef<HTMLDialogElement>(null);
-  const sortModalDialogRef = useRef<HTMLDialogElement>(null);
+  const filterModalRef = useRef<HTMLDialogElement>(null);
+  const sortModalRef = useRef<HTMLDialogElement>(null);
 
   const displayMembers = useMemo(() => {
     let _members = members;
@@ -30,50 +34,50 @@ const Members = () => {
     return _members;
   }, [filterMembers, members, sortMembers]);
 
-  // if any filter condition is selected and there's no member that should be displayed,
+  const isFilterEnabled =
+    selectedSexes.length !== 0 || selectedLevels.length !== 0;
+  const isSortEnabled = selectedSortKey !== sortKeyOptions[0].value;
+  // if any filter conditions are selected and there's no member that should be displayed,
   // render an empty state alternatively.
   const shouldShowEmptyState =
     (selectedSexes.length !== 0 || selectedLevels.length !== 0) &&
     displayMembers.length === 0;
 
-  const toggleSortModal = () => {
-    const dialog = sortModalDialogRef.current;
-    if (!dialog) return;
-    if (dialog.open) {
-      dialog.close();
-    } else {
-      dialog.showModal();
-    }
+  const openFilterModal = () => {
+    const dialog = filterModalRef.current;
+    if (!dialog || dialog.open) return;
+
+    dialog.showModal();
   };
-  const handleFilterModalToggle = () => {
-    filterModalDialogRef.current?.showModal();
+  const openSortModal = () => {
+    const dialog = sortModalRef.current;
+    if (!dialog || dialog.open) return;
+
+    dialog.showModal();
   };
-  // const handleFilterFormSubmit = (data: { sexes: Sex[]; levels: Level[] }) => {
-  //   selectSexes(data.sexes);
-  //   selectLevels(data.levels);
-  //   setIsFilterModalOpen(false);
-  // };
   const handleNewMemberButtonClick = () => {
     void router.push('/members/new');
   };
 
   return (
     <Component
-      isError={isError}
-      isLoading={isLoading}
       members={displayMembers}
-      selectedSortKey={selectedSortKey}
-      selectedSexes={selectedSexes}
-      selectedLevels={selectedLevels}
-      setSelectedSortKey={setSelectedSortKey}
-      setSelectedSexes={setSelectedSexes}
-      setSelectedLevels={setSelectedLevels}
-      toggleSortModal={toggleSortModal}
+      isLoading={isLoading}
+      isError={isError}
+      isFilterEnabled={isFilterEnabled}
+      isSortEnabled={isSortEnabled}
       shouldShowEmptyState={shouldShowEmptyState}
-      onFilterModalToggle={handleFilterModalToggle}
-      onClickNewMemberButton={handleNewMemberButtonClick}
-      filterModalDialogRef={filterModalDialogRef}
-      sortModalDialogRef={sortModalDialogRef}
+      setSelectedLevels={setSelectedLevels}
+      setSelectedSexes={setSelectedSexes}
+      setSelectedSortKey={setSelectedSortKey}
+      onNewMemberButtonClick={handleNewMemberButtonClick}
+      openFilterModal={openFilterModal}
+      openSortModal={openSortModal}
+      levelOptions={levelOptions}
+      sexOptions={sexOptions}
+      sortKeyOptions={sortKeyOptions}
+      filterModalRef={filterModalRef}
+      sortModalRef={sortModalRef}
     />
   );
 };

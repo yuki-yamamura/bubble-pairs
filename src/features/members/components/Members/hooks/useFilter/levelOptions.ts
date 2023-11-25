@@ -1,6 +1,8 @@
 import { Level } from '@prisma/client';
 
-export const levelOptions = [
+import type { Options } from '@/types/Options';
+
+export const levelOptions: Options<Level> = [
   { label: '入門', value: Level.BEGINNER },
   { label: '初級', value: Level.ELEMENTARY },
   { label: '中級', value: Level.INTERMEDIATE },

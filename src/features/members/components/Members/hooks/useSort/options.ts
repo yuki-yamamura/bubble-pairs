@@ -1,4 +1,4 @@
-import type { SortKey } from '../types/SortKey';
+import type { SortKey } from '@/features/members/types/SortKey';
 import type { Options } from '@/types/Options';
 
 export const sortKeyOptions: Options<SortKey> = [

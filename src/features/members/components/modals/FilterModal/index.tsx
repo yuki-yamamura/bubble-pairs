@@ -1,21 +1,24 @@
 import CheckboxGroup from '@/components/CheckboxGroup';
 import FunctionModal from '@/features/members/components/FunctionModal';
-import { levelOptions } from '@/features/members/constants/levelOptions';
-import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useState } from 'react';
 
+import type { Options } from '@/types/Options';
 import type { Level, Sex } from '@prisma/client';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 
 import styles from './index.module.scss';
 
 type Props = {
+  levelOptions: Options<Level>;
+  sexOptions: Options<Sex>;
   setSelectedLevels: Dispatch<SetStateAction<Level[]>>;
   setSelectedSexes: Dispatch<SetStateAction<Sex[]>>;
   dialogRef: RefObject<HTMLDialogElement>;
 };
 
 const FilterModal = ({
+  levelOptions,
+  sexOptions,
   setSelectedLevels,
   setSelectedSexes,
   dialogRef,

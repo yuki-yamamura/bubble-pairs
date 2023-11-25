@@ -1,18 +1,19 @@
 import RadioGroup from '@/components/RadioGroup';
 import FunctionModal from '@/features/members/components/FunctionModal';
-import { sortKeyOptions } from '@/features/members/constants/sortKeyOptions';
 import { useState } from 'react';
 
 import type { SortKey } from '@/features/members/types/SortKey';
+import type { Options } from '@/types/Options';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
 
 type Props = {
+  options: Options<SortKey>;
   setSelectedSortKey: Dispatch<SetStateAction<SortKey>>;
   dialogRef: RefObject<HTMLDialogElement>;
 };
 
-const SortModal = ({ setSelectedSortKey, dialogRef }: Props) => {
-  const defaultSortKey = sortKeyOptions[0].value;
+const SortModal = ({ options, setSelectedSortKey, dialogRef }: Props) => {
+  const defaultSortKey = options[0].value;
   const [currentSortKey, setCurrentSortKey] = useState<SortKey>(defaultSortKey);
 
   const handleSortKeyChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +39,7 @@ const SortModal = ({ setSelectedSortKey, dialogRef }: Props) => {
         defaultValue={defaultSortKey}
         flexDirection="column"
         name="sort"
-        options={sortKeyOptions}
+        options={options}
         onChange={handleSortKeyChange}
       />
     </FunctionModal>
