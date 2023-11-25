@@ -1,76 +1,90 @@
-import ApplyButton from '../ApplyButton';
-import CloseButton from '../CloseButton';
-import Modal from '@/components/Modal';
+import CheckboxGroup from '@/components/CheckboxGroup';
+import FunctionModal from '@/features/members/components/FunctionModal';
 import { levelOptions } from '@/features/members/constants/levelOptions';
 import { sexOptions } from '@/features/members/constants/sexOptions';
-import { useForm } from 'react-hook-form';
+import { useState } from 'react';
 
 import type { Level, Sex } from '@prisma/client';
-import type { SubmitHandler } from 'react-hook-form';
+import type { Dispatch, RefObject, SetStateAction } from 'react';
 
 import styles from './index.module.scss';
 
-export type Inputs = {
-  sexes: Sex[];
-  levels: Level[];
-};
-
 type Props = {
-  title: string;
-  selectedSex: Sex[];
-  selectedLevel: Level[];
-  onSubmit: SubmitHandler<Inputs>;
-  onCloseButtonClick: () => void;
+  setSelectedLevels: Dispatch<SetStateAction<Level[]>>;
+  setSelectedSexes: Dispatch<SetStateAction<Sex[]>>;
+  dialogRef: RefObject<HTMLDialogElement>;
 };
 
-const FunctionModal = ({
-  title,
-  selectedSex,
-  selectedLevel,
-  onSubmit,
-  onCloseButtonClick,
+const FilterModal = ({
+  setSelectedLevels,
+  setSelectedSexes,
+  dialogRef,
 }: Props) => {
-  const { register, handleSubmit } = useForm<Inputs>({
-    defaultValues: {
-      sexes: selectedSex,
-      levels: selectedLevel,
-    },
-  });
+  const [currentLevels, setCurrentLevels] = useState<Level[]>([]);
+  const [currentSexes, setCurrentSexes] = useState<Sex[]>([]);
+
+  const handleLevelsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentLevels((previousLevels) => {
+      const changedLevel = e.target.value as Level;
+      if (e.target.checked) {
+        return [...previousLevels, changedLevel];
+      }
+
+      return previousLevels.filter((level) => level !== changedLevel);
+    });
+  };
+  const handleSexesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCurrentSexes((previousSexes) => {
+      const changedSex = e.target.value as Sex;
+
+      if (e.target.checked) {
+        return [...previousSexes, changedSex];
+      }
+
+      return previousSexes.filter((sex) => sex !== changedSex);
+    });
+  };
+  const handleApplyButtonClick = () => {
+    setSelectedSexes(currentSexes);
+    setSelectedLevels(currentLevels);
+    dialogRef.current?.close();
+  };
+  const handleCancelButtonClick = () => {
+    dialogRef.current?.close();
+  };
 
   return (
-    <Modal>
-      <header className={styles.header}>
-        <CloseButton onClick={onCloseButtonClick} />
-        <div>{title}</div>
-        <ApplyButton form="filter-members-form" />
-      </header>
-      <form
-        id="filter-members-form"
-        // onSubmit={handleSubmit(onSubmit)}
-        onSubmit={(...args) => void handleSubmit(onSubmit)(...args)}
-        role="form"
-      >
-        <fieldset className={styles.sexGroup}>
+    <FunctionModal
+      description="選択した条件に合うメンバーを表示します。"
+      title="絞り込み"
+      onApplyButtonClick={handleApplyButtonClick}
+      onCancelButtonClick={handleCancelButtonClick}
+      ref={dialogRef}
+    >
+      <div className={styles.checkboxGroups}>
+        <fieldset>
           <legend>性別</legend>
-          {sexOptions.map(({ label, value }) => (
-            <label key={value}>
-              <input type="checkbox" value={value} {...register('sexes')} />
-              {label}
-            </label>
-          ))}
+          <CheckboxGroup
+            defaultValue={[]}
+            flexDirection="row"
+            name="sex"
+            options={sexOptions}
+            onChange={handleSexesChange}
+          />
         </fieldset>
-        <fieldset className={styles.levelGroup}>
+        <fieldset>
           <legend>レベル</legend>
-          {levelOptions.map(({ label, value }) => (
-            <label key={value}>
-              <input type="checkbox" value={value} {...register('levels')} />
-              {label}
-            </label>
-          ))}
+          <CheckboxGroup
+            defaultValue={[]}
+            flexDirection="row"
+            name="level"
+            options={levelOptions}
+            onChange={handleLevelsChange}
+          />
         </fieldset>
-      </form>
-    </Modal>
+      </div>
+    </FunctionModal>
   );
 };
 
-export default FunctionModal;
+export default FilterModal;

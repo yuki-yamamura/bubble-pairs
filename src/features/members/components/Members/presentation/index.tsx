@@ -5,11 +5,9 @@ import FilterModal from '@/features/members/components/modals/FilterModal';
 import SortModal from '@/features/members/components/modals/SortModal';
 import { MdFilterAlt, MdSort } from 'react-icons/md';
 
-import type { Inputs as FilterFormInputs } from '@/features/members/components/modals/FilterModal';
 import type { SortKey } from '@/features/members/types/SortKey';
 import type { Level, Member, Sex } from '@prisma/client';
 import type { Dispatch, RefObject, SetStateAction } from 'react';
-import type { SubmitHandler } from 'react-hook-form';
 
 import styles from './index.module.scss';
 
@@ -18,15 +16,16 @@ type Props = {
   isLoading: boolean;
   members: Member[];
   selectedSortKey: SortKey;
-  selectedSex: Sex[];
+  selectedSexes: Sex[];
   selectedLevels: Level[];
-  onFilterFormSubmit: SubmitHandler<FilterFormInputs>;
-  isFilterModalOpen: boolean;
   shouldShowEmptyState: boolean;
   setSelectedSortKey: Dispatch<SetStateAction<SortKey>>;
+  setSelectedSexes: Dispatch<SetStateAction<Sex[]>>;
+  setSelectedLevels: Dispatch<SetStateAction<Level[]>>;
   toggleSortModal: () => void;
   onFilterModalToggle: () => void;
   onClickNewMemberButton: () => void;
+  filterModalDialogRef: RefObject<HTMLDialogElement>;
   sortModalDialogRef: RefObject<HTMLDialogElement>;
 };
 const Component = ({
@@ -34,15 +33,16 @@ const Component = ({
   isLoading,
   members,
   selectedSortKey,
-  selectedSex,
+  selectedSexes,
   selectedLevels,
-  onFilterFormSubmit,
   setSelectedSortKey,
+  setSelectedSexes,
+  setSelectedLevels,
   toggleSortModal,
-  isFilterModalOpen,
   shouldShowEmptyState,
   onFilterModalToggle,
   onClickNewMemberButton,
+  filterModalDialogRef,
   sortModalDialogRef,
 }: Props) => {
   if (isLoading) {
@@ -65,7 +65,7 @@ const Component = ({
         <FunctionButton
           label="絞り込み"
           Icon={MdFilterAlt}
-          isActive={selectedSex.length !== 0 || selectedLevels.length !== 0}
+          isActive={selectedSexes.length !== 0 || selectedLevels.length !== 0}
           onClick={onFilterModalToggle}
         />
       </div>
@@ -78,15 +78,11 @@ const Component = ({
         setSelectedSortKey={setSelectedSortKey}
         dialogRef={sortModalDialogRef}
       />
-      {isFilterModalOpen && (
-        <FilterModal
-          title="絞り込み"
-          selectedSex={selectedSex}
-          selectedLevel={selectedLevels}
-          onSubmit={onFilterFormSubmit}
-          onCloseButtonClick={onFilterModalToggle}
-        />
-      )}
+      <FilterModal
+        setSelectedSexes={setSelectedSexes}
+        setSelectedLevels={setSelectedLevels}
+        dialogRef={filterModalDialogRef}
+      />
       <div className={styles.buttonContainer}>
         <NewMemberButton onClick={onClickNewMemberButton} />
       </div>

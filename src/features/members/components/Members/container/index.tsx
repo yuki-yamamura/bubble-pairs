@@ -3,23 +3,21 @@ import { useMembers } from './hooks/useMembers';
 import { useSort } from './hooks/useSort';
 import Component from '@/features/members/components/Members/presentation';
 import { useRouter } from 'next/router';
-import { useMemo, useRef, useState } from 'react';
-
-import type { Level, Sex } from '@prisma/client';
+import { useMemo, useRef } from 'react';
 
 const Members = () => {
-  const [isFilterModalOpen, setIsFilterModalOpen] = useState(false);
   const { members, isError, isLoading } = useMembers();
   const { selectedSortKey, setSelectedSortKey, sortMembers } = useSort();
   const {
     selectedSexes,
     selectedLevels,
-    selectSexes,
-    selectLevels,
+    setSelectedSexes,
+    setSelectedLevels,
     filterMembers,
   } = useFilter();
   const router = useRouter();
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const filterModalDialogRef = useRef<HTMLDialogElement>(null);
+  const sortModalDialogRef = useRef<HTMLDialogElement>(null);
 
   const displayMembers = useMemo(() => {
     let _members = members;
@@ -39,7 +37,7 @@ const Members = () => {
     displayMembers.length === 0;
 
   const toggleSortModal = () => {
-    const dialog = dialogRef.current;
+    const dialog = sortModalDialogRef.current;
     if (!dialog) return;
     if (dialog.open) {
       dialog.close();
@@ -48,13 +46,13 @@ const Members = () => {
     }
   };
   const handleFilterModalToggle = () => {
-    setIsFilterModalOpen((previousState) => !previousState);
+    filterModalDialogRef.current?.showModal();
   };
-  const handleFilterFormSubmit = (data: { sexes: Sex[]; levels: Level[] }) => {
-    selectSexes(data.sexes);
-    selectLevels(data.levels);
-    setIsFilterModalOpen(false);
-  };
+  // const handleFilterFormSubmit = (data: { sexes: Sex[]; levels: Level[] }) => {
+  //   selectSexes(data.sexes);
+  //   selectLevels(data.levels);
+  //   setIsFilterModalOpen(false);
+  // };
   const handleNewMemberButtonClick = () => {
     void router.push('/members/new');
   };
@@ -65,16 +63,17 @@ const Members = () => {
       isLoading={isLoading}
       members={displayMembers}
       selectedSortKey={selectedSortKey}
-      selectedSex={selectedSexes}
+      selectedSexes={selectedSexes}
       selectedLevels={selectedLevels}
       setSelectedSortKey={setSelectedSortKey}
-      onFilterFormSubmit={handleFilterFormSubmit}
-      isFilterModalOpen={isFilterModalOpen}
+      setSelectedSexes={setSelectedSexes}
+      setSelectedLevels={setSelectedLevels}
       toggleSortModal={toggleSortModal}
       shouldShowEmptyState={shouldShowEmptyState}
       onFilterModalToggle={handleFilterModalToggle}
       onClickNewMemberButton={handleNewMemberButtonClick}
-      sortModalDialogRef={dialogRef}
+      filterModalDialogRef={filterModalDialogRef}
+      sortModalDialogRef={sortModalDialogRef}
     />
   );
 };
