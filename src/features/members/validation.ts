@@ -2,7 +2,7 @@ import { schemaForType } from '@/lib/react-hook-form';
 import { Level, Sex } from '@prisma/client';
 import { z } from 'zod';
 
-import type { MemberWithoutMeta } from './types/MemberWithoutMeta';
+import type { MemberWithoutMeta } from '@/features/members/types/MemberWithoutMeta';
 
 export type MemberSchema = z.infer<typeof memberSchema>;
 
