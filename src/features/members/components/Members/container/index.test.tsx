@@ -4,11 +4,13 @@ import userEvent from '@testing-library/user-event';
 
 import type { UserEvent } from '@testing-library/user-event/dist/types/setup/setup';
 
+// the workaround for useRouter function.
 jest.mock('next/router', () => ({
   __esModule: true,
   useRouter: jest.fn(),
 }));
 
+// the workaround for using the methods provided by dialog element in Jest.
 HTMLDialogElement.prototype.show = jest.fn(function mock(
   this: HTMLDialogElement,
 ) {
@@ -96,7 +98,7 @@ describe('Members', () => {
         });
       });
 
-      describe('if a user selects the radio button labeled by "性別順', () => {
+      describe('if a user selects the radio button labeled by "性別順"', () => {
         test('should sort members by sex', async () => {
           await user.click(screen.getByRole('radio', { name: '性別順' }));
           await user.click(screen.getByRole('button', { name: '適用' }));
@@ -114,7 +116,7 @@ describe('Members', () => {
         });
       });
 
-      describe('if a user selects the radio button labeled by "レベル順', () => {
+      describe('if a user selects the radio button labeled by "レベル順"', () => {
         test('should sort members by level', async () => {
           await user.click(screen.getByRole('radio', { name: 'レベル順' }));
           await user.click(screen.getByRole('button', { name: '適用' }));
@@ -148,6 +150,126 @@ describe('Members', () => {
           expect(members[2]).toHaveTextContent('吉田 茂');
           expect(members[3]).toHaveTextContent('ユカリ');
         });
+      });
+    });
+  });
+
+  describe('if a user clicks the filter button', () => {
+    let user: UserEvent;
+
+    beforeEach(async () => {
+      user = userEvent.setup();
+
+      render(<Members />);
+      await user.click(await screen.findByRole('button', { name: '絞り込み' }));
+    });
+
+    test('should render a modal to select filter conditions', () => {
+      const sexOptions = within(
+        screen.getByRole('group', { name: '性別' }),
+      ).getAllByRole('checkbox');
+      const levelOptions = within(
+        screen.getByRole('group', { name: 'レベル' }),
+      ).getAllByRole('checkbox');
+
+      // check for the order and no value checked in sex group.
+      expect(sexOptions[0]).toHaveAccessibleName('男性');
+      expect(sexOptions[0]).not.toBeChecked();
+      expect(sexOptions[1]).toHaveAccessibleName('女性');
+      expect(sexOptions[1]).not.toBeChecked();
+      expect(sexOptions[2]).toHaveAccessibleName('不明');
+      expect(sexOptions[2]).not.toBeChecked();
+
+      // check for the order and no value checked in level group.
+      expect(levelOptions[0]).toHaveAccessibleName('入門');
+      expect(levelOptions[0]).not.toBeChecked();
+      expect(levelOptions[1]).toHaveAccessibleName('初級');
+      expect(levelOptions[1]).not.toBeChecked();
+      expect(levelOptions[2]).toHaveAccessibleName('中級');
+      expect(levelOptions[2]).not.toBeChecked();
+      expect(levelOptions[3]).toHaveAccessibleName('上級');
+      expect(levelOptions[3]).not.toBeChecked();
+    });
+
+    describe('if a user selects the filter labelled by "男性"', () => {
+      test('should filter members without males', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '男性' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        const members = within(screen.getByRole('list')).getAllByRole(
+          'listitem',
+        );
+
+        expect(members).toHaveLength(1);
+        expect(members[0]).toHaveTextContent('吉田 茂');
+      });
+    });
+
+    describe('if a user selects the filter labelled by "中級"', () => {
+      test('should filter members without intermediate level', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '中級' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        const members = within(screen.getByRole('list')).getAllByRole(
+          'listitem',
+        );
+
+        expect(members).toHaveLength(1);
+        expect(members[0]).toHaveTextContent('ミノ');
+      });
+    });
+
+    describe('if a user selects the multiple filters', () => {
+      test('should filter members by "AND" conditions', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '女性' }));
+        await user.click(screen.getByRole('checkbox', { name: '入門' }));
+        await user.click(screen.getByRole('checkbox', { name: '上級' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        const members = within(screen.getByRole('list')).getAllByRole(
+          'listitem',
+        );
+
+        expect(members).toHaveLength(1);
+        expect(members[0]).toHaveTextContent('ユカリ');
+      });
+    });
+
+    describe('if a user cancels to filter members', () => {
+      test('should not change the filter condition', async () => {
+        await user.click(screen.getByRole('checkbox', { name: '初級' }));
+        await user.click(screen.getByRole('checkbox', { name: '不明' }));
+        await user.click(screen.getByRole('button', { name: 'キャンセル' }));
+
+        const members = within(screen.getByRole('list')).getAllByRole(
+          'listitem',
+        );
+
+        expect(members).toHaveLength(4);
+        expect(members[0]).toHaveTextContent('ミノ');
+        expect(members[1]).toHaveTextContent('Sさん');
+        expect(members[2]).toHaveTextContent('吉田 茂');
+        expect(members[3]).toHaveTextContent('ユカリ');
+      });
+    });
+
+    describe('if a user selects filter conditions that do not match any members', () => {
+      test('should show an empty state', async () => {
+        // at first, there is no empty state.
+        expect(
+          screen.queryByText('条件に該当するメンバーがいません。'),
+        ).not.toBeInTheDocument();
+
+        await user.click(screen.getByRole('checkbox', { name: '上級' }));
+        await user.click(screen.getByRole('checkbox', { name: '男性' }));
+        await user.click(screen.getByRole('button', { name: '適用' }));
+
+        // after some of the filter conditions are applied,
+        // show an empty state instead of the member list, because there is no man in advanced level.
+        expect(screen.queryByRole('list')).not.toBeInTheDocument();
+        expect(
+          screen.getByText('条件に該当するメンバーがいません。'),
+        ).toBeInTheDocument();
       });
     });
   });
