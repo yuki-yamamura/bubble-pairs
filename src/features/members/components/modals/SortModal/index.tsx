@@ -28,21 +28,23 @@ const SortModal = ({ options, setSelectedSortKey, dialogRef }: Props) => {
   };
 
   return (
-    <FunctionModal
-      description="選択した項目の昇順にメンバーを並び替えます。"
-      title="並び替え"
-      onApplyButtonClick={handleApplyButtonClick}
-      onCancelButtonClick={handleCancelButtonClick}
-      ref={dialogRef}
-    >
-      <RadioGroup
-        defaultValue={defaultSortKey}
-        flexDirection="column"
-        name="sort"
-        options={options}
-        onChange={handleSortKeyChange}
-      />
-    </FunctionModal>
+    <div data-testid="sort-modal">
+      <FunctionModal
+        description="選択した項目の昇順にメンバーを並び替えます。"
+        title="並び替え"
+        onApplyButtonClick={handleApplyButtonClick}
+        onCancelButtonClick={handleCancelButtonClick}
+        ref={dialogRef}
+      >
+        <RadioGroup
+          defaultValue={defaultSortKey}
+          flexDirection="column"
+          name="sort"
+          options={options}
+          onChange={handleSortKeyChange}
+        />
+      </FunctionModal>
+    </div>
   );
 };
 
