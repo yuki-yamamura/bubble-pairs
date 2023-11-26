@@ -1,0 +1,28 @@
+@use '@/styles/_colors' as *;
+
+.button {
+  margin-top: 24px;
+  color: $blue;
+
+  &:hover,
+  :focus {
+    opacity: 0.7;
+  }
+}
+
+.buttons {
+  display: flex;
+  column-gap: 32px;
+}
+
+.description {
+  margin-bottom: 16px;
+  font-size: 14px;
+  color: $dark-gray;
+}
+
+.title {
+  margin-bottom: 8px;
+  font-weight: bold;
+  text-align: center;
+}
