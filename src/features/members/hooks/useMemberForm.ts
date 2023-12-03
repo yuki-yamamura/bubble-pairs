@@ -24,7 +24,7 @@ const defaultValues: MemberSchema = {
 export const useMemberForm = (): {
   fieldValues: FieldValues;
   fieldErrors: FieldErrors;
-  handleSubmit: SubmitHandler;
+  submitHandler: SubmitHandler;
 } => {
   const {
     register,
@@ -47,6 +47,6 @@ export const useMemberForm = (): {
   return {
     fieldValues,
     fieldErrors: errors,
-    handleSubmit,
+    submitHandler: handleSubmit,
   };
 };

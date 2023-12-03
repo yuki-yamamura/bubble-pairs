@@ -2,27 +2,20 @@ import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import Textarea from '@/components/Textarea';
 import Textbox from '@/components/Textbox';
-
-import type { FieldErrors, FieldValues } from '../hooks/useMemberForm';
-import type { Options } from '@/types/Options';
+import { levelOptions } from '@/features/members/constants/levelOptions';
+import { sexOptions } from '@/features/members/constants/sexOptions';
+import { useMemberForm } from '@/features/members/hooks/useMemberForm';
 
 import styles from './index.module.scss';
 
 type Props = {
-  fieldValues: FieldValues;
-  fieldErrors: FieldErrors;
-  levelOptions: Options;
-  sexOptions: Options;
+  submitButtonLabel: string;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 };
 
-const Component = ({
-  fieldValues,
-  fieldErrors,
-  levelOptions,
-  sexOptions,
-  onSubmit,
-}: Props) => {
+const MemberForm = ({ onSubmit, submitButtonLabel }: Props) => {
+  const { fieldValues, fieldErrors } = useMemberForm();
+
   return (
     <form onSubmit={onSubmit} className={styles.module}>
       <label className={styles.label}>
@@ -65,10 +58,10 @@ const Component = ({
         <Textarea {...fieldValues.note} />
       </label>
       <div className={styles.buttonContainer}>
-        <Button type="submit" text="メンバーを追加する" color="green" />
+        <Button type="submit" text={submitButtonLabel} color="green" />
       </div>
     </form>
   );
 };
 
-export default Component;
+export default MemberForm;
