@@ -3,7 +3,7 @@ import { rest } from 'msw';
 
 import type { MembersResponseData } from '@/pages/api/members';
 
-const membersHandler = rest.get(
+export const membersHandler = rest.get(
   '/api/members',
   (_request, response, context) => {
     return response(
@@ -11,5 +11,3 @@ const membersHandler = rest.get(
     );
   },
 );
-
-export default membersHandler;

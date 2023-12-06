@@ -6,18 +6,23 @@ import { levelOptions } from '@/features/members/constants/levelOptions';
 import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useMemberForm } from '@/features/members/hooks/useMemberForm';
 
+import type { MemberSchema } from '../../validation';
+
 import styles from './index.module.scss';
 
 type Props = {
   submitButtonLabel: string;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  submitMember: (fieldValues: MemberSchema) => void;
 };
 
-const MemberForm = ({ onSubmit, submitButtonLabel }: Props) => {
-  const { fieldValues, fieldErrors } = useMemberForm();
+const MemberForm = ({ submitButtonLabel, submitMember }: Props) => {
+  const { fieldValues, fieldErrors, submitHandler } = useMemberForm();
+  const handleSubmit = submitHandler((fieldValues: MemberSchema) =>
+    submitMember(fieldValues),
+  );
 
   return (
-    <form onSubmit={onSubmit} className={styles.module}>
+    <form onSubmit={handleSubmit} className={styles.module}>
       <label className={styles.label}>
         名前（必須）
         <Textbox id="name" {...fieldValues.name} />

@@ -3,15 +3,13 @@ import useSWR from 'swr';
 
 import type { MembersResponseData } from '@/pages/api/members';
 import type { Member } from '@prisma/client';
-import type { KeyedMutator } from 'swr';
 
 export const useMembers = (): {
   members: Member[];
   isError: boolean;
   isLoading: boolean;
-  mutate: KeyedMutator<MembersResponseData>;
 } => {
-  const { data, error, isLoading, mutate } = useSWR<MembersResponseData, Error>(
+  const { data, error, isLoading } = useSWR<MembersResponseData, Error>(
     '/api/members',
     (url: string) => {
       return axios
@@ -24,6 +22,5 @@ export const useMembers = (): {
     members: data ? data.members : [],
     isError: !!error,
     isLoading,
-    mutate,
   };
 };
