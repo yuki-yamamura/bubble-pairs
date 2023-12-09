@@ -18,8 +18,9 @@ test.describe('New member page', () => {
     await page.goto('/members');
     await page.getByRole('button', { name: 'メンバー追加' }).click();
 
-    // navigate to '/members/new' that shows the new member form.
+    // navigate to '/members/new' that shows a form to add a new member.
     await expect(page).toHaveURL('/members/new');
+    // the user fills out some of the fields.
     await page.getByRole('textbox', { name: '名前（必須）' }).fill('渡辺 早季');
     await page.getByRole('radio', { name: '女性' }).click();
 
@@ -42,9 +43,17 @@ test.describe('New member page', () => {
       }),
     );
 
-    // the user fills out some of the fields.
+    // then clicks the button to submit.
     await page.getByRole('button', { name: 'メンバーを追加する' }).click();
-    // await page.goto('/members');
+
+    // shows a loading icon.
+    await expect(page.getByLabel('読み込み中')).toBeVisible();
+
+    // navigate to '/members'
+    await expect(page).toHaveURL('/members');
+    // the user will know that the registration has been success to see the toast,
+    await expect(page.getByText('メンバーを登録しました。')).toBeVisible();
+    // there is the member who has been added in the list.
     await expect(page.getByText('渡辺 早季')).toBeVisible();
   });
 });
