@@ -23,8 +23,8 @@ const MemberForm = ({ submitButtonLabel, submitMember }: Props) => {
 
   return (
     <form onSubmit={handleSubmit} className={styles.module}>
-      <label className={styles.label}>
-        名前（必須）
+      <label>
+        <span className={styles.label}>名前（必須）</span>
         <Textbox id="name" {...fieldValues.name} />
       </label>
       {fieldErrors.name && (
@@ -32,12 +32,12 @@ const MemberForm = ({ submitButtonLabel, submitMember }: Props) => {
           {fieldErrors.name?.message}
         </div>
       )}
-      <label className={styles.label}>
-        かな
+      <label>
+        <span className={styles.label}>かな</span>
         <Textbox id="kana" {...fieldValues.kana} />
       </label>
-      <label className={styles.label}>
-        表示名
+      <label>
+        <span className={styles.label}>表示名</span>
         <Textbox id="displayName" {...fieldValues.displayName} />
       </label>
       <fieldset>
