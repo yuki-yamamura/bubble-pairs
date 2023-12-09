@@ -1,14 +1,14 @@
 import LoadingModal from '@/components/LoadingModal';
 import MemberForm from '@/features/members/components/MemberForm';
 import { useMembers } from '@/features/members/hooks/useMembers';
-import axios, { isAxiosError } from 'axios';
+import { request } from '@/lib/axios';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import type { MemberSchema } from '@/features/members/validation';
 import type { MemberResponseData } from '@/pages/api/member';
-import type { HttpResponse } from '@/types/HttpResponse';
+import type { AxiosRequestConfig } from 'axios';
 
 const NewMemberForm = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -20,30 +20,19 @@ const NewMemberForm = () => {
   const handleSubmit = async (memberCreateInput: MemberSchema) => {
     setIsLoading(true);
 
-    const postMember = async (): Promise<
-      HttpResponse<MemberResponseData, Error>
-    > => {
-      try {
-        const response = await axios.post<MemberResponseData>('/api/member', {
-          avatar: 'https://picsum.photos/200/300.jpg?random=1',
-          ...memberCreateInput,
-        });
-        const { data, status } = response;
-
-        return { data, status };
-      } catch (error) {
-        if (isAxiosError(error)) {
-          return { error, status: 500 };
-        }
-
-        return { error: new Error('something went wrong'), status: 500 };
-      }
+    const axiosRequestConfig: AxiosRequestConfig = {
+      url: '/api/member',
+      method: 'POST',
+      data: {
+        avatar: 'https://picsum.photos/200/300.jpg?random=1',
+        ...memberCreateInput,
+      },
     };
+    const result = await request<MemberResponseData>(axiosRequestConfig);
 
-    const { data, error } = await postMember();
-    if (data !== undefined && error) {
+    if (result.type === 'success') {
       notifySuccess();
-      await mutate({ members: [...members, data.member] });
+      await mutate({ members: [...members, result.data.member] });
       await router.push('/members');
     } else {
       notifyError();
