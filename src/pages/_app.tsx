@@ -1,3 +1,5 @@
+import { Toaster } from 'react-hot-toast';
+
 import type { AppProps } from 'next/app';
 
 import '@unocss/reset/tailwind.css';
@@ -8,7 +10,12 @@ const App = ({ Component, pageProps }: AppProps) => {
     await initMocks();
   });
 
-  return <Component {...pageProps} />;
+  return (
+    <>
+      <Component {...pageProps} />
+      <Toaster />
+    </>
+  );
 };
 
 export default App;
