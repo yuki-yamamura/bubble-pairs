@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 import type { MemberSchema } from '@/features/members/validation';
-import type { MemberResponseData } from '@/pages/api/member';
+import type { PostResponseData } from '@/pages/api/members';
 import type { Prisma } from '@prisma/client';
 
 const NewMemberForm = () => {
@@ -15,31 +15,30 @@ const NewMemberForm = () => {
     url: string,
     { arg }: { arg: Prisma.MemberCreateInput },
   ) => {
-    const response = await axios.post<MemberResponseData>(url, arg);
+    const response = await axios.post<PostResponseData>(url, arg);
 
     return response.data;
   };
 
-  const { trigger, error, isMutating } = useSWRMutation<
-    MemberResponseData,
+  const { trigger, isMutating } = useSWRMutation<
+    PostResponseData,
     Error,
-    '/api/member',
+    '/api/members',
     Prisma.MemberCreateInput
-  >('/api/member', fetcher);
+  >('/api/members', fetcher);
 
   const notifySuccess = () => toast.success('メンバーを登録しました。');
   const notifyError = () => toast.error('メンバーの登録に失敗しました。');
-  const handleSubmit = async (memberCreateInput: MemberSchema) => {
+  const handleSubmit = async (memberSchema: MemberSchema) => {
     await trigger({
-      ...memberCreateInput,
+      ...memberSchema,
       avatar: 'https://picsum.photos/200/300.jpg?random=1',
-    });
-    if (error) {
-      notifyError();
-    } else {
-      notifySuccess();
-      await router.push('/members');
-    }
+    })
+      .then(async () => {
+        notifySuccess();
+        await router.push('/members');
+      })
+      .catch(() => notifyError());
   };
 
   if (isMutating) {

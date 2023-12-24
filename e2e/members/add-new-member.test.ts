@@ -74,7 +74,7 @@ test.describe('New member page', () => {
         .fill(newMember.name);
       await page.getByRole('radio', { name: '女性' }).click();
 
-      await page.route('/api/member', (route) =>
+      await page.route('/api/members', (route) =>
         route.fulfill({
           status: 500,
         }),

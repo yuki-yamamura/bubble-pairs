@@ -1,7 +1,7 @@
 import axios from 'axios';
 import useSWR from 'swr';
 
-import type { MembersResponseData } from '@/pages/api/members';
+import type { GetResponseData } from '@/pages/api/members';
 import type { Member } from '@prisma/client';
 import type { KeyedMutator } from 'swr';
 
@@ -9,14 +9,12 @@ export const useMembers = (): {
   members: Member[];
   isError: boolean;
   isLoading: boolean;
-  mutate: KeyedMutator<MembersResponseData>;
+  mutate: KeyedMutator<GetResponseData>;
 } => {
-  const { data, error, isLoading, mutate } = useSWR<MembersResponseData, Error>(
+  const { data, error, isLoading, mutate } = useSWR<GetResponseData, Error>(
     '/api/members',
     (url: string) => {
-      return axios
-        .get<MembersResponseData>(url)
-        .then((response) => response.data);
+      return axios.get<GetResponseData>(url).then((response) => response.data);
     },
   );
 
