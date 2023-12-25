@@ -1,5 +1,5 @@
-import { levelOptions } from './levelOptions';
-import { sexOptions } from './sexOptions';
+import { levelOptions } from '@/features/members/constants/levelOptions';
+import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useCallback, useState } from 'react';
 
 import type { Options } from '@/types/Options';

@@ -1,4 +1,4 @@
-import membersHandler from './membersHandler';
+import { membersHandler } from './membersHandler';
 
 import type { RequestHandler } from 'msw';
 

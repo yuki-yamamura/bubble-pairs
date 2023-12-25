@@ -1,12 +1,12 @@
-import NewMemberForm from '@/features/members/components/NewMemberForm/container';
+import NewMemberForm from '@/features/members/components/NewMemberForm';
 
 import styles from './index.module.scss';
 
-const Page = () => (
+const NewMemberScreen = () => (
   <>
     <h1 className={styles.title}>チームにメンバーを追加する</h1>
     <NewMemberForm />
   </>
 );
 
-export default Page;
+export default NewMemberScreen;

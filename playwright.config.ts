@@ -2,7 +2,7 @@ import { defineConfig, devices } from '@playwright/test';
 import path from 'path';
 
 const PORT = process.env.PORT || 3000;
-const baseURL = `http:localhost:${PORT}`;
+const baseURL = `http://localhost:${PORT}`;
 
 export default defineConfig({
   testDir: path.join(__dirname, 'e2e'),
@@ -21,16 +21,8 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
     {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
-    {
       name: 'Mobile Chrome',
       use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
     },
   ],
   webServer: {

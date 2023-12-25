@@ -2,31 +2,29 @@ import Button from '@/components/Button';
 import RadioGroup from '@/components/RadioGroup';
 import Textarea from '@/components/Textarea';
 import Textbox from '@/components/Textbox';
+import { levelOptions } from '@/features/members/constants/levelOptions';
+import { sexOptions } from '@/features/members/constants/sexOptions';
+import { useMemberForm } from '@/features/members/hooks/useMemberForm';
 
-import type { FieldErrors, FieldValues } from '../hooks/useMemberForm';
-import type { Options } from '@/types/Options';
+import type { MemberSchema } from '../../validation';
 
 import styles from './index.module.scss';
 
 type Props = {
-  fieldValues: FieldValues;
-  fieldErrors: FieldErrors;
-  levelOptions: Options;
-  sexOptions: Options;
-  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  submitButtonLabel: string;
+  submitMember: (fieldValues: MemberSchema) => void;
 };
 
-const Component = ({
-  fieldValues,
-  fieldErrors,
-  levelOptions,
-  sexOptions,
-  onSubmit,
-}: Props) => {
+const MemberForm = ({ submitButtonLabel, submitMember }: Props) => {
+  const { fieldValues, fieldErrors, submitHandler } = useMemberForm();
+  const handleSubmit = submitHandler((fieldValues: MemberSchema) =>
+    submitMember(fieldValues),
+  );
+
   return (
-    <form onSubmit={onSubmit} className={styles.module}>
-      <label className={styles.label}>
-        名前（必須）
+    <form onSubmit={handleSubmit} className={styles.module}>
+      <label>
+        <span className={styles.label}>名前（必須）</span>
         <Textbox id="name" {...fieldValues.name} />
       </label>
       {fieldErrors.name && (
@@ -34,12 +32,12 @@ const Component = ({
           {fieldErrors.name?.message}
         </div>
       )}
-      <label className={styles.label}>
-        かな
+      <label>
+        <span className={styles.label}>かな</span>
         <Textbox id="kana" {...fieldValues.kana} />
       </label>
-      <label className={styles.label}>
-        表示名
+      <label>
+        <span className={styles.label}>表示名</span>
         <Textbox id="displayName" {...fieldValues.displayName} />
       </label>
       <fieldset>
@@ -65,10 +63,10 @@ const Component = ({
         <Textarea {...fieldValues.note} />
       </label>
       <div className={styles.buttonContainer}>
-        <Button type="submit" text="メンバーを追加する" color="green" />
+        <Button type="submit" text={submitButtonLabel} color="green" />
       </div>
     </form>
   );
 };
 
-export default Component;
+export default MemberForm;

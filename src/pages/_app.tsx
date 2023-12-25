@@ -1,27 +1,26 @@
-import { useEffect, useState } from 'react';
+import { Inter } from '@next/font/google';
+import { Toaster } from 'react-hot-toast';
 
 import type { AppProps } from 'next/app';
 
 import '@unocss/reset/tailwind.css';
 import '@/styles/globals.scss';
 
+const inter = Inter({
+  subsets: ['latin'],
+});
+
 const App = ({ Component, pageProps }: AppProps) => {
-  const [shouldRender, setShouldRender] = useState(false);
+  void import('@/mocks/initMocks').then(async ({ initMocks }) => {
+    await initMocks();
+  });
 
-  // workaround for delaying initial render to make sure that MSW is enabled
-  // see https://github.com/mswjs/msw/discussions/1049#discussioncomment-1941348
-  useEffect(() => {
-    void import('@/mocks/initMocks').then(async ({ initMocks }) => {
-      await initMocks();
-      setShouldRender(true);
-    });
-  }, []);
-
-  if (!shouldRender) {
-    return null;
-  }
-
-  return <Component {...pageProps} />;
+  return (
+    <div className={inter.className}>
+      <Component {...pageProps} />
+      <Toaster />
+    </div>
+  );
 };
 
 export default App;

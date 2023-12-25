@@ -1,4 +1,14 @@
+import { fakeMembers } from '@/mocks/fakeData/members';
 import { expect, test } from '@playwright/test';
+
+test.beforeEach(async ({ page }) => {
+  await page.route('/api/members', async (route) => {
+    await route.fulfill({
+      status: 200,
+      json: { members: fakeMembers },
+    });
+  });
+});
 
 test.describe('Members page', () => {
   test('allows users to sort and filter members', async ({ page }) => {

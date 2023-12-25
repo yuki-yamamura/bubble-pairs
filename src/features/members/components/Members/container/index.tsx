@@ -1,7 +1,7 @@
 import { useFilter } from '../hooks/useFilter';
-import { useMembers } from '../hooks/useMembers';
 import { useSort } from '../hooks/useSort';
 import Component from '../presenter';
+import { useMembers } from '@/features/members/hooks/useMembers';
 import { useRouter } from 'next/router';
 import { useMemo, useRef } from 'react';
 
