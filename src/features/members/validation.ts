@@ -1,4 +1,4 @@
-import { schemaForType } from '@/lib/react-hook-form';
+import { schemaForType } from '@/lib/zod';
 import { Level, Sex } from '@prisma/client';
 import { z } from 'zod';
 

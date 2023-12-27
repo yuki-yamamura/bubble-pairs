@@ -20,26 +20,26 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   const id = parseInt((params as Params).id);
   const result = await findMember(id);
 
-  if (result.type === 'error') {
+  if (result.type === 'success') {
+    const serializedMember = JSON.stringify(result.data);
+
+    return {
+      props: {
+        serializedMember,
+      },
+    };
+  } else {
     throw result.error;
   }
-  const serializedMember = JSON.stringify(result.data);
-
-  return {
-    props: {
-      serializedMember,
-    },
-  };
 };
 
 const Page = ({ serializedMember }: Props) => {
   const result = parseJson(serializedMember);
-  if (result.type === 'error') {
-    throw result.error;
-  }
-  const member = memberSchema.parse(result.data);
+  if (result.type === 'success') {
+    const member = memberSchema.parse(result.data);
 
-  return <MemberScreen member={member} />;
+    return <MemberScreen member={member} />;
+  }
 };
 
 export default Page;
