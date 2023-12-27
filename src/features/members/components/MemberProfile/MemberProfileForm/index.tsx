@@ -23,9 +23,9 @@ const MemberProfileForm = ({ member }: Props) => {
 
   const submitMember = (fieldValues: MemberFormSchema) => {
     trigger(fieldValues)
-      .then(async () => {
+      .then(() => {
         toast.success('メンバーの情報を更新しました。');
-        await router.push('/members');
+        void router.push('/members');
       })
       .catch(() => toast.error('メンバーの情報を更新できませんでした。'));
   };

@@ -23,9 +23,9 @@ const MemberProfile = ({ member }: Props) => {
 
   const handleDeleteButtonClick = () => {
     trigger()
-      .then(async () => {
+      .then(() => {
         toast.success('メンバーを削除しました。');
-        await router.push('/members');
+        void router.push('/members');
       })
       .catch(() => toast.error('メンバーを削除できませんでした。'));
   };

@@ -19,31 +19,29 @@ const NewMemberForm = () => {
     level: 'BEGINNER',
     note: null,
   };
-  const fetcher = async (
-    url: string,
-    { arg }: { arg: Prisma.MemberCreateInput },
-  ) => {
-    const response = await axios.post<PostResponseData>(url, arg);
-
-    return response.data;
-  };
 
   const { trigger, isMutating } = useSWRMutation<
     PostResponseData,
     Error,
     '/api/members',
     Prisma.MemberCreateInput
-  >('/api/members', fetcher);
+  >(
+    '/api/members',
+    (url: string, { arg }: { arg: Prisma.MemberCreateInput }) => {
+      return axios
+        .post<PostResponseData>(url, arg)
+        .then((response) => response.data);
+    },
+  );
 
-  const handleSubmit = async (memberSchema: MemberFormSchema) => {
-    await trigger({
+  const handleSubmit = (memberSchema: MemberFormSchema) => {
+    trigger({
       ...memberSchema,
       avatar: 'https://picsum.photos/200/300.jpg?random=1',
     })
-      .then(async () => {
+      .then(() => {
         toast.success('メンバーを登録しました。');
-        notifySuccess();
-        await router.push('/members');
+        void router.push('/members');
       })
       .catch(() => toast.error('メンバーの登録に失敗しました。'));
   };
