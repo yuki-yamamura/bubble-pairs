@@ -6,19 +6,25 @@ import { levelOptions } from '@/features/members/constants/levelOptions';
 import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useMemberForm } from '@/features/members/hooks/useMemberForm';
 
-import type { MemberSchema } from '../../validation';
+import type { MemberFormSchema } from '../../validation';
 
 import styles from './index.module.scss';
 
 type Props = {
+  defaultValues: MemberFormSchema;
   submitButtonLabel: string;
-  submitMember: (fieldValues: MemberSchema) => void;
+  submitMember: (fieldValues: MemberFormSchema) => void;
 };
 
-const MemberForm = ({ submitButtonLabel, submitMember }: Props) => {
-  const { fieldValues, fieldErrors, submitHandler } = useMemberForm();
-  const handleSubmit = submitHandler((fieldValues: MemberSchema) =>
-    submitMember(fieldValues),
+const MemberForm = ({
+  defaultValues,
+  submitButtonLabel,
+  submitMember,
+}: Props) => {
+  const { fieldValues, fieldErrors, submitHandler } =
+    useMemberForm(defaultValues);
+  const handleSubmit = submitHandler(
+    (fieldValues: MemberFormSchema) => void submitMember(fieldValues),
   );
 
   return (
@@ -43,7 +49,7 @@ const MemberForm = ({ submitButtonLabel, submitMember }: Props) => {
       <fieldset>
         <legend className={styles.legend}>性別（必須）</legend>
         <RadioGroup
-          defaultValue={sexOptions[0].value}
+          defaultValue={defaultValues.sex}
           flexDirection="row"
           options={sexOptions}
           {...fieldValues.sex}
@@ -52,7 +58,7 @@ const MemberForm = ({ submitButtonLabel, submitMember }: Props) => {
       <fieldset>
         <legend className={styles.legend}>レベル（必須）</legend>
         <RadioGroup
-          defaultValue={levelOptions[0].value}
+          defaultValue={defaultValues.level}
           flexDirection="row"
           options={levelOptions}
           {...fieldValues.level}

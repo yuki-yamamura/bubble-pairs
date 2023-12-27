@@ -1,6 +1,6 @@
 import {
   createMember,
-  getAllMembers,
+  findAllMembers,
 } from '@/features/members/logic/repository';
 import { schemaForType } from '@/lib/react-hook-form';
 import { Level, Sex } from '@prisma/client';
@@ -23,7 +23,7 @@ const handler = async (
 ) => {
   // read members
   if (request.method === 'GET') {
-    const members = await getAllMembers();
+    const members = await findAllMembers();
 
     response.json({ members });
   }

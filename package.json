@@ -24,6 +24,7 @@
     "@types/react-dom": "18.0.11",
     "@unocss/reset": "^0.57.5",
     "axios": "^1.4.0",
+    "dayjs": "^1.11.10",
     "eslint": "8.36.0",
     "eslint-config-next": "13.2.4",
     "eslint-plugin-testing-library": "^6.1.0",
