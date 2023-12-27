@@ -35,18 +35,17 @@ const NewMemberForm = () => {
     Prisma.MemberCreateInput
   >('/api/members', fetcher);
 
-  const notifySuccess = () => toast.success('メンバーを登録しました。');
-  const notifyError = () => toast.error('メンバーの登録に失敗しました。');
   const handleSubmit = async (memberSchema: MemberFormSchema) => {
     await trigger({
       ...memberSchema,
       avatar: 'https://picsum.photos/200/300.jpg?random=1',
     })
       .then(async () => {
+        toast.success('メンバーを登録しました。');
         notifySuccess();
         await router.push('/members');
       })
-      .catch(() => notifyError());
+      .catch(() => toast.error('メンバーの登録に失敗しました。'));
   };
 
   if (isMutating) {

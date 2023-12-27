@@ -20,16 +20,14 @@ const MemberProfile = ({ member }: Props) => {
       await axios.delete(url);
     },
   );
-  const notifySuccess = () => toast.success('メンバーを削除しました。');
-  const notifyError = () => toast.error('メンバーを削除できませんでした。');
 
   const handleDeleteButtonClick = () => {
     trigger()
       .then(async () => {
-        notifySuccess();
+        toast.success('メンバーを削除しました。');
         await router.push('/members');
       })
-      .catch(() => notifyError());
+      .catch(() => toast.error('メンバーを削除できませんでした。'));
   };
 
   if (isMutating) {

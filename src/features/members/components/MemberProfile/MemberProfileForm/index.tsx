@@ -21,17 +21,13 @@ const MemberProfileForm = ({ member }: Props) => {
     },
   );
 
-  const notifySuccess = () => toast.success('メンバーの情報を更新しました。');
-  const notifyError = () =>
-    toast.error('メンバーの情報を更新できませんでした。');
-
   const submitMember = (fieldValues: MemberFormSchema) => {
     trigger(fieldValues)
       .then(async () => {
-        notifySuccess();
+        toast.success('メンバーの情報を更新しました。');
         await router.push('/members');
       })
-      .catch(() => notifyError());
+      .catch(() => toast.error('メンバーの情報を更新できませんでした。'));
   };
 
   if (isMutating) {
