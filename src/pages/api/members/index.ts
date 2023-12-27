@@ -23,9 +23,13 @@ const handler = async (
 ) => {
   // read members
   if (request.method === 'GET') {
-    const members = await findAllMembers();
+    const result = await findAllMembers();
 
-    response.json({ members });
+    if (result.type === 'success') {
+      response.json({ members: result.data });
+    } else {
+      response.status(400).end();
+    }
   }
 
   // create a member
@@ -44,14 +48,16 @@ const handler = async (
     );
 
     if (!schema.safeParse(request.body)) {
-      response.status(400);
+      response.status(400).end();
     }
 
-    const newMember = await createMember(
-      request.body as Prisma.MemberCreateInput,
-    );
+    const result = await createMember(request.body as Prisma.MemberCreateInput);
 
-    response.status(201).json({ member: newMember });
+    if (result.type === 'success') {
+      return response.json({ member: result.data });
+    } else {
+      return response.status(400).end();
+    }
   }
 };
 

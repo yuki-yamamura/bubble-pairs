@@ -18,12 +18,11 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   params,
 }) => {
   const id = parseInt((params as Params).id);
-  const result = await findMember({ id });
+  const result = await findMember(id);
 
   if (result.type === 'error') {
     throw result.error;
   }
-
   const serializedMember = JSON.stringify(result.data);
 
   return {
@@ -38,7 +37,6 @@ const Page = ({ serializedMember }: Props) => {
   if (result.type === 'error') {
     throw result.error;
   }
-  // validating a member should throw an error if an invalid JSON passed.
   const member = memberSchema.parse(result.data);
 
   return <MemberScreen member={member} />;
