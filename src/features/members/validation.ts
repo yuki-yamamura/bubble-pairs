@@ -24,6 +24,7 @@ export const memberSchema = schemaForType<Member>()(
 
 export const memberFormSchema = schemaForType<MemberWithoutMeta>()(
   z.object({
+    avatar: z.string(),
     name: z.string().min(1, '名前を入力してください。'),
     kana: z.string().nullable(),
     displayName: z.string().nullable(),

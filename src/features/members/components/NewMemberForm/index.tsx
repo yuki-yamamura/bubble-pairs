@@ -12,6 +12,7 @@ import type { Prisma } from '@prisma/client';
 const NewMemberForm = () => {
   const router = useRouter();
   const defaultValues: MemberFormSchema = {
+    avatar: '1f9d1',
     name: '',
     kana: null,
     displayName: null,
@@ -37,7 +38,6 @@ const NewMemberForm = () => {
   const handleSubmit = (memberSchema: MemberFormSchema) => {
     trigger({
       ...memberSchema,
-      avatar: 'https://picsum.photos/200/300.jpg?random=1',
     })
       .then(() => {
         toast.success('メンバーを登録しました。');

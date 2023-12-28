@@ -1,3 +1,4 @@
+import Emoji from '@/components/Emoji';
 import Link from 'next/link';
 
 import type { Member } from '@prisma/client';
@@ -14,7 +15,7 @@ const ListItem = ({ member }: Props) => {
 
   return (
     <Link href={href} className={styles.module}>
-      <img src={avatar} alt={'avatar'} className={styles.image} />
+      <Emoji unified={avatar} size={24} />
       {displayName ?? name}
     </Link>
   );

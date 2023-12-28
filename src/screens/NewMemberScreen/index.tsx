@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 
 const NewMemberScreen = () => (
   <>
-    <h1 className={styles.title}>チームにメンバーを追加する</h1>
+    <h1 className={styles.title}>メンバー追加</h1>
     <NewMemberForm />
   </>
 );

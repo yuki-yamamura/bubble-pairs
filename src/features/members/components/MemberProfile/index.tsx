@@ -8,6 +8,8 @@ import useSWRMutation from 'swr/mutation';
 
 import type { Member } from '@prisma/client';
 
+import styles from './index.module.scss';
+
 type Props = {
   member: Member;
 };
@@ -35,7 +37,7 @@ const MemberProfile = ({ member }: Props) => {
   }
 
   return (
-    <div>
+    <div className={styles.module}>
       <MemberProfileForm member={member} />
       <Button
         color="red"
