@@ -17,7 +17,6 @@
     "type": "bash -c tsc --noEmit"
   },
   "dependencies": {
-    "@next/font": "^14.0.4",
     "@prisma/client": "^5.5.2",
     "@types/node": "18.15.3",
     "@types/react": "18.0.28",
