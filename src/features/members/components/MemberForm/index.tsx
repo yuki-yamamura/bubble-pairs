@@ -40,6 +40,7 @@ const MemberForm = ({
   };
 
   const emojiUnicode = getValues('emojiUnicode');
+  const isSubmitButtonDisabled = Object.is(defaultValues, getValues());
 
   return (
     <div className={styles.module}>
@@ -91,7 +92,12 @@ const MemberForm = ({
           <Textarea {...fieldValues.note} />
         </label>
         <div className={styles.submitButtonContainer}>
-          <Button type="submit" text={submitButtonLabel} color="green" />
+          <Button
+            type="submit"
+            text={submitButtonLabel}
+            color="green"
+            disabled={isSubmitButtonDisabled}
+          />
         </div>
       </form>
     </div>
