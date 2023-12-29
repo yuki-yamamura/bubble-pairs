@@ -17,12 +17,14 @@ export const useMemberForm = (
   defaultValues: MemberFormType,
 ): {
   fieldValues: FieldValues;
-  setEmoji: (emoji: EmojiClickData) => void;
+  emojiUnicode: string;
+  setEmojiUnicode: (emoji: EmojiClickData) => void;
   submitHandler: SubmitHandler;
   fieldErrors: FieldErrors;
 } => {
   const {
     register,
+    getValues,
     setValue,
     handleSubmit,
     formState: { errors },
@@ -41,12 +43,14 @@ export const useMemberForm = (
     note: register('note'),
   };
 
+  const emoji = getValues().emojiUnicode;
   const setEmoji = (emoji: EmojiClickData) =>
     setValue('emojiUnicode', emoji.unified);
 
   return {
     fieldValues,
-    setEmoji,
+    emojiUnicode: emoji,
+    setEmojiUnicode: setEmoji,
     submitHandler: handleSubmit,
     fieldErrors: errors,
   };

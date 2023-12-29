@@ -7,7 +7,7 @@ import Textbox from '@/components/Textbox';
 import { levelOptions } from '@/features/members/constants/levelOptions';
 import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useMemberForm } from '@/features/members/hooks/useMemberForm';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 
 import type { MemberFormType } from '../../validation';
 import type { EmojiClickData } from 'emoji-picker-react';
@@ -25,12 +25,14 @@ const MemberForm = ({
   submitButtonLabel,
   submitMember,
 }: Props) => {
-  const { fieldValues, fieldErrors, setEmoji, submitHandler } =
-    useMemberForm(defaultValues);
+  const {
+    fieldValues,
+    fieldErrors,
+    emojiUnicode,
+    setEmojiUnicode,
+    submitHandler,
+  } = useMemberForm(defaultValues);
   const dialogRef = useRef<HTMLDialogElement>(null);
-  const [currentEmojiUnified, setCurrentEmojiUnified] = useState(
-    defaultValues.emojiUnicode,
-  );
   const handleSubmit = submitHandler(
     (fieldValues: MemberFormType) => void submitMember(fieldValues),
   );
@@ -38,14 +40,13 @@ const MemberForm = ({
     dialogRef.current?.showModal();
   };
   const handleEmojiSelect = (emoji: EmojiClickData, _e: MouseEvent) => {
-    setCurrentEmojiUnified(emoji.unified);
-    setEmoji(emoji);
+    setEmojiUnicode(emoji);
   };
 
   return (
     <div className={styles.module}>
       <button type="button" onClick={handleEmojiClick} className={styles.emoji}>
-        <Emoji unified={currentEmojiUnified} size={64} {...fieldValues} />
+        <Emoji unified={emojiUnicode} size={64} {...fieldValues} />
       </button>
       <EmojiPickerModal
         dialogRef={dialogRef}
