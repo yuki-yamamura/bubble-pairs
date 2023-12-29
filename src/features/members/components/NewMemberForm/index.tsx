@@ -5,13 +5,13 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { MemberFormSchema } from '@/features/members/validation';
+import type { MemberFormType } from '@/features/members/validation';
 import type { PostResponseData } from '@/pages/api/members';
 import type { Prisma } from '@prisma/client';
 
 const NewMemberForm = () => {
   const router = useRouter();
-  const defaultValues: MemberFormSchema = {
+  const defaultValues: MemberFormType = {
     emojiUnicode: '1f9d1',
     name: '',
     kana: null,
@@ -35,7 +35,7 @@ const NewMemberForm = () => {
     },
   );
 
-  const handleSubmit = (memberSchema: MemberFormSchema) => {
+  const handleSubmit = (memberSchema: MemberFormType) => {
     trigger({
       ...memberSchema,
     })

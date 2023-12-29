@@ -9,15 +9,15 @@ import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useMemberForm } from '@/features/members/hooks/useMemberForm';
 import { useRef, useState } from 'react';
 
-import type { MemberFormSchema } from '../../validation';
+import type { MemberFormType } from '../../validation';
 import type { EmojiClickData } from 'emoji-picker-react';
 
 import styles from './index.module.scss';
 
 type Props = {
-  defaultValues: MemberFormSchema;
+  defaultValues: MemberFormType;
   submitButtonLabel: string;
-  submitMember: (fieldValues: MemberFormSchema) => void;
+  submitMember: (fieldValues: MemberFormType) => void;
 };
 
 const MemberForm = ({
@@ -32,7 +32,7 @@ const MemberForm = ({
     defaultValues.emojiUnicode,
   );
   const handleSubmit = submitHandler(
-    (fieldValues: MemberFormSchema) => void submitMember(fieldValues),
+    (fieldValues: MemberFormType) => void submitMember(fieldValues),
   );
   const handleEmojiClick = () => {
     dialogRef.current?.showModal();

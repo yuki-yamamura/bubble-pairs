@@ -2,29 +2,14 @@ import { schemaForType } from '@/lib/zod';
 import { Level, Sex } from '@prisma/client';
 import { z } from 'zod';
 
-import type { MemberWithoutMeta } from '@/features/members/types/MemberWithoutMeta';
 import type { Member } from '@prisma/client';
+import type { Omit } from '@prisma/client/runtime/library';
 
-export type MemberFormSchema = z.infer<typeof memberFormSchema>;
-
-export const memberSchema = schemaForType<Member>()(
+export const memberFormSchema = schemaForType<
+  Omit<Member, 'id' | 'createdAt' | 'updatedAt'>
+>()(
   z.object({
-    id: z.number(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
-    emojiUnicode: z.string(),
-    name: z.string(),
-    kana: z.string().nullable(),
-    displayName: z.string().nullable(),
-    sex: z.nativeEnum(Sex),
-    level: z.nativeEnum(Level),
-    note: z.string().nullable(),
-  }),
-);
-
-export const memberFormSchema = schemaForType<MemberWithoutMeta>()(
-  z.object({
-    emojiUnicode: z.string(),
+    emojiUnicode: z.string().min(4).max(5),
     name: z.string().min(1, '名前を入力してください。'),
     kana: z.string().nullable(),
     displayName: z.string().nullable(),
@@ -33,3 +18,11 @@ export const memberFormSchema = schemaForType<MemberWithoutMeta>()(
     note: z.string().nullable(),
   }),
 );
+
+export const memberSchema = memberFormSchema.extend({
+  id: z.number(),
+  createdAt: z.date(),
+  updatedAt: z.date(),
+});
+
+export type MemberFormType = z.infer<typeof memberFormSchema>;

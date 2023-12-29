@@ -2,8 +2,8 @@ import {
   createMember,
   findAllMembers,
 } from '@/features/members/logic/repository';
+import { memberFormSchema } from '@/features/members/validation';
 import { withZod } from '@/lib/next';
-import { Level, Sex } from '@prisma/client';
 import { z } from 'zod';
 
 import type { Member } from '@prisma/client';
@@ -32,15 +32,7 @@ const handleGet: NextApiHandler<GetResponseData> = async (
 
 const handlePost: NextApiHandler<PostResponseData> = withZod(
   z.object({
-    body: z.object({
-      emojiUnicode: z.string(),
-      name: z.string(),
-      kana: z.string().nullable(),
-      displayName: z.string().nullable(),
-      sex: z.nativeEnum(Sex),
-      level: z.nativeEnum(Level),
-      note: z.string().nullable(),
-    }),
+    body: memberFormSchema,
   }),
   async (request, response) => {
     const result = await createMember(request.body);

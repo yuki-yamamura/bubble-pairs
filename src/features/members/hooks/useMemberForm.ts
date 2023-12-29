@@ -2,19 +2,19 @@ import { memberFormSchema } from '@/features/members/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as ReactHookForm from 'react-hook-form';
 
-import type { MemberFormSchema } from '@/features/members/validation';
+import type { MemberFormType } from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
 
-type SubmitHandler = ReactHookForm.UseFormHandleSubmit<MemberFormSchema>;
+type SubmitHandler = ReactHookForm.UseFormHandleSubmit<MemberFormType>;
 
 export type FieldValues = {
-  [P in keyof MemberFormSchema]: ReactHookForm.UseFormRegisterReturn<P>;
+  [P in keyof MemberFormType]: ReactHookForm.UseFormRegisterReturn<P>;
 };
 
-export type FieldErrors = ReactHookForm.FieldErrors<MemberFormSchema>;
+export type FieldErrors = ReactHookForm.FieldErrors<MemberFormType>;
 
 export const useMemberForm = (
-  defaultValues: MemberFormSchema,
+  defaultValues: MemberFormType,
 ): {
   fieldValues: FieldValues;
   setEmoji: (emoji: EmojiClickData) => void;
@@ -26,7 +26,7 @@ export const useMemberForm = (
     setValue,
     handleSubmit,
     formState: { errors },
-  } = ReactHookForm.useForm<MemberFormSchema>({
+  } = ReactHookForm.useForm<MemberFormType>({
     defaultValues,
     resolver: zodResolver(memberFormSchema),
   });
