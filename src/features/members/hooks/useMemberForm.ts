@@ -3,7 +3,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as ReactHookForm from 'react-hook-form';
 
 import type { MemberFormType } from '@/features/members/validation';
-import type { EmojiClickData } from 'emoji-picker-react';
 
 type SubmitHandler = ReactHookForm.UseFormHandleSubmit<MemberFormType>;
 
@@ -17,8 +16,8 @@ export const useMemberForm = (
   defaultValues: MemberFormType,
 ): {
   fieldValues: FieldValues;
-  emojiUnicode: string;
-  setEmojiUnicode: (emoji: EmojiClickData) => void;
+  getValues: ReactHookForm.UseFormGetValues<MemberFormType>;
+  setValue: ReactHookForm.UseFormSetValue<MemberFormType>;
   submitHandler: SubmitHandler;
   fieldErrors: FieldErrors;
 } => {
@@ -43,14 +42,10 @@ export const useMemberForm = (
     note: register('note'),
   };
 
-  const emoji = getValues().emojiUnicode;
-  const setEmoji = (emoji: EmojiClickData) =>
-    setValue('emojiUnicode', emoji.unified);
-
   return {
     fieldValues,
-    emojiUnicode: emoji,
-    setEmojiUnicode: setEmoji,
+    getValues,
+    setValue,
     submitHandler: handleSubmit,
     fieldErrors: errors,
   };

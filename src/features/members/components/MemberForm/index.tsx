@@ -25,14 +25,10 @@ const MemberForm = ({
   submitButtonLabel,
   submitMember,
 }: Props) => {
-  const {
-    fieldValues,
-    fieldErrors,
-    emojiUnicode,
-    setEmojiUnicode,
-    submitHandler,
-  } = useMemberForm(defaultValues);
+  const { fieldValues, fieldErrors, getValues, setValue, submitHandler } =
+    useMemberForm(defaultValues);
   const dialogRef = useRef<HTMLDialogElement>(null);
+
   const handleSubmit = submitHandler(
     (fieldValues: MemberFormType) => void submitMember(fieldValues),
   );
@@ -40,8 +36,10 @@ const MemberForm = ({
     dialogRef.current?.showModal();
   };
   const handleEmojiSelect = (emoji: EmojiClickData, _e: MouseEvent) => {
-    setEmojiUnicode(emoji);
+    setValue('emojiUnicode', emoji.unified);
   };
+
+  const emojiUnicode = getValues('emojiUnicode');
 
   return (
     <div className={styles.module}>
@@ -92,7 +90,7 @@ const MemberForm = ({
           <span className={styles.label}>メモ</span>
           <Textarea {...fieldValues.note} />
         </label>
-        <div className={styles.buttonContainer}>
+        <div className={styles.submitButtonContainer}>
           <Button type="submit" text={submitButtonLabel} color="green" />
         </div>
       </form>
