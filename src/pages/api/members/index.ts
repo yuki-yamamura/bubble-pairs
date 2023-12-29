@@ -33,7 +33,7 @@ const handleGet: NextApiHandler<GetResponseData> = async (
 const handlePost: NextApiHandler<PostResponseData> = withZod(
   z.object({
     body: z.object({
-      avatar: z.string(),
+      emojiUnicode: z.string(),
       name: z.string(),
       kana: z.string().nullable(),
       displayName: z.string().nullable(),

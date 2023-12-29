@@ -14,6 +14,7 @@ describe('MemberForm', () => {
   describe('initialization', () => {
     test('should render necessary fields to represent a member', async () => {
       const defaultValues: MemberFormSchema = {
+        emojiUnicode: '1f9d1',
         name: '',
         kana: null,
         displayName: null,
@@ -69,6 +70,7 @@ describe('MemberForm', () => {
     test('should call a callback function with the field values', async () => {
       const user = userEvent.setup();
       const defaultValues: MemberFormSchema = {
+        emojiUnicode: '1f9d1',
         name: '',
         kana: null,
         displayName: null,
@@ -107,6 +109,7 @@ describe('MemberForm', () => {
       );
 
       expect(mockFn).toHaveBeenCalledWith({
+        emojiUnicode: '1f9d1',
         name: '森 拓郎',
         kana: 'もり たくろう',
         displayName: '森',
@@ -121,6 +124,7 @@ describe('MemberForm', () => {
     test('should call a callback function with the field values including null', async () => {
       const user = userEvent.setup();
       const defaultValues: MemberFormSchema = {
+        emojiUnicode: '1f9d1',
         name: '',
         kana: null,
         displayName: null,
@@ -149,6 +153,7 @@ describe('MemberForm', () => {
       );
 
       expect(mockFn).toHaveBeenCalledWith({
+        emojiUnicode: '1f9d1',
         name: '渡辺 早季',
         kana: null,
         displayName: null,
@@ -163,6 +168,7 @@ describe('MemberForm', () => {
     test('should warn the user of the mistake instead of submitting the form values', async () => {
       const user = userEvent.setup();
       const defaultValues: MemberFormSchema = {
+        emojiUnicode: '1f9d1',
         name: '',
         kana: null,
         displayName: null,

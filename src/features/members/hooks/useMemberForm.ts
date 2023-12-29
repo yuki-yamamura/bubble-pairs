@@ -17,7 +17,7 @@ export const useMemberForm = (
   defaultValues: MemberFormSchema,
 ): {
   fieldValues: FieldValues;
-  setAvatar: (emoji: EmojiClickData) => void;
+  setEmoji: (emoji: EmojiClickData) => void;
   submitHandler: SubmitHandler;
   fieldErrors: FieldErrors;
 } => {
@@ -32,7 +32,7 @@ export const useMemberForm = (
   });
 
   const fieldValues: FieldValues = {
-    avatar: register('avatar'),
+    emojiUnicode: register('emojiUnicode'),
     name: register('name'),
     kana: register('kana'),
     displayName: register('displayName'),
@@ -41,12 +41,12 @@ export const useMemberForm = (
     note: register('note'),
   };
 
-  const setAvatar = (emoji: EmojiClickData) =>
-    setValue('avatar', emoji.unified);
+  const setEmoji = (emoji: EmojiClickData) =>
+    setValue('emojiUnicode', emoji.unified);
 
   return {
     fieldValues,
-    setAvatar,
+    setEmoji,
     submitHandler: handleSubmit,
     fieldErrors: errors,
   };

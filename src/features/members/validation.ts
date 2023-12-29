@@ -12,19 +12,19 @@ export const memberSchema = schemaForType<Member>()(
     id: z.number(),
     createdAt: z.date(),
     updatedAt: z.date(),
+    emojiUnicode: z.string(),
     name: z.string(),
     kana: z.string().nullable(),
     displayName: z.string().nullable(),
     sex: z.nativeEnum(Sex),
     level: z.nativeEnum(Level),
-    avatar: z.string(),
     note: z.string().nullable(),
   }),
 );
 
 export const memberFormSchema = schemaForType<MemberWithoutMeta>()(
   z.object({
-    avatar: z.string(),
+    emojiUnicode: z.string(),
     name: z.string().min(1, '名前を入力してください。'),
     kana: z.string().nullable(),
     displayName: z.string().nullable(),

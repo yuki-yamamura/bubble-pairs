@@ -25,30 +25,26 @@ const MemberForm = ({
   submitButtonLabel,
   submitMember,
 }: Props) => {
-  const { fieldValues, fieldErrors, setAvatar, submitHandler } =
+  const { fieldValues, fieldErrors, setEmoji, submitHandler } =
     useMemberForm(defaultValues);
   const dialogRef = useRef<HTMLDialogElement>(null);
   const [currentEmojiUnified, setCurrentEmojiUnified] = useState(
-    defaultValues.avatar,
+    defaultValues.emojiUnicode,
   );
   const handleSubmit = submitHandler(
     (fieldValues: MemberFormSchema) => void submitMember(fieldValues),
   );
-  const handleAvatarClick = () => {
+  const handleEmojiClick = () => {
     dialogRef.current?.showModal();
   };
   const handleEmojiSelect = (emoji: EmojiClickData, _e: MouseEvent) => {
     setCurrentEmojiUnified(emoji.unified);
-    setAvatar(emoji);
+    setEmoji(emoji);
   };
 
   return (
     <div className={styles.module}>
-      <button
-        type="button"
-        onClick={handleAvatarClick}
-        className={styles.emoji}
-      >
+      <button type="button" onClick={handleEmojiClick} className={styles.emoji}>
         <Emoji unified={currentEmojiUnified} size={64} {...fieldValues} />
       </button>
       <EmojiPickerModal

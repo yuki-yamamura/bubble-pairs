@@ -12,7 +12,7 @@ import type { Prisma } from '@prisma/client';
 const NewMemberForm = () => {
   const router = useRouter();
   const defaultValues: MemberFormSchema = {
-    avatar: '1f9d1',
+    emojiUnicode: '1f9d1',
     name: '',
     kana: null,
     displayName: null,

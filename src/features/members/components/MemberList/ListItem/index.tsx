@@ -10,12 +10,12 @@ type Props = {
 };
 
 const ListItem = ({ member }: Props) => {
-  const { id, avatar, displayName, name } = member;
+  const { id, displayName, emojiUnicode, name } = member;
   const href = `/members/${id}`;
 
   return (
     <Link href={href} className={styles.module}>
-      <Emoji unified={avatar} size={24} />
+      <Emoji unified={emojiUnicode} size={24} />
       {displayName ?? name}
     </Link>
   );
