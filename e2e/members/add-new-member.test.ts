@@ -5,6 +5,7 @@ import type { Member } from '@prisma/client';
 
 const newMember: Member = {
   id: 5,
+  emojiUnicode: '1f9d1',
   createdAt: new Date('2023-04-30T13:00:00+09:00'),
   updatedAt: new Date('2023-04-30T13:00:00+09:00'),
   name: '渡辺 早季',
@@ -12,7 +13,6 @@ const newMember: Member = {
   displayName: null,
   sex: 'FEMALE',
   level: 'BEGINNER',
-  avatar: 'https://picsum.photos/200/300.jpg?random=5',
   note: null,
 };
 
