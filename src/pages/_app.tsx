@@ -1,7 +1,9 @@
 import { Inter } from 'next/font/google';
+import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
 
 import type { AppProps } from 'next/app';
+import type { Session } from 'next-auth';
 
 import '@unocss/reset/tailwind.css';
 import '@/styles/globals.scss';
@@ -10,15 +12,20 @@ const inter = Inter({
   subsets: ['latin'],
 });
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps<{ session: Session }>) => {
   void import('@/mocks/initMocks').then(async ({ initMocks }) => {
     await initMocks();
   });
 
   return (
     <div className={inter.className}>
-      <Component {...pageProps} />
-      <Toaster />
+      <SessionProvider session={session}>
+        <Component {...pageProps} />
+        <Toaster />
+      </SessionProvider>
     </div>
   );
 };
