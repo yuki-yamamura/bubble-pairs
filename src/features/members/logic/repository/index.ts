@@ -6,7 +6,7 @@ import type { Member, Prisma } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const createMember = async (
+export const createMember = (
   data: Prisma.MemberCreateInput,
 ): Promise<Result<Member>> => {
   return withResult(() => prisma.member.create({ data }))();
@@ -16,9 +16,7 @@ export const findAllMembers = (): Promise<Result<Member[]>> => {
   return withResult(() => prisma.member.findMany())();
 };
 
-export const findMember = async (
-  id: number,
-): Promise<Result<Member | null>> => {
+export const findMember = (id: number): Promise<Result<Member | null>> => {
   return withResult(() =>
     prisma.member.findUnique({
       where: {
@@ -28,7 +26,7 @@ export const findMember = async (
   )();
 };
 
-export const updateMember = async ({
+export const updateMember = ({
   id,
   ...rest
 }: Pick<Member, 'id'> & Prisma.MemberUpdateInput): Promise<Result<Member>> => {
@@ -44,7 +42,7 @@ export const updateMember = async ({
   )();
 };
 
-export const deleteMember = async (id: number): Promise<Result<Member>> => {
+export const deleteMember = (id: number): Promise<Result<Member>> => {
   return withResult(() =>
     prisma.member.delete({
       where: {
