@@ -19,10 +19,10 @@ export const useMemberForm = (
   defaultValues: MemberFormType,
 ): {
   fieldValues: MemberFormFieldValues;
+  fieldErrors: FieldErrors<MemberFormType>;
   getValues: UseFormGetValues<MemberFormType>;
   setValue: UseFormSetValue<MemberFormType>;
   submitHandler: UseFormHandleSubmit<MemberFormType>;
-  fieldErrors: FieldErrors<MemberFormType>;
 } => {
   const {
     register,
@@ -47,9 +47,9 @@ export const useMemberForm = (
 
   return {
     fieldValues,
+    fieldErrors: errors,
     getValues,
     setValue,
     submitHandler: handleSubmit,
-    fieldErrors: errors,
   };
 };

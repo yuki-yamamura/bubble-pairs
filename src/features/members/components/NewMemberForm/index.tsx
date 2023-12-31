@@ -35,10 +35,8 @@ const NewMemberForm = () => {
     },
   );
 
-  const handleSubmit = (memberSchema: MemberFormType) => {
-    trigger({
-      ...memberSchema,
-    })
+  const handleSubmit = (fieldValues: MemberFormType) => {
+    trigger(fieldValues)
       .then(() => {
         toast.success('メンバーを登録しました。');
         void router.push('/members');

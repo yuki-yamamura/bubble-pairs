@@ -9,7 +9,7 @@ import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useMemberForm } from '@/features/members/hooks/useMemberForm';
 import { useRef } from 'react';
 
-import type { MemberFormType } from '../../validation';
+import type { MemberFormType } from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
 
 import styles from './index.module.scss';
@@ -29,8 +29,8 @@ const MemberForm = ({
     useMemberForm(defaultValues);
   const dialogRef = useRef<HTMLDialogElement>(null);
 
-  const handleSubmit = submitHandler(
-    (fieldValues: MemberFormType) => void submitMember(fieldValues),
+  const handleSubmit = submitHandler((fieldValues) =>
+    submitMember(fieldValues),
   );
   const handleEmojiClick = () => {
     dialogRef.current?.showModal();
@@ -58,7 +58,7 @@ const MemberForm = ({
         </label>
         {fieldErrors.name && (
           <div role="alert" className={styles.alert}>
-            {fieldErrors.name?.message}
+            {fieldErrors.name.message}
           </div>
         )}
         <label className={styles.field}>
