@@ -3,9 +3,21 @@ import { siteFormSchema } from '@/features/sites/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
+import type { Site } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
-const handleGet: NextApiHandler = async (_request, response) => {
+export type GetResponseData = {
+  sites: Site[];
+};
+
+export type PostResponseData = {
+  site: Site;
+};
+
+const handleGet: NextApiHandler<GetResponseData> = async (
+  _request,
+  response,
+) => {
   const result = await findAllSites();
 
   if (result.type === 'success') {
@@ -13,7 +25,7 @@ const handleGet: NextApiHandler = async (_request, response) => {
   }
 };
 
-const handlePost: NextApiHandler = withZod(
+const handlePost: NextApiHandler<PostResponseData> = withZod(
   z.object({
     body: siteFormSchema,
   }),

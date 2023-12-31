@@ -6,7 +6,9 @@ import type { Prisma, Site } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const createSite = (data: Prisma.SiteCreateInput) => {
+export const createSite = (
+  data: Prisma.SiteCreateInput,
+): Promise<Result<Site>> => {
   return withResult(() => prisma.site.create({ data }))();
 };
 
@@ -27,7 +29,7 @@ export const findSite = (id: number): Promise<Result<Site | null>> => {
 export const updateSite = ({
   id,
   ...rest
-}: Pick<Site, 'id'> & Prisma.SiteUpdateInput) => {
+}: Pick<Site, 'id'> & Prisma.SiteUpdateInput): Promise<Result<Site>> => {
   return withResult(() =>
     prisma.site.update({
       where: {
@@ -40,7 +42,7 @@ export const updateSite = ({
   )();
 };
 
-export const deleteSite = async (id: number): Promise<Result<Site>> => {
+export const deleteSite = (id: number): Promise<Result<Site>> => {
   return withResult(() =>
     prisma.site.delete({
       where: {
