@@ -1,8 +1,5 @@
+@use '@/styles/colors' as *;
 /* stylelint-disable-next-line selector-id-pattern */
-#__next {
-  width: 100vw;
-  height: 100vh;
-}
 
 * {
   padding: 0;
@@ -16,8 +13,13 @@
 }
 
 body {
+  width: 100%;
+  max-width: 660px;
+  padding-inline: 1rem;
+  margin-inline: auto;
   font-family: Inter, GenJyuuGothicL, 'Hiragino Kaku Gothic ProN',
     'Hiragino Sans', Meiryo, sans-serif;
   line-height: 1.5;
+  color: $dark-gray;
   letter-spacing: 0.02em;
 }
