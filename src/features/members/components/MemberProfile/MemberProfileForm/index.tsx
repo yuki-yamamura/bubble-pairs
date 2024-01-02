@@ -24,10 +24,10 @@ const MemberProfileForm = ({ member }: Props) => {
   const submitMember = (fieldValues: MemberFormType) => {
     trigger(fieldValues)
       .then(() => {
-        toast.success('メンバーの情報を更新しました。');
+        toast.success('メンバーを更新しました。');
         void router.push('/members');
       })
-      .catch(() => toast.error('メンバーの情報を更新できませんでした。'));
+      .catch(() => toast.error('メンバーを更新できませんでした。'));
   };
 
   if (isMutating) {
