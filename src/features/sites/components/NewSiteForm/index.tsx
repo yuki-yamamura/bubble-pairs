@@ -1,5 +1,5 @@
 import LoadingModal from '@/components/LoadingModal';
-import SiteForm from '@/features/sites/components/SiteForm';
+import SiteForm from '@/features/sites/components/BaseSiteForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';

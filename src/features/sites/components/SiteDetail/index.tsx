@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import LoadingModal from '@/components/LoadingModal';
-import SiteDetailForm from '@/features/sites/components/SiteDetailForm';
+import SiteDetailForm from '@/features/sites/components/SiteDetail/SiteDetailForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';

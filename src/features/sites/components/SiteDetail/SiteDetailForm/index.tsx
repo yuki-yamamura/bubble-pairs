@@ -1,4 +1,4 @@
-import SiteForm from '../SiteForm';
+import SiteForm from '../../BaseSiteForm';
 import LoadingModal from '@/components/LoadingModal';
 import axios from 'axios';
 import { useRouter } from 'next/router';
