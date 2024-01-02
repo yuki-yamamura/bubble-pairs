@@ -1,5 +1,5 @@
 import LoadingModal from '@/components/LoadingModal';
-import MemberForm from '@/features/members/components/MemberForm';
+import MemberForm from '@/features/members/components/BaseMemberForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -24,10 +24,10 @@ const MemberProfileForm = ({ member }: Props) => {
   const submitMember = (fieldValues: MemberFormType) => {
     trigger(fieldValues)
       .then(() => {
-        toast.success('メンバーの情報を更新しました。');
+        toast.success('メンバーを更新しました。');
         void router.push('/members');
       })
-      .catch(() => toast.error('メンバーの情報を更新できませんでした。'));
+      .catch(() => toast.error('メンバーを更新できませんでした。'));
   };
 
   if (isMutating) {

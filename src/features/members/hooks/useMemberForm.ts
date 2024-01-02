@@ -1,25 +1,28 @@
 import { memberFormSchema } from '@/features/members/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import * as ReactHookForm from 'react-hook-form';
+import {
+  type FieldErrors,
+  useForm,
+  type UseFormGetValues,
+  type UseFormHandleSubmit,
+  type UseFormRegisterReturn,
+  type UseFormSetValue,
+} from 'react-hook-form';
 
 import type { MemberFormType } from '@/features/members/validation';
 
-type SubmitHandler = ReactHookForm.UseFormHandleSubmit<MemberFormType>;
-
-export type FieldValues = {
-  [P in keyof MemberFormType]: ReactHookForm.UseFormRegisterReturn<P>;
+type MemberFormFieldValues = {
+  [P in keyof MemberFormType]: UseFormRegisterReturn<P>;
 };
-
-export type FieldErrors = ReactHookForm.FieldErrors<MemberFormType>;
 
 export const useMemberForm = (
   defaultValues: MemberFormType,
 ): {
-  fieldValues: FieldValues;
-  getValues: ReactHookForm.UseFormGetValues<MemberFormType>;
-  setValue: ReactHookForm.UseFormSetValue<MemberFormType>;
-  submitHandler: SubmitHandler;
-  fieldErrors: FieldErrors;
+  fieldValues: MemberFormFieldValues;
+  fieldErrors: FieldErrors<MemberFormType>;
+  getValues: UseFormGetValues<MemberFormType>;
+  setValue: UseFormSetValue<MemberFormType>;
+  submitHandler: UseFormHandleSubmit<MemberFormType>;
 } => {
   const {
     register,
@@ -27,12 +30,12 @@ export const useMemberForm = (
     setValue,
     handleSubmit,
     formState: { errors },
-  } = ReactHookForm.useForm<MemberFormType>({
+  } = useForm<MemberFormType>({
     defaultValues,
     resolver: zodResolver(memberFormSchema),
   });
 
-  const fieldValues: FieldValues = {
+  const fieldValues: MemberFormFieldValues = {
     emojiUnicode: register('emojiUnicode'),
     name: register('name'),
     kana: register('kana'),
@@ -44,9 +47,9 @@ export const useMemberForm = (
 
   return {
     fieldValues,
+    fieldErrors: errors,
     getValues,
     setValue,
     submitHandler: handleSubmit,
-    fieldErrors: errors,
   };
 };

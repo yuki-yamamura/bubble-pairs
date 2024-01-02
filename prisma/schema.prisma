@@ -35,6 +35,17 @@ model Member {
   @@map("members")
 }
 
+model Place {
+  id         Int      @id @default(autoincrement())
+  createdAt  DateTime @default(now()) @map("createad_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+  name       String
+  courtCount Int      @map("court_count")
+  isDefault  Boolean  @map("is_default")
+
+  @@map("places")
+}
+
 model Account {
   id                Int     @id @default(autoincrement())
   userId            Int     @map("user_id")

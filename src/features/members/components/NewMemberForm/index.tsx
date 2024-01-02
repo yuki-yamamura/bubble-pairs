@@ -1,5 +1,5 @@
 import LoadingModal from '@/components/LoadingModal';
-import MemberForm from '@/features/members/components/MemberForm';
+import MemberForm from '@/features/members/components/BaseMemberForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -35,10 +35,8 @@ const NewMemberForm = () => {
     },
   );
 
-  const handleSubmit = (memberSchema: MemberFormType) => {
-    trigger({
-      ...memberSchema,
-    })
+  const handleSubmit = (fieldValues: MemberFormType) => {
+    trigger(fieldValues)
       .then(() => {
         toast.success('メンバーを登録しました。');
         void router.push('/members');
