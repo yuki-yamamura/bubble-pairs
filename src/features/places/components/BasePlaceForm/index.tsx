@@ -1,21 +1,27 @@
+import { usePlaceForm } from '../../hooks/usePlaceForm';
 import Button from '@/components/Button';
 import Textbox from '@/components/Textbox';
-import { useSiteForm } from '@/features/sites/hooks/useSiteForm';
 
-import type { SiteFormType } from '@/features/sites/validation';
+import type { PlaceFormType } from '@/features/places/validation';
 
 import styles from './index.module.scss';
 
 type Props = {
-  defaultValues: SiteFormType;
+  defaultValues: PlaceFormType;
   submitButtonLabel: string;
-  submitSite: (fieldValues: SiteFormType) => void;
+  submitPlace: (fieldValues: PlaceFormType) => void;
 };
 
-const SiteForm = ({ defaultValues, submitButtonLabel, submitSite }: Props) => {
+const PlaceForm = ({
+  defaultValues,
+  submitButtonLabel,
+  submitPlace,
+}: Props) => {
   const { fieldValues, fieldErrors, getValues, submitHandler } =
-    useSiteForm(defaultValues);
-  const handleSubmit = submitHandler((fieldValues) => submitSite(fieldValues));
+    usePlaceForm(defaultValues);
+  const handleSubmit = submitHandler(
+    (fieldValues) => void submitPlace(fieldValues),
+  );
   const isSubmitButtonDisabled = Object.is(defaultValues, getValues());
 
   return (
@@ -51,4 +57,4 @@ const SiteForm = ({ defaultValues, submitButtonLabel, submitSite }: Props) => {
   );
 };
 
-export default SiteForm;
+export default PlaceForm;

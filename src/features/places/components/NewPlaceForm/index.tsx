@@ -1,17 +1,17 @@
 import LoadingModal from '@/components/LoadingModal';
-import SiteForm from '@/features/sites/components/BaseSiteForm';
+import BasePlaceForm from '@/features/places/components/BasePlaceForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { SiteFormType } from '@/features/sites/validation';
-import type { PostResponseData } from '@/pages/api/sites';
+import type { PlaceFormType } from '@/features/places/validation';
+import type { PostResponseData } from '@/pages/api/places';
 import type { Prisma } from '@prisma/client';
 
-const NewSiteForm = () => {
+const NewPlaceForm = () => {
   const router = useRouter();
-  const defaultValues: SiteFormType = {
+  const defaultValues: PlaceFormType = {
     name: '',
     courtCount: 1,
     isDefault: false,
@@ -20,19 +20,19 @@ const NewSiteForm = () => {
   const { trigger, isMutating } = useSWRMutation<
     PostResponseData,
     Error,
-    '/api/sites',
-    Prisma.SiteCreateInput
-  >('/api/sites', (url: string, { arg }: { arg: Prisma.SiteCreateInput }) => {
+    '/api/places',
+    Prisma.PlaceCreateInput
+  >('/api/places', (url: string, { arg }: { arg: Prisma.PlaceCreateInput }) => {
     return axios
       .post<PostResponseData>(url, arg)
       .then((response) => response.data);
   });
 
-  const handleSubmit = (fieldValues: SiteFormType) => {
+  const handleSubmit = (fieldValues: PlaceFormType) => {
     trigger(fieldValues)
       .then(() => {
         toast.success('場所を追加しました。');
-        void router.push('/sites');
+        void router.push('/places');
       })
       .catch(() => toast.error('場所の追加に失敗しました。'));
   };
@@ -42,12 +42,12 @@ const NewSiteForm = () => {
   }
 
   return (
-    <SiteForm
+    <BasePlaceForm
       defaultValues={defaultValues}
       submitButtonLabel="場所を保存"
-      submitSite={handleSubmit}
+      submitPlace={handleSubmit}
     />
   );
 };
 
-export default NewSiteForm;
+export default NewPlaceForm;

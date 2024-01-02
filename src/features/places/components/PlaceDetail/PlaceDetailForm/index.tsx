@@ -1,31 +1,32 @@
-import SiteForm from '../../BaseSiteForm';
+import BasePlaceForm from '../../BasePlaceForm';
 import LoadingModal from '@/components/LoadingModal';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { SiteFormType } from '@/features/sites/validation';
-import type { Site } from '@prisma/client';
+import type { PlaceFormType } from '@/features/places/validation';
+import type { Place } from '@prisma/client';
 
 type Props = {
-  site: Site;
+  place: Place;
 };
 
-const SiteDetailForm = ({ site }: Props) => {
+const PlaceDetailForm = ({ place }: Props) => {
   const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(
-    `/api/sites/${site.id}}`,
-    async (url: string, { arg }: { arg: SiteFormType }) => {
+    `/api/places/${place.id}`,
+    async (url: string, { arg }: { arg: PlaceFormType }) => {
       await axios.put(url, arg);
     },
   );
 
-  const submitSite = (fieldValues: SiteFormType) => {
+  const submitPlace = (fieldValues: PlaceFormType) => {
+    console.log('debugger');
     trigger(fieldValues)
       .then(() => {
         toast.success('場所を更新しました。');
-        void router.push('/sites');
+        void router.push('/places');
       })
       .catch(() => toast.error('場所を更新できませんでした。'));
   };
@@ -35,12 +36,12 @@ const SiteDetailForm = ({ site }: Props) => {
   }
 
   return (
-    <SiteForm
-      defaultValues={site}
+    <BasePlaceForm
+      defaultValues={place}
       submitButtonLabel={'変更を保存する'}
-      submitSite={submitSite}
+      submitPlace={submitPlace}
     />
   );
 };
 
-export default SiteDetailForm;
+export default PlaceDetailForm;

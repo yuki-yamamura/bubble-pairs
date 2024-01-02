@@ -1,36 +1,36 @@
-import { createSite, findAllSites } from '@/features/sites/logic/repository';
-import { siteFormSchema } from '@/features/sites/validation';
+import { createPlace, findAllPlaces } from '@/features/places/logic/repository';
+import { placeFormSchema } from '@/features/places/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
-import type { Site } from '@prisma/client';
+import type { Place } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
 export type GetResponseData = {
-  sites: Site[];
+  places: Place[];
 };
 
 export type PostResponseData = {
-  site: Site;
+  place: Place;
 };
 
 const handleGet: NextApiHandler<GetResponseData> = async (
   _request,
   response,
 ) => {
-  const result = await findAllSites();
+  const result = await findAllPlaces();
 
   if (result.type === 'success') {
-    response.json({ sites: result.data });
+    response.json({ places: result.data });
   }
 };
 
 const handlePost: NextApiHandler<PostResponseData> = withZod(
   z.object({
-    body: siteFormSchema,
+    body: placeFormSchema,
   }),
   async (request, response) => {
-    const result = await createSite(request.body);
+    const result = await createPlace(request.body);
 
     if (result.type === 'success') {
       response.status(201).end();

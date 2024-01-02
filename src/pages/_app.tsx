@@ -10,6 +10,7 @@ import '@/styles/globals.scss';
 
 const inter = Inter({
   subsets: ['latin'],
+  display: 'swap',
 });
 
 const App = ({

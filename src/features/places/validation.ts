@@ -1,9 +1,9 @@
 import { schemaForType } from '@/lib/zod';
 import { z } from 'zod';
 
-import type { Site } from '@prisma/client';
+import type { Place } from '@prisma/client';
 
-export const siteSchema = schemaForType<Site>()(
+export const placeSchema = schemaForType<Place>()(
   z.object({
     id: z.number(),
     createdAt: z.date(),
@@ -14,10 +14,10 @@ export const siteSchema = schemaForType<Site>()(
   }),
 );
 
-export const siteFormSchema = siteSchema.omit({
+export const placeFormSchema = placeSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
 });
 
-export type SiteFormType = z.infer<typeof siteFormSchema>;
+export type PlaceFormType = z.infer<typeof placeFormSchema>;

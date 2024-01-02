@@ -35,7 +35,7 @@ model Member {
   @@map("members")
 }
 
-model Site {
+model Place {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now()) @map("createad_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
@@ -43,7 +43,7 @@ model Site {
   courtCount Int      @map("court_count")
   isDefault  Boolean  @map("is_default")
 
-  @@map("sites")
+  @@map("places")
 }
 
 model Account {

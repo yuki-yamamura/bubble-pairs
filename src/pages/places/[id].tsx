@@ -1,6 +1,6 @@
-import { findSite } from '@/features/sites/logic/repository';
-import { siteSchema } from '@/features/sites/validation';
-import SiteScreen from '@/screens/SiteScreen';
+import { findPlace } from '@/features/places/logic/repository';
+import { placeSchema } from '@/features/places/validation';
+import PlaceScreen from '@/screens/PlaceScreen';
 import { parseJson } from '@/utils';
 
 import type { GetServerSideProps } from 'next';
@@ -11,21 +11,21 @@ type Params = ParsedUrlQuery & {
 };
 
 type Props = {
-  serializedSite: string;
+  serializedPlace: string;
 };
 
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   params,
 }) => {
   const id = parseInt((params as Params).id);
-  const result = await findSite(id);
+  const result = await findPlace(id);
 
   if (result.type === 'success') {
-    const serializedSite = JSON.stringify(result.data);
+    const serializedPlace = JSON.stringify(result.data);
 
     return {
       props: {
-        serializedSite,
+        serializedPlace,
       },
     };
   } else {
@@ -33,12 +33,12 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   }
 };
 
-const Page = ({ serializedSite }: Props) => {
-  const result = parseJson(serializedSite);
+const Page = ({ serializedPlace }: Props) => {
+  const result = parseJson(serializedPlace);
   if (result.type === 'success') {
-    const site = siteSchema.parse(result.data);
+    const place = placeSchema.parse(result.data);
 
-    return <SiteScreen site={site} />;
+    return <PlaceScreen place={place} />;
   }
 };
 
