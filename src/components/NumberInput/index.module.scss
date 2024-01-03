@@ -1,0 +1,20 @@
+@use '@/styles/colors' as *;
+
+.module {
+  display: flex;
+  column-gap: 0.5rem;
+}
+
+.spinbutton {
+  width: 4rem;
+  padding-left: 0.5rem;
+  border: 1px solid $gray;
+  border-radius: 0.25rem;
+}
+
+.button {
+  height: 42px;
+  padding-inline: 1rem;
+  background-color: $light-gray;
+  border-radius: 0.5rem;
+}

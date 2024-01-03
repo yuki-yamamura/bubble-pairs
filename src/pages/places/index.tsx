@@ -1,5 +1,9 @@
-import PlacesScreen from '@/screens/PlacesScreen';
+import Checkbox from '@/components/Checkbox';
 
-const Page = () => <PlacesScreen />;
+const Page = () => (
+  <>
+    <Checkbox label="postman" />
+  </>
+);
 
 export default Page;

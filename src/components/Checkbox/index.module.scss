@@ -1,0 +1,19 @@
+@use '@/styles/colors' as *;
+
+.module {
+  display: inline-block;
+  padding-block: 0.1rem;
+  padding-inline: 0.75rem;
+  color: $dark-gray;
+  border: 1px solid $dark-gray;
+  border-radius: 1rem;
+}
+
+.checked {
+  color: white;
+  background-color: $dark-gray;
+}
+
+.checkbox {
+  display: none;
+}
