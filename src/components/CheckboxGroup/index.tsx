@@ -1,8 +1,11 @@
+import Checkbox from '@/components/Checkbox';
+
 import type { Options } from '@/types/Options';
 
 import styles from './index.module.scss';
 
 type Props = {
+  currentValues: string[];
   defaultValue: string | string[];
   flexDirection: 'row' | 'column';
   name: string;
@@ -11,6 +14,7 @@ type Props = {
 };
 
 const CheckboxGroup = ({
+  currentValues,
   defaultValue,
   flexDirection,
   name,
@@ -25,18 +29,16 @@ const CheckboxGroup = ({
       } as React.CSSProperties
     }
   >
-    {options.map(({ label, value }) => (
-      <label key={value} className={styles.label}>
-        <input
-          type="checkbox"
-          name={name}
-          value={value}
-          defaultChecked={defaultValue.includes(value)}
-          onChange={onChange}
-          className={styles.checkbox}
-        />
-        {label}
-      </label>
+    {options.map((option) => (
+      <Checkbox
+        label={option.label}
+        name={name}
+        value={option.value}
+        defaultChecked={defaultValue.includes(option.value)}
+        checked={currentValues.includes(option.value)}
+        onChange={onChange}
+        key={option.value}
+      />
     ))}
   </div>
 );

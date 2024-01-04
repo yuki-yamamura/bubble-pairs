@@ -1,32 +1,25 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 
 import styles from './index.module.scss';
 
-type Props = {
+type Props = Omit<React.ComponentPropsWithRef<'input'>, 'type'> & {
   label: string;
 };
 
 const Checkbox = forwardRef<HTMLInputElement, Props>(function Checkbox(
-  { label },
+  { checked, label, ...rest },
   ref,
 ) {
-  const [isChecked, setIsChecked] = useState(false);
-
-  const handleClick = () => setIsChecked(!isChecked);
-
   return (
-    <div
-      onClick={handleClick}
-      className={`${styles.module} ${isChecked ? styles.checked : ''}`}
-    >
+    <label className={`${styles.module} ${checked ? styles.checked : ''}`}>
       {label}
       <input
         type="checkbox"
-        checked={isChecked}
         ref={ref}
-        className={styles.checkbox}
+        {...rest}
+        className={`${styles.checkbox}`}
       />
-    </div>
+    </label>
   );
 });
 
