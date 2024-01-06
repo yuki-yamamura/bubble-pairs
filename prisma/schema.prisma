@@ -22,15 +22,17 @@ enum Level {
 
 model Member {
   id           Int      @id @default(autoincrement())
+  ownerId      Int      @map("owner_id")
   createdAt    DateTime @default(now()) @map("created_at")
   updatedAt    DateTime @updatedAt @map("updated_at")
-  emojiUnicode String   @map("emoji_unicode")
   name         String
   kana         String?
   displayName  String?  @map("display_name")
   sex          Sex
   level        Level
   note         String?
+  emojiUnicode String   @map("emoji_unicode")
+  owner        User     @relation(fields: [ownerId], references: [id])
 
   @@map("members")
 }
@@ -83,6 +85,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  members       Member[]
 
   @@map("users")
 }
