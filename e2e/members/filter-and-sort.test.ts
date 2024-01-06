@@ -29,7 +29,7 @@ test.describe('Members page', () => {
 
     // after checking the members, the user would like to filter members without females.
     await page.getByRole('button', { name: '絞り込み' }).click();
-    await page.getByRole('checkbox', { name: '女性' }).click();
+    await page.getByText('女性').click();
     await page.getByRole('button', { name: '適用' }).click();
 
     // now, the user can see the list of female members sorted by level.
