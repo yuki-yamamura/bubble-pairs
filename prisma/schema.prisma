@@ -37,6 +37,8 @@ model Member {
   @@map("members")
 }
 
+// the models below are depending on the Prisma adapter for NextAuth.js.
+// see https://authjs.dev/reference/adapter/prisma
 model Place {
   id         Int      @id @default(autoincrement())
   createdAt  DateTime @default(now()) @map("createad_at")
