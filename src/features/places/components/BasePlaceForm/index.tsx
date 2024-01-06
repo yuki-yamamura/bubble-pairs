@@ -1,6 +1,8 @@
-import { usePlaceForm } from '../../hooks/usePlaceForm';
 import Button from '@/components/Button';
 import Textbox from '@/components/Textbox';
+import CourtCountInput from '@/features/places/components/CourtCountInput';
+import DefaultToggleSwitch from '@/features/places/components/DefaultToggleSwitch';
+import { usePlaceForm } from '@/features/places/hooks/usePlaceForm';
 
 import type { PlaceFormType } from '@/features/places/validation';
 
@@ -12,12 +14,12 @@ type Props = {
   submitPlace: (fieldValues: PlaceFormType) => void;
 };
 
-const PlaceForm = ({
+const BasePlaceForm = ({
   defaultValues,
   submitButtonLabel,
   submitPlace,
 }: Props) => {
-  const { fieldValues, fieldErrors, getValues, submitHandler } =
+  const { fieldValues, fieldErrors, getValues, submitHandler, useFormReturn } =
     usePlaceForm(defaultValues);
   const handleSubmit = submitHandler(
     (fieldValues) => void submitPlace(fieldValues),
@@ -27,24 +29,27 @@ const PlaceForm = ({
   return (
     <form onSubmit={handleSubmit} className={styles.module}>
       <label className={styles.field}>
-        <span className={styles.label}>場所名</span>
-        <Textbox {...fieldValues.name} />
-        {fieldErrors.name && (
+        <span className={styles.label}>場所名（必須）</span>
+        <Textbox defaultValue={defaultValues.name} {...fieldValues.name} />
+      </label>
+      {fieldErrors.name && (
+        <div role="alert" className={styles.alert}>
+          {fieldErrors.name.message}
+        </div>
+      )}
+      <fieldset className={styles.field}>
+        <legend>コート数</legend>
+        <CourtCountInput useFormReturn={useFormReturn} />
+        {fieldErrors.courtCount && (
           <div role="alert" className={styles.alert}>
-            {fieldErrors.name.message}
+            {fieldErrors.courtCount.message}
           </div>
         )}
-      </label>
-      <label className={styles.field}>
-        {/* todo: replace textbox with number input component */}
-        <span className={styles.label}>コート数</span>
-        <Textbox {...fieldValues.courtCount} />
-      </label>
-      <label className={styles.field}>
-        {/* todo: replace checkbox with toggle button */}
-        <span className={styles.label}>既定として使う</span>
-        <input type="checkbox" {...fieldValues.isDefault} />
-      </label>
+      </fieldset>
+      <fieldset className={styles.field}>
+        <legend>既定として使う</legend>
+        <DefaultToggleSwitch useFormReturn={useFormReturn} />
+      </fieldset>
       <div className={styles.submitButtonContainer}>
         <Button
           type="submit"
@@ -57,4 +62,4 @@ const PlaceForm = ({
   );
 };
 
-export default PlaceForm;
+export default BasePlaceForm;

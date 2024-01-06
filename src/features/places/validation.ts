@@ -8,8 +8,8 @@ export const placeSchema = schemaForType<Place>()(
     id: z.number(),
     createdAt: z.date(),
     updatedAt: z.date(),
-    name: z.string().min(1, '名前を入力してください。'),
-    courtCount: z.number(),
+    name: z.string().min(1, '場所名を入力してください。'),
+    courtCount: z.number().min(1, '1 つ以上のコート数を入力してください。'),
     isDefault: z.boolean(),
   }),
 );

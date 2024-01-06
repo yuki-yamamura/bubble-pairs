@@ -8,6 +8,7 @@ import type {
   UseFormGetValues,
   UseFormHandleSubmit,
   UseFormRegisterReturn,
+  UseFormReturn,
 } from 'react-hook-form';
 
 type PlaceFormFieldValues = {
@@ -21,16 +22,18 @@ export const usePlaceForm = (
   fieldErrors: FieldErrors<PlaceFormType>;
   getValues: UseFormGetValues<PlaceFormType>;
   submitHandler: UseFormHandleSubmit<PlaceFormType>;
+  useFormReturn: UseFormReturn<PlaceFormType>;
 } => {
+  const useFormReturn = useForm<PlaceFormType>({
+    defaultValues,
+    resolver: zodResolver(placeFormSchema),
+  });
   const {
     register,
     handleSubmit,
     getValues,
     formState: { errors },
-  } = useForm<PlaceFormType>({
-    defaultValues,
-    resolver: zodResolver(placeFormSchema),
-  });
+  } = useFormReturn;
 
   const fieldValues: PlaceFormFieldValues = {
     name: register('name'),
@@ -39,6 +42,7 @@ export const usePlaceForm = (
   };
 
   return {
+    useFormReturn,
     fieldValues,
     fieldErrors: errors,
     getValues,

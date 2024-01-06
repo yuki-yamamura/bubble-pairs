@@ -1,8 +1,9 @@
-import MemberForm from '.';
+import BaseMemberForm from '.';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import 'intersection-observer';
 
-import type { MemberFormType } from '../../validation';
+import type { MemberFormType } from '@/features/members/validation';
 
 const mockFn = jest.fn();
 
@@ -10,7 +11,7 @@ beforeEach(() => {
   mockFn.mockReset();
 });
 
-describe('MemberForm', () => {
+describe('BaseMemberForm', () => {
   describe('initialization', () => {
     test('should render necessary fields to represent a member', async () => {
       const defaultValues: MemberFormType = {
@@ -24,7 +25,7 @@ describe('MemberForm', () => {
       };
 
       render(
-        <MemberForm
+        <BaseMemberForm
           defaultValues={defaultValues}
           submitButtonLabel="メンバーを追加する"
           submitMember={mockFn}
@@ -34,7 +35,7 @@ describe('MemberForm', () => {
       // check for name field.
       expect(
         await screen.findByRole('textbox', { name: '名前（必須）' }),
-      ).toBeInTheDocument();
+      ).toHaveValue('');
 
       // check for kana field.
       expect(screen.getByRole('textbox', { name: 'かな' })).toBeInTheDocument();
@@ -80,7 +81,7 @@ describe('MemberForm', () => {
       };
 
       render(
-        <MemberForm
+        <BaseMemberForm
           defaultValues={defaultValues}
           submitButtonLabel="メンバーを追加する"
           submitMember={mockFn}
@@ -89,7 +90,7 @@ describe('MemberForm', () => {
 
       // a user fills out all the filed to register a member.
       await user.type(
-        await screen.findByRole('textbox', { name: '名前（必須）' }),
+        screen.getByRole('textbox', { name: '名前（必須）' }),
         '森 拓郎',
       );
       await user.type(
@@ -134,7 +135,7 @@ describe('MemberForm', () => {
       };
 
       render(
-        <MemberForm
+        <BaseMemberForm
           defaultValues={defaultValues}
           submitButtonLabel="メンバーを追加する"
           submitMember={mockFn}
@@ -165,7 +166,7 @@ describe('MemberForm', () => {
   });
 
   describe('if a user missed the name field', () => {
-    test('should warn the user of the mistake instead of submitting the form values', async () => {
+    test('should warn the user of the mistake, not submitting the form values', async () => {
       const user = userEvent.setup();
       const defaultValues: MemberFormType = {
         emojiUnicode: '1f9d1',
@@ -178,7 +179,7 @@ describe('MemberForm', () => {
       };
 
       render(
-        <MemberForm
+        <BaseMemberForm
           defaultValues={defaultValues}
           submitButtonLabel="メンバーを追加する"
           submitMember={mockFn}
@@ -196,6 +197,7 @@ describe('MemberForm', () => {
         screen.queryByText('名前を入力してください。'),
       ).not.toBeInTheDocument();
 
+      // the user submits the form.
       await user.click(
         screen.getByRole('button', { name: 'メンバーを追加する' }),
       );

@@ -66,8 +66,9 @@ const FilterModal = ({
     >
       <div className={styles.checkboxGroups}>
         <fieldset>
-          <legend>性別</legend>
+          <legend className={styles.legend}>性別</legend>
           <CheckboxGroup
+            currentValues={currentSexes}
             defaultValue={[]}
             flexDirection="row"
             name="sex"
@@ -76,8 +77,9 @@ const FilterModal = ({
           />
         </fieldset>
         <fieldset>
-          <legend>レベル</legend>
+          <legend className={styles.legend}>レベル</legend>
           <CheckboxGroup
+            currentValues={currentLevels}
             defaultValue={[]}
             flexDirection="row"
             name="level"
