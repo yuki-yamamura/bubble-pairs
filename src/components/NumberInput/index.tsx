@@ -1,19 +1,16 @@
-import { forwardRef, useState } from 'react';
+import { forwardRef } from 'react';
 
 import styles from './index.module.scss';
 
-type Props = {
-  defaultValue: number;
+type Props = React.ComponentPropsWithRef<'input'> & {
+  decrement: () => void;
+  increment: () => void;
 };
 
 const NumberInput = forwardRef<HTMLInputElement, Props>(function NumberInput(
-  { defaultValue },
+  { decrement, increment, ...rest }: Props,
   ref,
 ) {
-  const [value, setValue] = useState(defaultValue);
-  const decrement = () => setValue((previousValue) => previousValue - 1);
-  const increment = () => setValue((previousValue) => previousValue + 1);
-
   return (
     <div className={styles.module}>
       <button type="button" onClick={decrement} className={styles.button}>
@@ -21,10 +18,10 @@ const NumberInput = forwardRef<HTMLInputElement, Props>(function NumberInput(
       </button>
       <input
         type="number"
-        value={value}
         readOnly
-        className={styles.spinbutton}
         ref={ref}
+        {...rest}
+        className={styles.spinbutton}
       />
       <button type="button" onClick={increment} className={styles.button}>
         +
