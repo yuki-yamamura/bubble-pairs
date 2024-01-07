@@ -1,4 +1,4 @@
-import Link from 'next/link';
+import LoginButton from '@/components/LoginButton';
 
 import styles from './index.module.scss';
 
@@ -19,10 +19,7 @@ const HomeScreen = () => (
         </p>
       </div>
 
-      {/* todo: change the href after finishing implementation for signing up. */}
-      <Link href="#" className={styles.link}>
-        はじめる
-      </Link>
+      <LoginButton />
     </section>
 
     <section id="features" className={`${styles.section} ${styles.features}`}>
