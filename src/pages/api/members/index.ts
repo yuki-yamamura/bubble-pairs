@@ -45,7 +45,6 @@ const handlePost: NextApiHandler<PostResponseData> = withZod(
       return;
     }
 
-    // const result = await createMember(request.body);
     const result = await createMember({
       ownerId: session.user.id,
       ...request.body,
