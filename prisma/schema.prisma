@@ -39,11 +39,12 @@ model Member {
 
 model Place {
   id         Int      @id @default(autoincrement())
+  ownerId    String   @map("owner_id")
   createdAt  DateTime @default(now()) @map("createad_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   name       String
   courtCount Int      @map("court_count")
-  isDefault  Boolean  @map("is_default")
+  owner      User     @relation(fields: [ownerId], references: [id])
 
   @@map("places")
 }
@@ -89,6 +90,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   members       Member[]
+  Place         Place[]
 
   @@map("users")
 }

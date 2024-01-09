@@ -16,7 +16,6 @@ describe('BasePlaceForm', () => {
       const defaultValues: PlaceFormType = {
         name: 'A市総合公園',
         courtCount: 4,
-        isDefault: true,
       };
 
       render(
@@ -35,11 +34,6 @@ describe('BasePlaceForm', () => {
       expect(screen.getByRole('spinbutton', { name: 'コート数' })).toHaveValue(
         4,
       );
-
-      // check for default field.
-      expect(
-        screen.getByRole('checkbox', { name: '既定として使う' }),
-      ).toBeChecked();
     });
   });
 
@@ -49,7 +43,6 @@ describe('BasePlaceForm', () => {
       const defaultValues: PlaceFormType = {
         name: '',
         courtCount: 1,
-        isDefault: false,
       };
 
       render(
@@ -70,17 +63,12 @@ describe('BasePlaceForm', () => {
       await user.click(screen.getByRole('button', { name: '+' }));
       await user.click(screen.getByRole('button', { name: '-' }));
 
-      await user.click(
-        screen.getByRole('checkbox', { name: '既定として使う' }),
-      );
-
       // set the place as default.
       await user.click(screen.getByRole('button', { name: '場所を追加する' }));
 
       expect(mockFn).toHaveBeenCalledWith({
         name: 'A市総合公園',
         courtCount: 2,
-        isDefault: true,
       });
     });
   });
@@ -91,7 +79,6 @@ describe('BasePlaceForm', () => {
       const defaultValues: PlaceFormType = {
         name: '',
         courtCount: 1,
-        isDefault: false,
       };
 
       render(
@@ -121,7 +108,6 @@ describe('BasePlaceForm', () => {
       const defaultValues: PlaceFormType = {
         name: '',
         courtCount: 1,
-        isDefault: false,
       };
 
       render(

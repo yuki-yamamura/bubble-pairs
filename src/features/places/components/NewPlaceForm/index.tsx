@@ -7,22 +7,20 @@ import useSWRMutation from 'swr/mutation';
 
 import type { PlaceFormType } from '@/features/places/validation';
 import type { PostResponseData } from '@/pages/api/places';
-import type { Prisma } from '@prisma/client';
 
 const NewPlaceForm = () => {
   const router = useRouter();
   const defaultValues: PlaceFormType = {
     name: '',
     courtCount: 1,
-    isDefault: false,
   };
 
   const { trigger, isMutating } = useSWRMutation<
     PostResponseData,
     Error,
     '/api/places',
-    Prisma.PlaceCreateInput
-  >('/api/places', (url: string, { arg }: { arg: Prisma.PlaceCreateInput }) => {
+    PlaceFormType
+  >('/api/places', (url: string, { arg }: { arg: PlaceFormType }) => {
     return axios
       .post<PostResponseData>(url, arg)
       .then((response) => response.data);

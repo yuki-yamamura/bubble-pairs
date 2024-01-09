@@ -1,7 +1,6 @@
 import Button from '@/components/Button';
 import Textbox from '@/components/Textbox';
 import CourtCountInput from '@/features/places/components/CourtCountInput';
-import DefaultToggleSwitch from '@/features/places/components/DefaultToggleSwitch';
 import { usePlaceForm } from '@/features/places/hooks/usePlaceForm';
 
 import type { PlaceFormType } from '@/features/places/validation';
@@ -45,10 +44,6 @@ const BasePlaceForm = ({
             {fieldErrors.courtCount.message}
           </div>
         )}
-      </fieldset>
-      <fieldset className={styles.field}>
-        <legend>既定として使う</legend>
-        <DefaultToggleSwitch useFormReturn={useFormReturn} />
       </fieldset>
       <div className={styles.submitButtonContainer}>
         <Button

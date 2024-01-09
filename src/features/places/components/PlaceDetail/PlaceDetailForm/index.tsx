@@ -22,7 +22,6 @@ const PlaceDetailForm = ({ place }: Props) => {
   );
 
   const submitPlace = (fieldValues: PlaceFormType) => {
-    console.log('debugger');
     trigger(fieldValues)
       .then(() => {
         toast.success('場所を更新しました。');

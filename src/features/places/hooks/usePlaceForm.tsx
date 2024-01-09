@@ -38,7 +38,6 @@ export const usePlaceForm = (
   const fieldValues: PlaceFormFieldValues = {
     name: register('name'),
     courtCount: register('courtCount'),
-    isDefault: register('isDefault'),
   };
 
   return {
