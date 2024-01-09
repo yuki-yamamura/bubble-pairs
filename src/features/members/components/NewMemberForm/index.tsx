@@ -7,7 +7,6 @@ import useSWRMutation from 'swr/mutation';
 
 import type { MemberFormType } from '@/features/members/validation';
 import type { PostResponseData } from '@/pages/api/members';
-import type { Prisma } from '@prisma/client';
 
 const NewMemberForm = () => {
   const router = useRouter();
@@ -25,15 +24,12 @@ const NewMemberForm = () => {
     PostResponseData,
     Error,
     '/api/members',
-    Prisma.MemberCreateInput
-  >(
-    '/api/members',
-    (url: string, { arg }: { arg: Prisma.MemberCreateInput }) => {
-      return axios
-        .post<PostResponseData>(url, arg)
-        .then((response) => response.data);
-    },
-  );
+    MemberFormType
+  >('/api/members', (url: string, { arg }: { arg: MemberFormType }) => {
+    return axios
+      .post<PostResponseData>(url, arg)
+      .then((response) => response.data);
+  });
 
   const handleSubmit = (fieldValues: MemberFormType) => {
     trigger(fieldValues)
