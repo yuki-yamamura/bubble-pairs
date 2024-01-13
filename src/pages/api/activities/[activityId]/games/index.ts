@@ -47,11 +47,11 @@ const handlePost = withZod(
               create: [
                 {
                   playerNumber: 1,
-                  memberId: 1,
+                  participantId: 1,
                 },
                 {
                   playerNumber: 2,
-                  memberId: 2,
+                  participantId: 2,
                 },
               ],
             },
