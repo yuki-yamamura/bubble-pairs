@@ -3,6 +3,7 @@ import type { Member } from '@prisma/client';
 export const fakeMembers: Member[] = [
   {
     id: 1,
+    ownerId: 'clrcnez7q000108l6gb34bi8b',
     createdAt: new Date('2023-02-02T13:00:00+09:00'),
     updatedAt: new Date('2023-02-02T13:00:00+09:00'),
     emojiUnicode: '1f9d1',
@@ -15,6 +16,7 @@ export const fakeMembers: Member[] = [
   },
   {
     id: 2,
+    ownerId: 'clrcnez7q000108l6gb34bi8b',
     createdAt: new Date('2023-02-21T13:00:00+09:00'),
     updatedAt: new Date('2023-02-21T13:00:00+09:00'),
     emojiUnicode: '1f9d1',
@@ -27,6 +29,7 @@ export const fakeMembers: Member[] = [
   },
   {
     id: 3,
+    ownerId: 'clrcnez7q000108l6gb34bi8b',
     createdAt: new Date('2023-03-27T13:00:00+09:00'),
     updatedAt: new Date('2023-03-27T13:00:00+09:00'),
     emojiUnicode: '1f9d1',
@@ -39,6 +42,7 @@ export const fakeMembers: Member[] = [
   },
   {
     id: 4,
+    ownerId: 'clrcnez7q000108l6gb34bi8b',
     createdAt: new Date('2023-04-30T13:00:00+09:00'),
     updatedAt: new Date('2023-04-30T13:00:00+09:00'),
     emojiUnicode: '1f9d1',

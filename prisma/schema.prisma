@@ -20,38 +20,109 @@ enum Level {
   ADVANCED
 }
 
+enum Rule {
+  SINGLES
+  DOUBLES
+}
+
+model Activity {
+  id           Int           @id @default(autoincrement())
+  ownerId      String        @map("owner_id")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  isOpen       Boolean
+  owner        User          @relation(fields: [ownerId], references: [id])
+  games        Game[]
+  participants Participant[]
+
+  @@map("activities")
+}
+
+model Participant {
+  activityId Int      @map("activity_id")
+  memberId   Int      @map("member_id")
+  activity   Activity @relation(fields: [activityId], references: [id])
+  member     Member   @relation(fields: [memberId], references: [id])
+  Player     Player[]
+
+  @@id(name: "id", [activityId, memberId])
+  @@map("participants")
+}
+
+model Game {
+  activityId  Int          @map("activity_id")
+  gameNumber  Int          @default(autoincrement()) @map("game_number")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  activity    Activity     @relation(fields: [activityId], references: [id])
+  gameDetails GameDetail[]
+
+  @@id(name: "id", fields: [activityId, gameNumber])
+  @@map("games")
+}
+
+model GameDetail {
+  activityId  Int      @map("activityId")
+  gameNumber  Int      @map("game_number")
+  courtNumber Int      @default(autoincrement()) @map("court_number")
+  rule        Rule
+  game        Game     @relation(fields: [activityId, gameNumber], references: [activityId, gameNumber])
+  players     Player[]
+
+  @@id(name: "id", fields: [activityId, gameNumber, courtNumber])
+  @@map("game_details")
+}
+
+model Player {
+  activityId    Int         @map("activityId")
+  gameNumber    Int         @map("game_number")
+  courtNumber   Int         @map("court_number")
+  participantId Int         @map("participant_id")
+  playerNumber  Int         @default(autoincrement()) @map("player_number")
+  participant   Participant @relation(fields: [activityId, participantId], references: [activityId, memberId])
+  gameDetail    GameDetail  @relation(fields: [activityId, gameNumber, courtNumber], references: [activityId, gameNumber, courtNumber])
+
+  @@id(name: "id", fields: [activityId, gameNumber, courtNumber, participantId])
+  @@map("players")
+}
+
 model Member {
-  id           Int      @id @default(autoincrement())
-  createdAt    DateTime @default(now()) @map("created_at")
-  updatedAt    DateTime @updatedAt @map("updated_at")
-  emojiUnicode String   @map("emoji_unicode")
+  id           Int           @id @default(autoincrement())
+  ownerId      String        @map("owner_id")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  updatedAt    DateTime      @updatedAt @map("updated_at")
   name         String
   kana         String?
-  displayName  String?  @map("display_name")
+  displayName  String?       @map("display_name")
   sex          Sex
   level        Level
   note         String?
+  emojiUnicode String        @map("emoji_unicode")
+  owner        User          @relation(fields: [ownerId], references: [id])
+  participants Participant[]
 
   @@map("members")
 }
 
 model Place {
   id         Int      @id @default(autoincrement())
+  ownerId    String   @map("owner_id")
   createdAt  DateTime @default(now()) @map("createad_at")
   updatedAt  DateTime @updatedAt @map("updated_at")
   name       String
   courtCount Int      @map("court_count")
-  isDefault  Boolean  @map("is_default")
+  owner      User     @relation(fields: [ownerId], references: [id])
 
   @@map("places")
 }
 
+// the models below depend on the Prisma adapter for NextAuth.js.
+// see https://authjs.dev/reference/adapter/prisma
+// and do not put any domain model under this comment.
 model Account {
-  id                Int     @id @default(autoincrement())
-  userId            Int     @map("user_id")
+  id                String  @id @default(cuid())
+  userId            String  @map("user_id")
   type              String
   provider          String
-  providerAccountId Int     @map("provider_account_id")
+  providerAccountId String  @map("provider_account_id")
   refreshToken      String? @map("refresh_token") @db.Text
   accessToken       String? @map("access_token") @db.Text
   expiresAt         Int?    @map("expires_at")
@@ -66,9 +137,9 @@ model Account {
 }
 
 model Session {
-  id           Int      @id @default(autoincrement())
+  id           String   @id @default(cuid())
+  userId       String   @map("user_id")
   sessionToken String   @unique @map("session_token")
-  userId       Int      @map("user_id")
   expires      DateTime
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -76,13 +147,16 @@ model Session {
 }
 
 model User {
-  id            Int       @id @default(autoincrement())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
-  emailVerified DateTime? @map("email_verified")
+  email         String?    @unique
+  emailVerified DateTime?  @map("email_verified")
   image         String?
   accounts      Account[]
   sessions      Session[]
+  members       Member[]
+  places        Place[]
+  activities    Activity[]
 
   @@map("users")
 }

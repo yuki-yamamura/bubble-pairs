@@ -4,6 +4,8 @@ import {
 } from '@/features/members/logic/repository';
 import { memberFormSchema } from '@/features/members/validation';
 import { withZod } from '@/lib/next';
+import { authOptions } from '@/lib/next-auth';
+import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
 import type { Member } from '@prisma/client';
@@ -35,7 +37,18 @@ const handlePost: NextApiHandler<PostResponseData> = withZod(
     body: memberFormSchema,
   }),
   async (request, response) => {
-    const result = await createMember(request.body);
+    const session = await getServerSession(request, response, authOptions);
+
+    if (!session) {
+      response.status(403).end();
+
+      return;
+    }
+
+    const result = await createMember({
+      ownerId: session.user.id,
+      ...request.body,
+    });
 
     if (result.type === 'success') {
       response.status(201).json({ member: result.data });

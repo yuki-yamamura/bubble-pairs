@@ -1,9 +1,9 @@
-type SuccessResult<T> = {
+export type SuccessResult<T> = {
   type: 'success';
   data: T;
 };
 
-type ErrorResult<E> = {
+export type ErrorResult<E> = {
   type: 'error';
   error: E;
 };

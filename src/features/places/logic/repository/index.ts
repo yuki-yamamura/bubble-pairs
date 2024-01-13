@@ -7,7 +7,7 @@ import type { Place, Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const createPlace = (
-  data: Prisma.PlaceCreateInput,
+  data: Prisma.PlaceUncheckedCreateInput,
 ): Promise<Result<Place>> => {
   return withResult(() => prisma.place.create({ data }))();
 };

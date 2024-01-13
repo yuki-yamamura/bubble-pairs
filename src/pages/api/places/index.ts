@@ -1,6 +1,8 @@
 import { createPlace, findAllPlaces } from '@/features/places/logic/repository';
 import { placeFormSchema } from '@/features/places/validation';
 import { withZod } from '@/lib/next';
+import { authOptions } from '@/lib/next-auth';
+import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
 import type { Place } from '@prisma/client';
@@ -30,7 +32,15 @@ const handlePost: NextApiHandler<PostResponseData> = withZod(
     body: placeFormSchema,
   }),
   async (request, response) => {
-    const result = await createPlace(request.body);
+    const session = await getServerSession(request, response, authOptions);
+    if (!session) {
+      response.status(403).end();
+
+      return;
+    }
+
+    const { id: ownerId } = session.user;
+    const result = await createPlace({ ...request.body, ownerId });
 
     if (result.type === 'success') {
       response.status(201).end();

@@ -5,6 +5,7 @@ import type { Member } from '@prisma/client';
 
 const newMember: Member = {
   id: 5,
+  ownerId: 'clrcnez7q000108l6gb34bi8b',
   emojiUnicode: '1f9d1',
   createdAt: new Date('2023-04-30T13:00:00+09:00'),
   updatedAt: new Date('2023-04-30T13:00:00+09:00'),
