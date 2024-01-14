@@ -23,10 +23,12 @@ const App = ({
 
   return (
     <div className={inter.className}>
-      <SessionProvider session={session}>
-        <Component {...pageProps} />
-        <Toaster />
-      </SessionProvider>
+      <div id="root">
+        <SessionProvider session={session}>
+          <Component {...pageProps} />
+          <Toaster />
+        </SessionProvider>
+      </div>
     </div>
   );
 };
