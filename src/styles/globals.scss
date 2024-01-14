@@ -23,3 +23,7 @@ body {
   color: $dark-gray;
   letter-spacing: 0.02em;
 }
+
+#root {
+  min-height: 100vh;
+}
