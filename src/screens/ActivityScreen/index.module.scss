@@ -1,0 +1,11 @@
+.module {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.container {
+  transform: translate(0, -50%);
+}
