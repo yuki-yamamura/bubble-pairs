@@ -1,4 +1,6 @@
 import NewMemberButton from '../../NewMemberButton';
+import NoMemberFound from '../../NoMemberFound';
+import NoMemberMatches from '../../NoMemberMatches';
 import FunctionButton from '@/features/members/components/FunctionButton';
 import MemberList from '@/features/members/components/MemberList';
 import FilterModal from '@/features/members/components/modals/FilterModal';
@@ -75,7 +77,9 @@ const Component = ({
         />
       </div>
       {shouldShowEmptyState ? (
-        <div>条件に該当するメンバーがいません。</div>
+        <NoMemberMatches />
+      ) : members.length === 0 ? (
+        <NoMemberFound />
       ) : (
         <MemberList members={members} />
       )}

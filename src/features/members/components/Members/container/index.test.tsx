@@ -257,7 +257,7 @@ describe('Members', () => {
       test('should show an empty state', async () => {
         // at first, there is no empty state.
         expect(
-          screen.queryByText('条件に該当するメンバーがいません。'),
+          screen.queryByText('条件に該当するメンバーが見つかりませんでした。'),
         ).not.toBeInTheDocument();
 
         await user.click(screen.getByRole('checkbox', { name: '上級' }));
@@ -268,7 +268,7 @@ describe('Members', () => {
         // show an empty state instead of the member list, because there is no man in advanced level.
         expect(screen.queryByRole('list')).not.toBeInTheDocument();
         expect(
-          screen.getByText('条件に該当するメンバーがいません。'),
+          screen.getByText('条件に該当するメンバーが見つかりませんでした。'),
         ).toBeInTheDocument();
       });
     });
