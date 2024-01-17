@@ -1,5 +1,7 @@
+import ActivityForm from '@/features/activities/components/ActivityForm/presenter';
+
 const NewActivityScreen = () => {
-  return <div>New Activity Screen</div>;
+  return <ActivityForm />;
 };
 
 export default NewActivityScreen;

@@ -1,5 +1,5 @@
-import NewActivityButton from '@/features/activities/components/NewActivityButton';
 import NoActivityFound from '@/features/activities/components/NoActivityFound';
+import Activities from '@/pages/activities';
 
 import styles from './index.module.scss';
 
@@ -8,7 +8,7 @@ const ActivitiesScreen = () => (
     <div className={styles.container}>
       {/* todo: show empty state only if there's no activity. */}
       <NoActivityFound />
-      <NewActivityButton />
+      <Activities />;
     </div>
   </div>
 );
