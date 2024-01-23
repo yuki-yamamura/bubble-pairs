@@ -41,14 +41,14 @@ const handlePost = withZod(
     }
 
     const { id: ownerId } = session.user;
-    const { memberIds, ...body } = request.body;
-
+    const { members, placeId } = request.body;
     const result = await createActivity({
       ownerId,
+      placeId,
+      isOpen: true,
       participants: {
-        create: memberIds.map((memberId) => ({ memberId })),
+        create: members,
       },
-      ...body,
     });
 
     if (result.type === 'success') {

@@ -7,9 +7,13 @@ import { activityFormSchema } from '@/features/activities/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
+import type { Activity } from '@/types/models/Activity';
 import type { NextApiHandler } from 'next';
 
-const handleGet = withZod(
+export type GetResponseData = {
+  activity: Activity;
+};
+const handleGet: NextApiHandler<GetResponseData> = withZod(
   z.object({
     query: z.object({
       activityId: z.string(),

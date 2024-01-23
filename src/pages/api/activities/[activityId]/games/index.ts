@@ -1,10 +1,10 @@
 import { createGame, findAllGames } from '@/features/games/logic/repository';
 import { gameFormSchema } from '@/features/games/validation';
 import { withZod } from '@/lib/next';
-import { Rule } from '@prisma/client';
+import { $Enums } from '@prisma/client';
 import { z } from 'zod';
 
-import type { Game } from '@prisma/client';
+import type { Game, Prisma } from '@prisma/client';
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 type GetResponseData = {
@@ -26,45 +26,57 @@ const handleGet = async (
 
 const handlePost = withZod(
   z.object({
-    query: z.object({
-      activityId: z.string(),
-    }),
     body: gameFormSchema,
   }),
   async (request, response) => {
-    const activityId = parseInt(request.query.activityId);
-    const { singlesCount } = request.body;
+    const { activityId, members, singlesCount, doublesCount } = request.body;
+    console.log({ activityId, members, singlesCount, doublesCount });
 
-    // todo: remove temporary logic below, and rewrite one to create a game correctly.
     const data = {
       activityId,
       gameDetails: {
-        create: Array.from(Array(singlesCount), (_, index) => index + 1).map(
-          (courtNumber) => ({
-            courtNumber,
-            rule: Rule.SINGLES,
+        create: [
+          {
+            rule: $Enums.Rule.SINGLES,
             players: {
               create: [
                 {
-                  playerNumber: 1,
                   participantId: 1,
                 },
                 {
-                  playerNumber: 2,
                   participantId: 2,
                 },
               ],
             },
-          }),
-        ),
+          },
+          {
+            rule: $Enums.Rule.DOUBLES,
+            players: {
+              create: [
+                {
+                  participantId: 3,
+                },
+                {
+                  participantId: 4,
+                },
+                {
+                  participantId: 5,
+                },
+                {
+                  participantId: 6,
+                },
+              ],
+            },
+          },
+        ],
       },
-    };
+    } satisfies Prisma.GameUncheckedCreateInput;
     const result = await createGame(data);
 
     if (result.type === 'success') {
-      response.status(201).json({ game: result.data });
+      response.status(200).json({ game: result.data });
     } else {
-      response.status(400).end();
+      response.status(400).json({ error: result.error });
     }
   },
 );

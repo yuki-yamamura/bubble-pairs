@@ -28,9 +28,11 @@ enum Rule {
 model Activity {
   id           Int           @id @default(autoincrement())
   ownerId      String        @map("owner_id")
+  placeId      Int           @map("place_id")
   createdAt    DateTime      @default(now()) @map("created_at")
   isOpen       Boolean
   owner        User          @relation(fields: [ownerId], references: [id])
+  place        Place         @relation(fields: [placeId], references: [id])
   games        Game[]
   participants Participant[]
 
@@ -103,13 +105,14 @@ model Member {
 }
 
 model Place {
-  id         Int      @id @default(autoincrement())
-  ownerId    String   @map("owner_id")
-  createdAt  DateTime @default(now()) @map("createad_at")
-  updatedAt  DateTime @updatedAt @map("updated_at")
+  id         Int        @id @default(autoincrement())
+  ownerId    String     @map("owner_id")
+  createdAt  DateTime   @default(now()) @map("createad_at")
+  updatedAt  DateTime   @updatedAt @map("updated_at")
   name       String
-  courtCount Int      @map("court_count")
-  owner      User     @relation(fields: [ownerId], references: [id])
+  courtCount Int        @map("court_count")
+  owner      User       @relation(fields: [ownerId], references: [id])
+  Activity   Activity[]
 
   @@map("places")
 }

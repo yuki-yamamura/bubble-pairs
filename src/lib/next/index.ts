@@ -22,6 +22,7 @@ export const withZod = <
   ) => unknown | Promise<unknown>,
 ) => {
   return (request: NextApiRequest, response: NextApiResponse) => {
+    schema.parse(request);
     const { success } = schema.safeParse(request);
     if (!success) {
       response.status(400).end();
