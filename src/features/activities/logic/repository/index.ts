@@ -1,6 +1,7 @@
 import { withResult } from '@/lib/prisma';
 import { PrismaClient } from '@prisma/client';
 
+import type { Activity } from '@/types/models/Activity';
 import type { Result } from '@/types/Result';
 import type { Prisma } from '@prisma/client';
 
@@ -12,6 +13,7 @@ export const createActivity = (
   Result<
     Prisma.ActivityGetPayload<{
       include: {
+        place: true;
         participants: true;
       };
     }>
@@ -21,34 +23,19 @@ export const createActivity = (
     prisma.activity.create({
       data,
       include: {
+        place: true,
         participants: true,
       },
     }),
   )();
 };
 
-export const findAllActivities = (): Promise<
-  Result<
-    Prisma.ActivityGetPayload<{
-      include: {
-        participants: true;
-        games: {
-          include: {
-            gameDetails: {
-              include: {
-                players: true;
-              };
-            };
-          };
-        };
-      };
-    }>[]
-  >
-> => {
+export const findAllActivities = (): Promise<Result<Activity[]>> => {
   return withResult(() =>
     prisma.activity.findMany({
       include: {
         participants: true,
+        place: true,
         games: {
           include: {
             gameDetails: {
@@ -65,22 +52,7 @@ export const findAllActivities = (): Promise<
 
 export const findActivityById = (
   id: number,
-): Promise<
-  Result<Prisma.ActivityGetPayload<{
-    include: {
-      participants: true;
-      games: {
-        include: {
-          gameDetails: {
-            include: {
-              players: true;
-            };
-          };
-        };
-      };
-    };
-  }> | null>
-> => {
+): Promise<Result<Activity | null>> => {
   return withResult(() =>
     prisma.activity.findUnique({
       where: {
@@ -88,6 +60,7 @@ export const findActivityById = (
       },
       include: {
         participants: true,
+        place: true,
         games: {
           include: {
             gameDetails: {
@@ -105,24 +78,7 @@ export const findActivityById = (
 export const updateActivity = ({
   id,
   ...rest
-}: { id: number } & Prisma.ActivityUpdateInput): Promise<
-  Result<
-    Prisma.ActivityGetPayload<{
-      include: {
-        participants: true;
-        games: {
-          include: {
-            gameDetails: {
-              include: {
-                players: true;
-              };
-            };
-          };
-        };
-      };
-    }>
-  >
-> => {
+}: { id: number } & Prisma.ActivityUpdateInput): Promise<Result<Activity>> => {
   return withResult(() =>
     prisma.activity.update({
       data: {
@@ -133,6 +89,7 @@ export const updateActivity = ({
       },
       include: {
         participants: true,
+        place: true,
         games: {
           include: {
             gameDetails: {
@@ -147,32 +104,14 @@ export const updateActivity = ({
   )();
 };
 
-export const deleteActivity = (
-  id: number,
-): Promise<
-  Result<
-    Prisma.ActivityGetPayload<{
-      include: {
-        participants: true;
-        games: {
-          include: {
-            gameDetails: {
-              include: {
-                players: true;
-              };
-            };
-          };
-        };
-      };
-    }>
-  >
-> => {
+export const deleteActivity = (id: number): Promise<Result<Activity>> => {
   return withResult(() =>
     prisma.activity.delete({
       where: {
         id,
       },
       include: {
+        place: true,
         participants: true,
         games: {
           include: {
