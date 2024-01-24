@@ -1,5 +1,8 @@
 @use '@/styles/colors' as *;
-/* stylelint-disable-next-line selector-id-pattern */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 * {
   padding: 0;
