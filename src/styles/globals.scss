@@ -1,5 +1,5 @@
+/* stylelint-disable scss/at-rule-no-unknown */
 @use '@/styles/colors' as *;
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -55,8 +55,10 @@
   * {
     @apply border-border;
   }
+
   body {
     @apply bg-background font-extralight text-foreground;
+
     font-feature-settings:
       'rlig' 1,
       'calt' 1;
