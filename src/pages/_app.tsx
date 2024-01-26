@@ -25,7 +25,7 @@ const App = ({
 
   return (
     <div className={inter.className}>
-      <div id="root">
+      <div className="mx-auto mt-12 min-h-screen w-full max-w-screen-lg px-4 pb-20 sm:px-8">
         <ErrorBoundary fallback={<ErrorScreen />}>
           <SessionProvider session={session}>
             <Component {...pageProps} />

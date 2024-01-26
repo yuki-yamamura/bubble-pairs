@@ -1,14 +1,13 @@
+import { Button } from '@/components/ui/button';
 import { signIn } from 'next-auth/react';
-
-import styles from './index.module.scss';
 
 const LoginButton = () => {
   const handleClick = () => signIn();
 
   return (
-    <button type="button" onClick={handleClick} className={styles.module}>
+    <Button type="button" onClick={handleClick} className="rounded-3xl">
       はじめる
-    </button>
+    </Button>
   );
 };
 

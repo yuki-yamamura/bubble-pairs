@@ -1,82 +1,43 @@
-import LoginButton from '@/components/LoginButton';
-
-import styles from './index.module.scss';
+import FeatureCard from './FeatureCard';
+import Heading from './Heading';
+import LoginButton from './LoginButton';
 
 const HomeScreen = () => (
-  <div className={styles.container}>
-    {/* todo: add logo */}
-    <section id="hero" className={styles.section}>
-      <img src="/images/gestures.png" height={320} width={320} alt="gestures" />
-      <h1 className={styles.heading}>いつものペア決めを簡単に</h1>
-      <div className={styles.description}>
-        <p>Bubble Pairs は、スポーツのペア決めを簡単にする Web アプリです。</p>
-        <p className={styles.line}>
-          試合前のペア決めが、意外と大変だと思うことはありませんか？
-          このアプリを使うことで、入力から共有までを簡略化できます。
+  <div className="my-auto h-full">
+    <section id="hero" className="mb-20 flex flex-col items-center">
+      <img src="/images/gestures.png" alt="gestures" className="h-80 w-80" />
+      <Heading title="ペア決めを簡単に" />
+      <div className="pb-4 leading-7 md:text-center md:leading-10">
+        <p>
+          Bubble Pairs
+          はテニスやバドミントン、卓球といったスポーツのペア決めを簡単にするアプリです。
         </p>
-        <p className={styles.line}>
-          テニスやバドミントン、卓球といった様々なスポーツで活用していただけます。
-        </p>
+        <p>試合前のペア決めが意外と大変だと思うことはありませんか？</p>
+        <p>いつもの作業はアプリに任せて、試合を楽しみましょう。</p>
       </div>
-
       <LoginButton />
     </section>
 
-    <section id="features" className={`${styles.section} ${styles.features}`}>
-      <div className={styles.card}>
-        <h2 className={styles.heading}>
-          <img
-            src="/images/die.png"
-            height={24}
-            width={24}
-            alt="die"
-            aria-hidden
-            className={styles.image}
-          />
-          平等なペア決め
-        </h2>
-        <div>
-          アプリがペアを決めるため、平等かつランダムに試合を回すことができます。ペアの固定など、お好みの条件も対応しています。
-        </div>
-      </div>
-
-      <div className={styles.card}>
-        <h2 className={styles.heading}>
-          <img
-            src="/images/announcement.png"
-            height={24}
-            width={24}
-            alt="announcement"
-            aria-hidden
-            className={styles.image}
-          />
-          簡単にシェア
-        </h2>
-        <p>
-          シェア機能を使うことで、LINE
-          グループ内でペアを共有できます。確認は各自で行えるため、ペアの読み上げは必要ありません。
-        </p>
-      </div>
-
-      <div className={styles.card}>
-        <h2 className={styles.heading}>
-          <img
-            src="/images/exam.png"
-            height={20}
-            width={20}
-            alt="exam"
-            aria-hidden
-            className={styles.image}
-          />
-          入力は必要な分だけ
-        </h2>
-        <div>
-          前回と同じ試合条件を使えるため、入力が負担になりません。アプリ全体で入力を減らす工夫がされています。
-        </div>
+    <section id="features" className="flex flex-col items-center">
+      <Heading title="Features" />
+      <div className="flex flex-col items-center gap-y-6 md:flex-row md:items-stretch md:gap-x-6">
+        <FeatureCard
+          imagePath="/images/die.png"
+          title="平等なペア決め"
+          content="アプリが試合回数や前のペアを記憶しているため、平等に試合を回せます。また、ランダムだけでなく、お好みの試合条件にも対応しています。"
+        />
+        <FeatureCard
+          imagePath="/images/announcement.png"
+          title="簡単に共有"
+          content="公開リンクを使うことで、LINE グループ内で試合の情報を共有できます。ペアの確認を各自のスマートフォンから行えるようになります。"
+        />
+        <FeatureCard
+          imagePath="/images/clock.png"
+          title="入力は必要なだけ"
+          content="前回と同じ条件で試合をはじめられます。アプリ全体で入力を減らす工夫がされているため、操作に慣れていなくても安心して使用できます。"
+        />
       </div>
     </section>
-
-    {/* footer */}
   </div>
 );
 
