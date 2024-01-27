@@ -2,17 +2,15 @@ import ListItem from './ListItem';
 
 import type { Member } from '@prisma/client';
 
-import styles from './index.module.scss';
-
 type Props = {
   members: Member[];
 };
 
 const MemberList = ({ members }: Props) => {
   return (
-    <ul className={styles.module}>
+    <ul className="flex flex-col divide-y">
       {members.map((member) => (
-        <li key={member.id}>
+        <li key={member.id} className="">
           <ListItem member={member} />
         </li>
       ))}
