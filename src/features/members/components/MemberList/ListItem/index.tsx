@@ -1,6 +1,6 @@
 import Emoji from '@/components/Emoji';
 import { Avatar } from '@/components/ui/avatar';
-import { Level, Sex } from '@/features/members/constants';
+import { levelMap, sexMap } from '@/features/members/constants';
 import Link from 'next/link';
 
 import type { Member } from '@prisma/client';
@@ -22,7 +22,7 @@ const ListItem = ({
       <div className="flex flex-col gap-y-1">
         <span className="text-sm">{displayName ?? name}</span>
         <span className="text-xs text-slate-400">
-          {Level[level]} / {Sex[sex]}
+          {levelMap[level]} / {sexMap[sex]}
         </span>
       </div>
     </Link>

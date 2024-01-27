@@ -1,16 +1,16 @@
 import LoadingModal from '@/components/LoadingModal';
 import MemberForm from '@/features/members/components/BaseMemberForm';
+import { MemberForm } from '@/features/members/validation';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { MemberFormType } from '@/features/members/validation';
 import type { PostResponseData } from '@/pages/api/members';
 
 const NewMemberForm = () => {
   const router = useRouter();
-  const defaultValues: MemberFormType = {
+  const defaultValues: MemberForm = {
     emojiUnicode: '1f9d1',
     name: '',
     kana: null,
@@ -24,14 +24,14 @@ const NewMemberForm = () => {
     PostResponseData,
     Error,
     '/api/members',
-    MemberFormType
-  >('/api/members', (url: string, { arg }: { arg: MemberFormType }) => {
+    MemberForm
+  >('/api/members', (url: string, { arg }: { arg: MemberForm }) => {
     return axios
       .post<PostResponseData>(url, arg)
       .then((response) => response.data);
   });
 
-  const handleSubmit = (fieldValues: MemberFormType) => {
+  const handleSubmit = (fieldValues: MemberForm) => {
     trigger(fieldValues)
       .then(() => {
         toast.success('メンバーを登録しました。');

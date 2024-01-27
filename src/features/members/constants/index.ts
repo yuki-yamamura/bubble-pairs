@@ -1,14 +1,14 @@
-import type { Level as PrismaLevel, Sex as PrismaSex } from '@prisma/client';
+import type { Level, Sex } from '@prisma/client';
 
-export const Level = {
+export const levelMap = {
   BEGINNER: '入門',
   ELEMENTARY: '初心者',
   INTERMEDIATE: '中級者',
   ADVANCED: '上級者',
-} satisfies Record<PrismaLevel, string>;
+} satisfies Record<Level, string>;
 
-export const Sex = {
+export const sexMap = {
   MALE: '男性',
   FEMALE: '女性',
   NOT_KNOWN: '不明',
-} satisfies Record<PrismaSex, string>;
+} satisfies Record<Sex, string>;

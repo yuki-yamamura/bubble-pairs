@@ -4,6 +4,10 @@ import { z } from 'zod';
 
 import type { Member } from '@prisma/client';
 
+export type MemberForm = z.infer<typeof memberFormSchema>;
+
+export type MemberFilter = z.infer<typeof memberFilterSchema>;
+
 export const memberSchema = schemaForType<Member>()(
   z.object({
     id: z.number(),
@@ -27,4 +31,7 @@ export const memberFormSchema = memberSchema.omit({
   updatedAt: true,
 });
 
-export type MemberFormType = z.infer<typeof memberFormSchema>;
+export const memberFilterSchema = z.object({
+  levels: z.array(z.nativeEnum(Level)),
+  sexes: z.array(z.nativeEnum(Sex)),
+});

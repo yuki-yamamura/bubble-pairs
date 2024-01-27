@@ -7,17 +7,17 @@ import Textbox from '@/components/Textbox';
 import { levelOptions } from '@/features/members/constants/levelOptions';
 import { sexOptions } from '@/features/members/constants/sexOptions';
 import { useMemberForm } from '@/features/members/hooks/useMemberForm';
+import { MemberForm } from '@/features/members/validation';
 import { useRef } from 'react';
 
-import type { MemberFormType } from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
 
 import styles from './index.module.scss';
 
 type Props = {
-  defaultValues: MemberFormType;
+  defaultValues: MemberForm;
   submitButtonLabel: string;
-  submitMember: (fieldValues: MemberFormType) => void;
+  submitMember: (fieldValues: MemberForm) => void;
 };
 
 const MemberForm = ({

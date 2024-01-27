@@ -1,3 +1,4 @@
+import FilterModalTmp from '../../FilterModalTmp';
 import NewMemberButton from '../../NewMemberButton';
 import NoMemberFound from '../../NoMemberFound';
 import NoMemberMatches from '../../NoMemberMatches';
@@ -63,6 +64,7 @@ const Component = ({
   return (
     <div className={styles.module}>
       <div className={styles.buttons}>
+        <FilterModalTmp />
         <FunctionButton
           label="並び替え"
           Icon={MdSort}
