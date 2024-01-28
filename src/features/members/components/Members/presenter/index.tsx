@@ -14,8 +14,8 @@ type Props = {
   members: Member[];
   isError: boolean;
   isLoading: boolean;
-  isFilterEnabled: boolean;
-  isSortEnabled: boolean;
+  isFilterActive: boolean;
+  isSortActive: boolean;
   shouldShowEmptyState: boolean;
   onNewMemberButtonClick: () => void;
   filter: MemberFilter;
@@ -27,8 +27,8 @@ const Component = ({
   members,
   isError,
   isLoading,
-  isFilterEnabled,
-  isSortEnabled,
+  isFilterActive,
+  isSortActive,
   shouldShowEmptyState,
   onNewMemberButtonClick,
   filter,
@@ -47,8 +47,16 @@ const Component = ({
   return (
     <div className={styles.module}>
       <div className={styles.buttons}>
-        <FilterModal defaultValues={filter} onSubmit={onFilterChange} />
-        <SortModal defaultValues={sort} onSubmit={onSortChange} />
+        <FilterModal
+          isFilterActive={isFilterActive}
+          defaultValues={filter}
+          onSubmit={onFilterChange}
+        />
+        <SortModal
+          isSortActive={isSortActive}
+          defaultValues={sort}
+          onSubmit={onSortChange}
+        />
       </div>
       {shouldShowEmptyState ? (
         <NoMemberMatches />

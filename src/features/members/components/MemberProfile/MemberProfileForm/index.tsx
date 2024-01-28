@@ -1,6 +1,5 @@
 import LoadingModal from '@/components/LoadingModal';
 import MemberForm from '@/features/members/components/BaseMemberForm';
-import { MemberForm } from '@/features/members/validation';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';

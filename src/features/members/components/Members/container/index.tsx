@@ -29,8 +29,8 @@ const Members = () => {
       members={members}
       isLoading={isLoading}
       isError={isError}
-      isFilterEnabled={isFilterEnabled}
-      isSortEnabled={isSortEnabled}
+      isFilterActive={isFilterEnabled}
+      isSortActive={isSortEnabled}
       shouldShowEmptyState={shouldShowEmptyState}
       onNewMemberButtonClick={handleNewMemberButtonClick}
       filter={filter}

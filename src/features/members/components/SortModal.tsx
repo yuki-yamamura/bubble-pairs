@@ -19,21 +19,22 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import type { MemberSort } from '@/features/members/validation';
 
 type Props = {
+  isSortActive: boolean;
   defaultValues: MemberSort;
   onSubmit: (sort: MemberSort) => void;
 };
-const SortModal = ({ defaultValues, onSubmit }: Props) => {
+const SortModal = ({ isSortActive, defaultValues, onSubmit }: Props) => {
   const [open, setOpen] = useState(false);
   const form = useForm<MemberSort>({ defaultValues });
   const { control, reset } = form;
   const handleSubmit = form.handleSubmit((data) => {
-    console.log(data);
     onSubmit(data);
     setOpen(false);
   });
@@ -45,7 +46,12 @@ const SortModal = ({ defaultValues, onSubmit }: Props) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">並び替え</Button>
+        <Button
+          variant="outline"
+          className={cn(isSortActive && 'border-blue-400')}
+        >
+          並び替え
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>

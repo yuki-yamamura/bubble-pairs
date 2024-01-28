@@ -21,17 +21,19 @@ import {
 import { Label } from '@/components/ui/label';
 import { levelOptions } from '@/features/members/constants/levelOptions';
 import { sexOptions } from '@/features/members/constants/sexOptions';
+import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
 import type { MemberFilter } from '@/features/members/validation';
 
 type Props = {
+  isFilterActive: boolean;
   defaultValues: MemberFilter;
   onSubmit: (filter: MemberFilter) => void;
 };
 
-const FilterModal = ({ defaultValues, onSubmit }: Props) => {
+const FilterModal = ({ isFilterActive, defaultValues, onSubmit }: Props) => {
   const [open, setOpen] = useState(false);
   const form = useForm<MemberFilter>({ defaultValues });
   const { control, reset } = form;
@@ -47,7 +49,12 @@ const FilterModal = ({ defaultValues, onSubmit }: Props) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline">絞り込み</Button>
+        <Button
+          variant="outline"
+          className={cn(isFilterActive && 'border-blue-400')}
+        >
+          絞り込み
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
