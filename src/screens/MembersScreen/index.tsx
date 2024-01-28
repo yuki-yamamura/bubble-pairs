@@ -1,4 +1,4 @@
-import Members from '@/features/members/components/Members/container';
+import Members from '@/features/members/components/Members';
 
 import styles from './index.module.scss';
 

@@ -4,38 +4,33 @@ import MemberList from '@/features/members/components/MemberList';
 import NewMemberButton from '@/features/members/components/NewMemberButton';
 import NoMemberFound from '@/features/members/components/NoMemberFound';
 import NoMemberMatches from '@/features/members/components/NoMemberMatches';
-
-import type { MemberFilter, MemberSort } from '@/features/members/validation';
-import type { Member } from '@prisma/client';
+import { useMembers } from '@/features/members/hooks/useMembers';
+import { useRouter } from 'next/router';
 
 import styles from './index.module.scss';
 
-type Props = {
-  members: Member[];
-  isError: boolean;
-  isLoading: boolean;
-  isFilterActive: boolean;
-  isSortActive: boolean;
-  shouldShowEmptyState: boolean;
-  onNewMemberButtonClick: () => void;
-  filter: MemberFilter;
-  sort: MemberSort;
-  onFilterChange: (filter: MemberFilter) => void;
-  onSortChange: (sort: MemberSort) => void;
-};
-const Component = ({
-  members,
-  isError,
-  isLoading,
-  isFilterActive,
-  isSortActive,
-  shouldShowEmptyState,
-  onNewMemberButtonClick,
-  filter,
-  sort,
-  onFilterChange,
-  onSortChange,
-}: Props) => {
+const Members = () => {
+  const {
+    members,
+    isError,
+    isLoading,
+    filter,
+    sort,
+    onFilterChange,
+    onSortChange,
+  } = useMembers();
+
+  const router = useRouter();
+
+  const isFilterActive =
+    filter.levels.length !== 0 || filter.sexes.length !== 0;
+  const isSortActive = sort.sortKey !== 'createdAt';
+  const shouldShowEmptyState = !isFilterActive && members.length === 0;
+
+  const handleNewMemberButtonClick = () => {
+    void router.push('/members/new');
+  };
+
   if (isLoading) {
     return <div>メンバーを取得しています。</div>;
   }
@@ -66,10 +61,10 @@ const Component = ({
         <MemberList members={members} />
       )}
       <div className={styles.buttonContainer}>
-        <NewMemberButton onClick={onNewMemberButtonClick} />
+        <NewMemberButton onClick={handleNewMemberButtonClick} />
       </div>
     </div>
   );
 };
 
-export default Component;
+export default Members;
