@@ -12,3 +12,18 @@ export const sexMap = {
   FEMALE: '女性',
   NOT_KNOWN: '不明',
 } satisfies Record<Sex, string>;
+
+export const sortKeys = [
+  {
+    label: '登録日',
+    value: 'createdAt',
+  },
+  {
+    label: '性別',
+    value: 'sex',
+  },
+  {
+    label: 'レベル',
+    value: 'level',
+  },
+] as const;

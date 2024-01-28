@@ -8,6 +8,8 @@ export type MemberForm = z.infer<typeof memberFormSchema>;
 
 export type MemberFilter = z.infer<typeof memberFilterSchema>;
 
+export type MemberSort = z.infer<typeof memberSortSchema>;
+
 export const memberSchema = schemaForType<Member>()(
   z.object({
     id: z.number(),
@@ -32,6 +34,10 @@ export const memberFormSchema = memberSchema.omit({
 });
 
 export const memberFilterSchema = z.object({
-  levels: z.array(z.nativeEnum(Level)),
   sexes: z.array(z.nativeEnum(Sex)),
+  levels: z.array(z.nativeEnum(Level)),
+});
+
+export const memberSortSchema = z.object({
+  sortKey: z.enum(['createdAt', 'level', 'sex']),
 });
