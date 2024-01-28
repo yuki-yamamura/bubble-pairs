@@ -1,5 +1,3 @@
-import { levelOptions } from '../../constants/levelOptions';
-import { sexOptions } from '../../constants/sexOptions';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,22 +19,33 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
+import { levelOptions } from '@/features/members/constants/levelOptions';
+import { sexOptions } from '@/features/members/constants/sexOptions';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { MemberFilter } from '../../validation';
+import type { MemberFilter } from '@/features/members/validation';
 
-const FilterModalTmp = () => {
-  const form = useForm<MemberFilter>({
-    defaultValues: {
-      sexes: [],
-      levels: [],
-    },
+type Props = {
+  defaultValues: MemberFilter;
+  onSubmit: (filter: MemberFilter) => void;
+};
+
+const FilterModal = ({ defaultValues, onSubmit }: Props) => {
+  const [open, setOpen] = useState(false);
+  const form = useForm<MemberFilter>({ defaultValues });
+  const { control, reset } = form;
+  const handleSubmit = form.handleSubmit((data) => {
+    onSubmit(data);
+    setOpen(false);
   });
-  const { handleSubmit, control } = form;
-  const submitHandler = handleSubmit((data) => console.log(data));
+  const handleCancel = () => {
+    reset();
+    setOpen(false);
+  };
 
   return (
-    <AlertDialog>
+    <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
         <Button variant="outline">絞り込み</Button>
       </AlertDialogTrigger>
@@ -48,7 +57,7 @@ const FilterModalTmp = () => {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Form {...form}>
-          <form onSubmit={submitHandler}>
+          <form>
             <div>
               <FormLabel>性別</FormLabel>
               <FormField
@@ -64,7 +73,7 @@ const FilterModalTmp = () => {
                         render={({ field }) => (
                           <FormItem key={value}>
                             <FormControl>
-                              <Label>
+                              <Label className="flex gap-x-2">
                                 <Checkbox
                                   checked={field.value.includes(value)}
                                   onCheckedChange={(checked) => {
@@ -78,6 +87,7 @@ const FilterModalTmp = () => {
                                       );
                                     }
                                   }}
+                                  className="h-[14px] w-[14px]"
                                 />
                                 <span>{label}</span>
                               </Label>
@@ -90,7 +100,7 @@ const FilterModalTmp = () => {
                 )}
               />
             </div>
-            <div>
+            <div className="mt-4">
               <FormLabel>レベル</FormLabel>
               <FormField
                 control={control}
@@ -105,7 +115,7 @@ const FilterModalTmp = () => {
                         render={({ field }) => (
                           <FormItem key={value}>
                             <FormControl>
-                              <Label>
+                              <Label className="flex gap-x-2">
                                 <Checkbox
                                   checked={field.value.includes(value)}
                                   onCheckedChange={(checked) => {
@@ -119,6 +129,7 @@ const FilterModalTmp = () => {
                                       );
                                     }
                                   }}
+                                  className="h-[14px] w-[14px]"
                                 />
                                 <span>{label}</span>
                               </Label>
@@ -131,16 +142,17 @@ const FilterModalTmp = () => {
                 )}
               />
             </div>
-            <Button type="submit">Submit</Button>
           </form>
         </Form>
         <AlertDialogFooter>
-          <AlertDialogCancel>キャンセル</AlertDialogCancel>
-          <AlertDialogAction>適用</AlertDialogAction>
+          <AlertDialogCancel onClick={handleCancel}>
+            キャンセル
+          </AlertDialogCancel>
+          <AlertDialogAction onClick={handleSubmit}>適用</AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
     </AlertDialog>
   );
 };
 
-export default FilterModalTmp;
+export default FilterModal;
