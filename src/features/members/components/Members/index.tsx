@@ -7,8 +7,6 @@ import NoMemberMatches from '@/features/members/components/NoMemberMatches';
 import { useMembers } from '@/features/members/hooks/useMembers';
 import { useRouter } from 'next/router';
 
-import styles from './index.module.scss';
-
 const Members = () => {
   const {
     members,
@@ -40,8 +38,8 @@ const Members = () => {
   }
 
   return (
-    <div className={styles.module}>
-      <div className={styles.buttons}>
+    <div className="relative h-full w-full">
+      <div className="mb-8 flex gap-x-4">
         <FilterModal
           isFilterActive={isFilterActive}
           defaultValues={filter}
@@ -52,6 +50,7 @@ const Members = () => {
           defaultValues={sort}
           onSubmit={onSortChange}
         />
+        <NewMemberButton onClick={handleNewMemberButtonClick} />
       </div>
       {shouldShowEmptyState ? (
         <NoMemberMatches />
@@ -60,9 +59,6 @@ const Members = () => {
       ) : (
         <MemberList members={members} />
       )}
-      <div className={styles.buttonContainer}>
-        <NewMemberButton onClick={handleNewMemberButtonClick} />
-      </div>
     </div>
   );
 };
