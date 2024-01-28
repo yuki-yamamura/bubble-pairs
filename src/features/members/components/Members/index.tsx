@@ -1,7 +1,7 @@
+import { Button } from '@/components/ui/button';
 import SortModal from '@/features/members/components//SortModal';
 import FilterModal from '@/features/members/components/FilterModal';
 import MemberList from '@/features/members/components/MemberList';
-import NewMemberButton from '@/features/members/components/NewMemberButton';
 import NoMemberFound from '@/features/members/components/NoMemberFound';
 import NoMemberMatches from '@/features/members/components/NoMemberMatches';
 import { useMembers } from '@/features/members/hooks/useMembers';
@@ -50,7 +50,9 @@ const Members = () => {
           defaultValues={sort}
           onSubmit={onSortChange}
         />
-        <NewMemberButton onClick={handleNewMemberButtonClick} />
+        <Button type="button" onClick={handleNewMemberButtonClick}>
+          メンバー追加
+        </Button>
       </div>
       {shouldShowEmptyState ? (
         <NoMemberMatches />

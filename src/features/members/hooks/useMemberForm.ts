@@ -9,20 +9,20 @@ import {
   type UseFormSetValue,
 } from 'react-hook-form';
 
-import type { MemberForm } from '@/features/members/validation';
+import type { MemberFormType } from '@/features/members/validation';
 
 type MemberFormFieldValues = {
-  [P in keyof MemberForm]: UseFormRegisterReturn<P>;
+  [P in keyof MemberFormType]: UseFormRegisterReturn<P>;
 };
 
 export const useMemberForm = (
-  defaultValues: MemberForm,
+  defaultValues: MemberFormType,
 ): {
   fieldValues: MemberFormFieldValues;
-  fieldErrors: FieldErrors<MemberForm>;
-  getValues: UseFormGetValues<MemberForm>;
-  setValue: UseFormSetValue<MemberForm>;
-  submitHandler: UseFormHandleSubmit<MemberForm>;
+  fieldErrors: FieldErrors<MemberFormType>;
+  getValues: UseFormGetValues<MemberFormType>;
+  setValue: UseFormSetValue<MemberFormType>;
+  submitHandler: UseFormHandleSubmit<MemberFormType>;
 } => {
   const {
     register,
@@ -30,7 +30,7 @@ export const useMemberForm = (
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<MemberForm>({
+  } = useForm<MemberFormType>({
     defaultValues,
     resolver: zodResolver(memberFormSchema),
   });

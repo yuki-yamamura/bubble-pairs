@@ -1,12 +1,24 @@
-import NewMemberForm from '@/features/members/components/NewMemberForm';
+import MemberForm from '@/features/members/components/MemberForm';
 
-import styles from './index.module.scss';
+import type { MemberFormType } from '@/features/members/validation';
 
-const NewMemberScreen = () => (
-  <>
-    <h1 className={styles.title}>メンバー追加</h1>
-    <NewMemberForm />
-  </>
-);
+const NewMemberScreen = () => {
+  const defaultValues: MemberFormType = {
+    emojiUnicode: '1f9d1',
+    name: '',
+    kana: null,
+    displayName: null,
+    sex: 'MALE',
+    level: 'BEGINNER',
+    note: null,
+  };
+
+  return (
+    <MemberForm
+      defaultValues={defaultValues}
+      onSubmit={(fieldValues) => console.log(fieldValues)}
+    />
+  );
+};
 
 export default NewMemberScreen;

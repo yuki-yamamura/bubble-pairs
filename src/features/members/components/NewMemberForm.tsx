@@ -1,15 +1,16 @@
 import LoadingModal from '@/components/LoadingModal';
-import MemberForm from '@/features/members/components/BaseMemberForm';
+import MemberForm from '@/features/members/components/MemberForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
+import type MemberFormType from '@/features/members/components/BaseMemberForm';
 import type { PostResponseData } from '@/pages/api/members';
 
 const NewMemberForm = () => {
   const router = useRouter();
-  const defaultValues: MemberForm = {
+  const defaultValues: MemberFormType = {
     emojiUnicode: '1f9d1',
     name: '',
     kana: null,
@@ -19,18 +20,16 @@ const NewMemberForm = () => {
     note: null,
   };
 
-  const { trigger, isMutating } = useSWRMutation<
-    PostResponseData,
-    Error,
+  const { trigger, isMutating } = useSWRMutation(
     '/api/members',
-    MemberForm
-  >('/api/members', (url: string, { arg }: { arg: MemberForm }) => {
-    return axios
-      .post<PostResponseData>(url, arg)
-      .then((response) => response.data);
-  });
+    (url: string, { arg }: { arg: MemberFormType }) => {
+      return axios
+        .post<PostResponseData>(url, arg)
+        .then((response) => response.data);
+    },
+  );
 
-  const handleSubmit = (fieldValues: MemberForm) => {
+  const handleSubmit = (fieldValues: MemberFormType) => {
     trigger(fieldValues)
       .then(() => {
         toast.success('メンバーを登録しました。');
@@ -43,13 +42,7 @@ const NewMemberForm = () => {
     return <LoadingModal />;
   }
 
-  return (
-    <MemberForm
-      defaultValues={defaultValues}
-      submitButtonLabel="メンバーを追加する"
-      submitMember={handleSubmit}
-    />
-  );
+  return <MemberForm defaultValues={defaultValues} onSubmit={handleSubmit} />;
 };
 
 export default NewMemberForm;

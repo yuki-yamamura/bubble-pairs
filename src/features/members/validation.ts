@@ -4,11 +4,11 @@ import { z } from 'zod';
 
 import type { Member } from '@prisma/client';
 
-export type MemberForm = z.infer<typeof memberFormSchema>;
+export type MemberFormType = z.infer<typeof memberFormSchema>;
 
-export type MemberFilter = z.infer<typeof memberFilterSchema>;
+export type MemberFilterType = z.infer<typeof memberFilterSchema>;
 
-export type MemberSort = z.infer<typeof memberSortSchema>;
+export type MemberSortType = z.infer<typeof memberSortSchema>;
 
 export const memberSchema = schemaForType<Member>()(
   z.object({

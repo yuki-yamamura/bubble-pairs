@@ -3,7 +3,10 @@ import axios from 'axios';
 import { useCallback, useMemo, useState } from 'react';
 import useSWR from 'swr';
 
-import type { MemberFilter, MemberSort } from '@/features/members/validation';
+import type {
+  MemberFilterType,
+  MemberSortType,
+} from '@/features/members/validation';
 import type { GetResponseData } from '@/pages/api/members';
 import type { KeyedMutator } from 'swr';
 
@@ -12,16 +15,16 @@ export const useMembers = (): {
   isError: boolean;
   isLoading: boolean;
   mutate: KeyedMutator<GetResponseData>;
-  filter: MemberFilter;
-  sort: MemberSort;
-  onFilterChange: (filter: MemberFilter) => void;
-  onSortChange: (sort: MemberSort) => void;
+  filter: MemberFilterType;
+  sort: MemberSortType;
+  onFilterChange: (filter: MemberFilterType) => void;
+  onSortChange: (sort: MemberSortType) => void;
 } => {
-  const [filter, setFilter] = useState<MemberFilter>({
+  const [filter, setFilter] = useState<MemberFilterType>({
     levels: [],
     sexes: [],
   });
-  const [sort, setSort] = useState<MemberSort>({
+  const [sort, setSort] = useState<MemberSortType>({
     sortKey: 'createdAt',
   });
   const { data, error, isLoading, mutate } = useSWR<GetResponseData, Error>(
@@ -31,8 +34,8 @@ export const useMembers = (): {
     },
   );
 
-  const handleFilterChange = (filter: MemberFilter) => setFilter(filter);
-  const handleSortChange = (sort: MemberSort) => setSort(sort);
+  const handleFilterChange = (filter: MemberFilterType) => setFilter(filter);
+  const handleSortChange = (sort: MemberSortType) => setSort(sort);
 
   const getCompareFn = useCallback(() => {
     switch (sort.sortKey) {

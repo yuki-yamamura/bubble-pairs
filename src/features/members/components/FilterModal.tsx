@@ -25,17 +25,17 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { MemberFilter } from '@/features/members/validation';
+import type { MemberFilterType } from '@/features/members/validation';
 
 type Props = {
   isFilterActive: boolean;
-  defaultValues: MemberFilter;
-  onSubmit: (filter: MemberFilter) => void;
+  defaultValues: MemberFilterType;
+  onSubmit: (filter: MemberFilterType) => void;
 };
 
 const FilterModal = ({ isFilterActive, defaultValues, onSubmit }: Props) => {
   const [open, setOpen] = useState(false);
-  const form = useForm<MemberFilter>({ defaultValues });
+  const form = useForm<MemberFilterType>({ defaultValues });
   const { control, reset } = form;
   const handleSubmit = form.handleSubmit((data) => {
     onSubmit(data);

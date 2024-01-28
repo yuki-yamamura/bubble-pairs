@@ -3,7 +3,7 @@ import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import 'intersection-observer';
 
-import type { MemberForm } from '@/features/members/validation';
+import type { MemberFormType } from '@/features/members/validation';
 
 const mockFn = jest.fn();
 
@@ -14,7 +14,7 @@ beforeEach(() => {
 describe('BaseMemberForm', () => {
   describe('initialization', () => {
     test('should render necessary fields to represent a member', async () => {
-      const defaultValues: MemberForm = {
+      const defaultValues: MemberFormType = {
         emojiUnicode: '1f9d1',
         name: '',
         kana: null,
@@ -70,7 +70,7 @@ describe('BaseMemberForm', () => {
   describe('if a user fills out all the filed, then clicks the submit button', () => {
     test('should call a callback function with the field values', async () => {
       const user = userEvent.setup();
-      const defaultValues: MemberForm = {
+      const defaultValues: MemberFormType = {
         emojiUnicode: '1f9d1',
         name: '',
         kana: null,
@@ -124,7 +124,7 @@ describe('BaseMemberForm', () => {
   describe('if a user only fills out the required fields, then clicks the submit button', () => {
     test('should call a callback function with the field values including null', async () => {
       const user = userEvent.setup();
-      const defaultValues: MemberForm = {
+      const defaultValues: MemberFormType = {
         emojiUnicode: '1f9d1',
         name: '',
         kana: null,
@@ -168,7 +168,7 @@ describe('BaseMemberForm', () => {
   describe('if a user missed the name field', () => {
     test('should warn the user of the mistake, not submitting the form values', async () => {
       const user = userEvent.setup();
-      const defaultValues: MemberForm = {
+      const defaultValues: MemberFormType = {
         emojiUnicode: '1f9d1',
         name: '',
         kana: null,

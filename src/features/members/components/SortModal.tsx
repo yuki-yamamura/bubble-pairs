@@ -23,16 +23,16 @@ import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { MemberSort } from '@/features/members/validation';
+import type { MemberSortType } from '@/features/members/validation';
 
 type Props = {
   isSortActive: boolean;
-  defaultValues: MemberSort;
-  onSubmit: (sort: MemberSort) => void;
+  defaultValues: MemberSortType;
+  onSubmit: (sort: MemberSortType) => void;
 };
 const SortModal = ({ isSortActive, defaultValues, onSubmit }: Props) => {
   const [open, setOpen] = useState(false);
-  const form = useForm<MemberSort>({ defaultValues });
+  const form = useForm<MemberSortType>({ defaultValues });
   const { control, reset } = form;
   const handleSubmit = form.handleSubmit((data) => {
     onSubmit(data);
