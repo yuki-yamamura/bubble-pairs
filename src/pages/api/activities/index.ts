@@ -11,7 +11,7 @@ import { z } from 'zod';
 
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
-type GetResponseData = {
+export type GetResponseData = {
   activities: ReturnTypeOf<typeof findAllActivities>;
 };
 

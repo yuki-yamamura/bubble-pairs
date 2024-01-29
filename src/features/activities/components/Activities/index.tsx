@@ -1,18 +1,20 @@
-import NewActivityButton from '@/features/activities/components/NewActivityButton';
-import { useRouter } from 'next/router';
+import Loading from '@/components/Loading';
+import { useActivities } from '@/features/activities/hooks/useActivities';
 
 const Activities = () => {
-  const router = useRouter();
+  const { activities, isLoading } = useActivities();
 
-  const handleNewActivityButtonClick = () => {
-    void router.push('/activities/new');
-  };
+  if (isLoading) {
+    <Loading />;
+  }
+
+  console.log(activities);
 
   return (
-    <div>
-      <div>something</div>
-      <NewActivityButton onClick={handleNewActivityButtonClick} />
-    </div>
+    <ul>
+      {activities &&
+        activities.map((activity) => <li key={activity.id}>{activity.id}</li>)}
+    </ul>
   );
 };
 
