@@ -1,3 +1,4 @@
+import ActivityTable from '../ActivityTable';
 import Loading from '@/components/Loading';
 import { useActivities } from '@/features/activities/hooks/useActivities';
 
@@ -5,17 +6,14 @@ const Activities = () => {
   const { activities, isLoading } = useActivities();
 
   if (isLoading) {
-    <Loading />;
+    return <Loading />;
   }
 
-  console.log(activities);
+  if (!activities) {
+    return <div>something went wrong</div>;
+  }
 
-  return (
-    <ul>
-      {activities &&
-        activities.map((activity) => <li key={activity.id}>{activity.id}</li>)}
-    </ul>
-  );
+  return <ActivityTable activities={activities} />;
 };
 
 export default Activities;

@@ -27,7 +27,7 @@ const DataTable = <TData, TValue>({ columns, data }: Props<TData, TValue>) => {
   });
 
   return (
-    <div className="w-full rounded-md border">
+    <div className="rounded-md border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
