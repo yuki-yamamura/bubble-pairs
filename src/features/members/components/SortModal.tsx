@@ -19,7 +19,7 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/shadcn-ui';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 

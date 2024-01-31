@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/shadcn-ui';
 import * as React from 'react';
 
 const Table = React.forwardRef<

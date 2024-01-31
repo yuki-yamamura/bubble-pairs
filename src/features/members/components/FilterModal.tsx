@@ -20,7 +20,7 @@ import {
 } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { levelMap, sexMap } from '@/features/members/constants';
-import { cn } from '@/lib/utils';
+import { cn } from '@/lib/shadcn-ui';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 
