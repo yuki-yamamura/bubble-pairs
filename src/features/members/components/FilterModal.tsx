@@ -19,8 +19,7 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
-import { levelOptions } from '@/features/members/constants/levelOptions';
-import { sexOptions } from '@/features/members/constants/sexOptions';
+import { levelMap, sexMap } from '@/features/members/constants';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -72,7 +71,7 @@ const FilterModal = ({ isFilterActive, defaultValues, onSubmit }: Props) => {
                 name="sexes"
                 render={() => (
                   <FormItem>
-                    {sexOptions.map(({ label, value }) => (
+                    {Array.from(sexMap).map(([value, label]) => (
                       <FormField
                         key={value}
                         control={control}
@@ -114,7 +113,7 @@ const FilterModal = ({ isFilterActive, defaultValues, onSubmit }: Props) => {
                 name="levels"
                 render={() => (
                   <FormItem>
-                    {levelOptions.map(({ label, value }) => (
+                    {Array.from(levelMap).map(([value, label]) => (
                       <FormField
                         key={value}
                         control={control}

@@ -1,5 +1,3 @@
-import { levelOptions } from '../constants/levelOptions';
-import { sexOptions } from '../constants/sexOptions';
 import EmojiPickerModal from '@/components/EmojiPickerModal';
 import { Button } from '@/components/ui/button';
 import {
@@ -13,14 +11,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
-import {
-  memberFormSchema
-} from '@/features/members/validation';
+import { levelMap, sexMap } from '@/features/members/constants';
+import { memberFormSchema } from '@/features/members/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import type {
-  MemberFormType} from '@/features/members/validation';
+import type { MemberFormType } from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
 
 type Props = {
@@ -78,7 +74,7 @@ const MemberForm = ({ defaultValues, onSubmit }: Props) => {
                   onValueChange={field.onChange}
                   className="flex gap-x-4"
                 >
-                  {sexOptions.map(({ label, value }) => (
+                  {Array.from(sexMap).map(([value, label]) => (
                     <FormItem key={value}>
                       <FormControl>
                         <Label>
@@ -106,7 +102,7 @@ const MemberForm = ({ defaultValues, onSubmit }: Props) => {
                   onValueChange={field.onChange}
                   className="flex gap-x-4"
                 >
-                  {levelOptions.map(({ label, value }) => (
+                  {Array.from(levelMap).map(([value, label]) => (
                     <FormItem key={value}>
                       <FormControl>
                         <Label>
@@ -133,4 +129,4 @@ const MemberForm = ({ defaultValues, onSubmit }: Props) => {
   );
 };
 
-export default MemberForm
+export default MemberForm;

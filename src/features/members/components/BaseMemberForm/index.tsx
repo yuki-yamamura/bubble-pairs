@@ -1,15 +1,14 @@
 import Button from '@/components/Button';
 import Emoji from '@/components/Emoji';
-import EmojiPickerModal from '@/components/EmojiPIckerModal';
+import EmojiPickerModal from '@/components/EmojiPickerModal';
 import RadioGroup from '@/components/RadioGroup';
 import Textarea from '@/components/Textarea';
 import Textbox from '@/components/Textbox';
-import { levelOptions } from '@/features/members/constants/levelOptions';
-import { sexOptions } from '@/features/members/constants/sexOptions';
+import { levelMap, sexMap } from '@/features/members/constants';
 import { useMemberForm } from '@/features/members/hooks/useMemberForm';
-import { MemberFormType } from '@/features/members/validation';
 import { useRef } from 'react';
 
+import type { MemberFormType } from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
 
 type Props = {
@@ -46,50 +45,52 @@ const MemberForm = ({
         <Emoji unified={emojiUnicode} size={64} {...fieldValues} />
       </button>
       <EmojiPickerModal
-        dialogRef={dialogRef}
         onEmojiClick={handleEmojiSelect}
+        initialEmojiUnicode=""
       />
-      <form onSubmit={handleSubmit} className={styles.module}>
-        <label className={styles.field}>
-          <span className={styles.label}>名前（必須）</span>
+      <form onSubmit={handleSubmit}>
+        <label>
+          <span>名前（必須）</span>
           <Textbox id="name" {...fieldValues.name} />
         </label>
-        {fieldErrors.name && (
-          <div role="alert" className={styles.alert}>
-            {fieldErrors.name.message}
-          </div>
-        )}
-        <label className={styles.field}>
-          <span className={styles.label}>かな</span>
+        {fieldErrors.name && <div role="alert">{fieldErrors.name.message}</div>}
+        <label>
+          <span>かな</span>
           <Textbox id="kana" {...fieldValues.kana} />
         </label>
-        <label className={styles.field}>
-          <span className={styles.label}>表示名</span>
+        <label>
+          <span>表示名</span>
           <Textbox id="displayName" {...fieldValues.displayName} />
         </label>
-        <fieldset className={styles.field}>
-          <legend className={styles.legend}>性別（必須）</legend>
+        <fieldset>
+          <legend>性別（必須）</legend>
           <RadioGroup
             defaultValue={defaultValues.sex}
             flexDirection="row"
-            options={sexOptions}
+            options={Array.from(sexMap).map(([value, label]) => ({
+              label,
+              value,
+            }))}
             {...fieldValues.sex}
           />
         </fieldset>
-        <fieldset className={styles.field}>
-          <legend className={styles.legend}>レベル（必須）</legend>
+        <fieldset>
+          <legend>レベル（必須）</legend>
           <RadioGroup
             defaultValue={defaultValues.level}
             flexDirection="row"
-            options={levelOptions}
+            options={Array.from(levelMap).map(([value, label]) => ({
+              label,
+              value,
+            }))}
             {...fieldValues.level}
           />
         </fieldset>
-        <label className={styles.field}>
-          <span className={styles.label}>メモ</span>
+        <label>
+          <span>メモ</span>
           <Textarea {...fieldValues.note} />
         </label>
-        <div className={styles.submitButtonContainer}>
+        <div>
           <Button
             type="submit"
             text={submitButtonLabel}
@@ -102,4 +103,4 @@ const MemberForm = ({
   );
 };
 
-export default MemberFormType;
+export default MemberForm;
