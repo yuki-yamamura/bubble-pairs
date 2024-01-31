@@ -1,5 +1,8 @@
-import { deletePlace, updatePlace } from '@/features/places/logic/repository';
-import { placeFormSchema } from '@/features/places/validation';
+import {
+  deleteMember,
+  updateMember,
+} from '@/features/members/logic/repository';
+import { memberFormSchema } from '@/features/members/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
@@ -8,13 +11,13 @@ import type { NextApiHandler } from 'next';
 const handlePut: NextApiHandler = withZod(
   z.object({
     query: z.object({
-      id: z.string(),
+      memberId: z.string(),
     }),
-    body: placeFormSchema,
+    body: memberFormSchema,
   }),
   async (request, response) => {
-    const id = parseInt(request.query.id);
-    const result = await updatePlace({ id, ...request.body });
+    const id = parseInt(request.query.memberId);
+    const result = await updateMember({ id, ...request.body });
 
     if (result.type === 'success') {
       response.status(204).end();
@@ -27,12 +30,12 @@ const handlePut: NextApiHandler = withZod(
 const handleDelete: NextApiHandler = withZod(
   z.object({
     query: z.object({
-      id: z.string(),
+      memberId: z.string(),
     }),
   }),
   async (request, response) => {
-    const id = parseInt(request.query.id);
-    const result = await deletePlace(id);
+    const id = parseInt(request.query.memberId);
+    const result = await deleteMember(id);
 
     if (result.type === 'success') {
       response.status(204).end();

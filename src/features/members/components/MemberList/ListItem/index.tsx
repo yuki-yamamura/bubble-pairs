@@ -22,7 +22,7 @@ const ListItem = ({
       <div className="flex flex-col gap-y-1">
         <span className="text-sm">{displayName ?? name}</span>
         <span className="text-xs text-slate-400">
-          {levelMap[level]} / {sexMap[sex]}
+          {levelMap.get(level)} / {sexMap.get(sex)}
         </span>
       </div>
     </Link>
