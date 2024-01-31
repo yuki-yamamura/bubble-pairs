@@ -44,7 +44,7 @@ model Participant {
   memberId   Int      @map("member_id")
   activity   Activity @relation(fields: [activityId], references: [id])
   member     Member   @relation(fields: [memberId], references: [id])
-  Player     Player[]
+  players    Player[]
 
   @@id(name: "id", [activityId, memberId])
   @@map("participants")
