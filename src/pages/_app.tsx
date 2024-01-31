@@ -8,7 +8,7 @@ import type { AppProps } from 'next/app';
 import type { Session } from 'next-auth';
 
 import '@unocss/reset/tailwind.css';
-import '@/styles/globals.scss';
+import '@/styles/globals.css';
 
 const inter = Inter({
   subsets: ['latin'],

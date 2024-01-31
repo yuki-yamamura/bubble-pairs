@@ -1,5 +1,3 @@
-import styles from './index.module.scss';
-
 type Props = React.ComponentPropsWithoutRef<'button'> & {
   text: string;
   color: 'green' | 'red';
@@ -7,7 +5,7 @@ type Props = React.ComponentPropsWithoutRef<'button'> & {
 
 const Button = ({ text, color, ...rest }: Props) => (
   // todo: change button styles if disabled.
-  <button data-color={color} {...rest} className={styles.module}>
+  <button data-color={color} {...rest}>
     {text}
   </button>
 );

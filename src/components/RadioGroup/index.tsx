@@ -2,8 +2,6 @@ import { forwardRef } from 'react';
 
 import type { Options } from '@/types/Options';
 
-import styles from './index.module.scss';
-
 type Props = {
   defaultValue: string;
   flexDirection: 'row' | 'column';
@@ -19,7 +17,6 @@ const RadioGroup = forwardRef<HTMLInputElement, Props>(function RadioGroup(
   return (
     <div
       role="radiogroup"
-      className={styles.module}
       style={
         {
           '--flex-direction': flexDirection,
@@ -27,7 +24,7 @@ const RadioGroup = forwardRef<HTMLInputElement, Props>(function RadioGroup(
       }
     >
       {options.map(({ label, value }) => (
-        <label key={value} className={styles.label}>
+        <label key={value}>
           <input
             type="radio"
             name={name}
@@ -35,7 +32,6 @@ const RadioGroup = forwardRef<HTMLInputElement, Props>(function RadioGroup(
             defaultChecked={value === defaultValue}
             onChange={onChange}
             ref={ref}
-            className={styles.radio}
           />
           {label}
         </label>

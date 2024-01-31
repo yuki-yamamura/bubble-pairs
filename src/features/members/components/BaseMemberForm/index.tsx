@@ -12,8 +12,6 @@ import { useRef } from 'react';
 
 import type { EmojiClickData } from 'emoji-picker-react';
 
-import styles from './index.module.scss';
-
 type Props = {
   defaultValues: MemberFormType;
   submitButtonLabel: string;
@@ -43,8 +41,8 @@ const MemberForm = ({
   const isSubmitButtonDisabled = Object.is(defaultValues, getValues());
 
   return (
-    <div className={styles.module}>
-      <button type="button" onClick={handleEmojiClick} className={styles.emoji}>
+    <div>
+      <button type="button" onClick={handleEmojiClick}>
         <Emoji unified={emojiUnicode} size={64} {...fieldValues} />
       </button>
       <EmojiPickerModal

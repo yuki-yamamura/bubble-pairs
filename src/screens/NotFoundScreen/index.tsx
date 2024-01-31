@@ -1,20 +1,16 @@
 import Link from 'next/link';
 
-import styles from './index.module.scss';
-
 const NotFoundScreen = () => (
-  <div className={styles.module}>
-    <div className={styles.container}>
+  <div>
+    <div>
       <img
         src="/images/not-found.png"
         alt="Not Found"
         height={320}
         width={320}
       />
-      <h1 className={styles.heading}>ページが見つかりませんでした</h1>
-      <Link href="/" className={styles.link}>
-        ホームに戻る
-      </Link>
+      <h1>ページが見つかりませんでした</h1>
+      <Link href="/">ホームに戻る</Link>
     </div>
   </div>
 );

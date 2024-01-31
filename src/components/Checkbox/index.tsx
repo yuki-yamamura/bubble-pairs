@@ -1,24 +1,18 @@
 import { forwardRef } from 'react';
 
-import styles from './index.module.scss';
-
 type Props = Omit<React.ComponentPropsWithRef<'input'>, 'type'> & {
   label: string;
 };
 
 const Checkbox = forwardRef<HTMLInputElement, Props>(function Checkbox(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   { checked, label, ...rest },
   ref,
 ) {
   return (
-    <label className={`${styles.module} ${checked ? styles.checked : ''}`}>
+    <label>
       {label}
-      <input
-        type="checkbox"
-        ref={ref}
-        {...rest}
-        className={`${styles.checkbox}`}
-      />
+      <input type="checkbox" ref={ref} {...rest} />
     </label>
   );
 });

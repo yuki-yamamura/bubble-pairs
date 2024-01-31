@@ -5,8 +5,6 @@ import { usePlaceForm } from '@/features/places/hooks/usePlaceForm';
 
 import type { PlaceFormType } from '@/features/places/validation';
 
-import styles from './index.module.scss';
-
 type Props = {
   defaultValues: PlaceFormType;
   submitButtonLabel: string;
@@ -26,26 +24,20 @@ const BasePlaceForm = ({
   const isSubmitButtonDisabled = Object.is(defaultValues, getValues());
 
   return (
-    <form onSubmit={handleSubmit} className={styles.module}>
-      <label className={styles.field}>
-        <span className={styles.label}>場所名（必須）</span>
+    <form onSubmit={handleSubmit}>
+      <label>
+        <span>場所名（必須）</span>
         <Textbox defaultValue={defaultValues.name} {...fieldValues.name} />
       </label>
-      {fieldErrors.name && (
-        <div role="alert" className={styles.alert}>
-          {fieldErrors.name.message}
-        </div>
-      )}
-      <fieldset className={styles.field}>
+      {fieldErrors.name && <div role="alert">{fieldErrors.name.message}</div>}
+      <fieldset>
         <legend>コート数</legend>
         <CourtCountInput useFormReturn={useFormReturn} />
         {fieldErrors.courtCount && (
-          <div role="alert" className={styles.alert}>
-            {fieldErrors.courtCount.message}
-          </div>
+          <div role="alert">{fieldErrors.courtCount.message}</div>
         )}
       </fieldset>
-      <div className={styles.submitButtonContainer}>
+      <div>
         <Button
           type="submit"
           text={submitButtonLabel}

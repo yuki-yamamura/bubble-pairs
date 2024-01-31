@@ -1,11 +1,9 @@
 import Members from '@/features/members/components/Members';
 
-import styles from './index.module.scss';
-
 const MembersScreen = () => {
   return (
     <>
-      <h1 className={styles.title}>メンバー</h1>
+      <h1>メンバー</h1>
       <Members />
     </>
   );

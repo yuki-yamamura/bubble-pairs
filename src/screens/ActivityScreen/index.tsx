@@ -1,11 +1,9 @@
 import NewGameButton from '@/features/games/components/NewGameButton';
 import NoGameFound from '@/features/games/components/NoGameFound';
 
-import styles from './index.module.scss';
-
 const ActivityScreen = () => (
-  <div className={styles.module}>
-    <div className={styles.container}>
+  <div>
+    <div>
       <NoGameFound />
       <NewGameButton />
     </div>

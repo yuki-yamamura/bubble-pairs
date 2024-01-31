@@ -2,8 +2,6 @@ import Checkbox from '@/components/Checkbox';
 
 import type { Options } from '@/types/Options';
 
-import styles from './index.module.scss';
-
 type Props = {
   currentValues: string[];
   defaultValue: string | string[];
@@ -22,7 +20,6 @@ const CheckboxGroup = ({
   onChange,
 }: Props) => (
   <div
-    className={styles.module}
     style={
       {
         '--flex-direction': flexDirection,

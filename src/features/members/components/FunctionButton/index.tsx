@@ -1,7 +1,5 @@
 import type { IconType } from 'react-icons';
 
-import styles from './index.module.scss';
-
 type Props = {
   Icon: IconType;
   isActive: boolean;
@@ -11,12 +9,7 @@ type Props = {
 
 const FunctionButton = ({ Icon, isActive, label, onClick }: Props) => {
   return (
-    <button
-      type="button"
-      data-active={isActive}
-      onClick={onClick}
-      className={styles.module}
-    >
+    <button type="button" data-active={isActive} onClick={onClick}>
       <Icon aria-hidden />
       {label}
     </button>

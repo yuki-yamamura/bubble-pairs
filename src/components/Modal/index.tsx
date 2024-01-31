@@ -1,7 +1,5 @@
 import React, { forwardRef } from 'react';
 
-import styles from './index.module.scss';
-
 type Props = React.PropsWithChildren;
 
 // todo: prevent users from scrolling when modal is open.
@@ -11,8 +9,8 @@ const Modal = forwardRef<HTMLDialogElement, Props>(function Modal(
   ref,
 ) {
   return (
-    <dialog ref={ref} className={styles.module}>
-      <div className={styles.inner}>{children}</div>
+    <dialog ref={ref}>
+      <div>{children}</div>
     </dialog>
   );
 });

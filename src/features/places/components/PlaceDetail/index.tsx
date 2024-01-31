@@ -8,8 +8,6 @@ import useSWRMutation from 'swr/mutation';
 
 import type { Place } from '@prisma/client';
 
-import styles from './index.module.scss';
-
 type Props = {
   place: Place;
 };
@@ -37,9 +35,9 @@ const PlaceDetail = ({ place }: Props) => {
   }
 
   return (
-    <div className={styles.module}>
+    <div>
       <PlaceDetailForm place={place} />
-      <div className={styles.submitButtonContainer}>
+      <div>
         <Button
           color="red"
           text="場所を削除"

@@ -1,8 +1,6 @@
 import Modal from '@/components/Modal';
 import { forwardRef } from 'react';
 
-import styles from './index.module.scss';
-
 type Props = React.PropsWithChildren<{
   description: string;
   title: string;
@@ -17,22 +15,14 @@ const FunctionModal = forwardRef<HTMLDialogElement, Props>(
   ) {
     return (
       <Modal ref={ref}>
-        <h2 className={styles.title}>{title}</h2>
-        <p className={styles.description}>{description}</p>
+        <h2>{title}</h2>
+        <p>{description}</p>
         {children}
-        <div className={styles.buttons}>
-          <button
-            type="button"
-            onClick={onCancelButtonClick}
-            className={styles.button}
-          >
+        <div>
+          <button type="button" onClick={onCancelButtonClick}>
             キャンセル
           </button>
-          <button
-            type="submit"
-            onClick={onApplyButtonClick}
-            className={styles.button}
-          >
+          <button type="submit" onClick={onApplyButtonClick}>
             適用
           </button>
         </div>
