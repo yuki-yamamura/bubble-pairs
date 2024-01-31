@@ -1,6 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 import type { z, ZodSchema } from 'zod';
 
+/**
+ * A utility function for the API Route to combine it with Zod.
+ * @param schema Zod schema object that provides query and body types
+ * @param handler API handler
+ * @returns API handler
+ */
 export const withZod = <
   T extends ZodSchema<{
     query?: Partial<{ [key: string]: string | string[] }>;
