@@ -1,12 +1,10 @@
 import { forwardRef } from 'react';
 
-import type { Options } from '@/types/Options';
-
 type Props = {
   defaultValue: string;
   flexDirection: 'row' | 'column';
   name: string;
-  options: Options;
+  options: { label: string; value: string }[];
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 

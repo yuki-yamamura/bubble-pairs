@@ -8,7 +8,6 @@ import { useRef } from 'react';
 import { useFieldArray } from 'react-hook-form';
 
 import type { ActivityFormType } from '@/features/activities/validation';
-import type { Options } from '@/types/Options';
 import type { Member } from '@prisma/client';
 
 const ActivityForm = () => {
@@ -48,7 +47,7 @@ const ActivityForm = () => {
   const placeOptions = places.map((place) => ({
     label: place.name,
     value: place.id,
-  })) satisfies Options<number>;
+  }));
 
   if (membersLoading || placesLoading) return <Loading />;
 
