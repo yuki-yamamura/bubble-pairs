@@ -2,18 +2,10 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import type { z, ZodSchema } from 'zod';
 
 export const withZod = <
-  T extends ZodSchema<
-    | {
-        query: Partial<{ [key: string]: string | string[] }>;
-      }
-    | {
-        body: unknown;
-      }
-    | {
-        query: Partial<{ [key: string]: string | string[] }>;
-        body: unknown;
-      }
-  >,
+  T extends ZodSchema<{
+    query?: Partial<{ [key: string]: string | string[] }>;
+    body?: unknown;
+  }>,
 >(
   schema: T,
   handler: (
