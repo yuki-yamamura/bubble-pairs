@@ -3,7 +3,7 @@ import {
   findActivityById,
   updateActivity,
 } from '@/features/activities/logic/repository';
-import { activityFormSchema } from '@/features/activities/validation';
+import { activityUpdateSchema } from '@/features/activities/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
@@ -40,11 +40,11 @@ const handlePut = withZod(
     query: z.object({
       activityId: z.string(),
     }),
-    body: activityFormSchema,
+    body: activityUpdateSchema,
   }),
   async (request, response) => {
-    const activityId = parseInt(request.query.activityId);
-    const result = await updateActivity({ ...request.body, id: activityId });
+    const id = parseInt(request.query.activityId);
+    const result = await updateActivity({ ...request.body, id });
 
     if (result.type === 'success') {
       response.status(204).end();
@@ -61,8 +61,8 @@ const handleDelete = withZod(
     }),
   }),
   async (request, response) => {
-    const activityId = parseInt(request.query.activityId);
-    const result = await deleteActivity(activityId);
+    const id = parseInt(request.query.activityId);
+    const result = await deleteActivity(id);
 
     if (result.type === 'success') {
       response.status(204).end();
@@ -76,7 +76,7 @@ const handler: NextApiHandler = (request, response) => {
   switch (request.method) {
     case 'GET':
       return handleGet(request, response);
-    case 'UPDATE':
+    case 'PUT':
       return handlePut(request, response);
     case 'DELETE':
       return handleDelete(request, response);

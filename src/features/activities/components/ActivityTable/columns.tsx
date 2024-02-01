@@ -62,8 +62,9 @@ export const columns: ColumnDef<Activity>[] = [
       const activity = row.original;
 
       const closeActivity = async () => {
-        const closedActivity: Activity = { ...activity, isOpen: false };
-        await axios.put(`/api/activities/${activity.id}`, closedActivity);
+        await axios.put(`/api/activities/${activity.id}`, {
+          isOpen: false,
+        });
       };
       const deleteActivity = async () => {
         await axios.delete(`/api/activities/${activity.id}`);
@@ -77,12 +78,14 @@ export const columns: ColumnDef<Activity>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
               <Link href={`/activities/${activity.id}`}>詳細を見る</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={closeActivity}>
-              完了する
-            </DropdownMenuItem>
+            {activity.isOpen && (
+              <DropdownMenuItem onClick={closeActivity}>
+                完了する
+              </DropdownMenuItem>
+            )}
             <DropdownMenuSeparator />
             <DropdownMenuItem
               onClick={deleteActivity}
