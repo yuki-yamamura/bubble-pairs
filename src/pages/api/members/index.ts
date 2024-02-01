@@ -2,7 +2,7 @@ import {
   createMember,
   findAllMembers,
 } from '@/features/members/logic/repository';
-import { memberFormSchema } from '@/features/members/validation';
+import { memberCreateSchema } from '@/features/members/validation';
 import { withZod } from '@/lib/next';
 import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
@@ -34,7 +34,7 @@ const handleGet: NextApiHandler<GetResponseData> = async (
 
 const handlePost: NextApiHandler<PostResponseData> = withZod(
   z.object({
-    body: memberFormSchema,
+    body: memberCreateSchema,
   }),
   async (request, response) => {
     const session = await getServerSession(request, response, authOptions);

@@ -5,31 +5,31 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type MemberFormType from '@/features/members/components/BaseMemberForm';
+import type { MemberCreateSchemaType } from '../validation';
 import type { PostResponseData } from '@/pages/api/members';
 
 const NewMemberForm = () => {
   const router = useRouter();
-  const defaultValues: MemberFormType = {
-    emojiUnicode: '1f9d1',
+  const defaultValues: MemberCreateSchemaType = {
     name: '',
     kana: null,
     displayName: null,
     sex: 'MALE',
     level: 'BEGINNER',
     note: null,
+    emojiUnicode: '1f9d1',
   };
 
   const { trigger, isMutating } = useSWRMutation(
     '/api/members',
-    (url: string, { arg }: { arg: MemberFormType }) => {
+    (url: string, { arg }: { arg: MemberCreateSchemaType }) => {
       return axios
         .post<PostResponseData>(url, arg)
         .then((response) => response.data);
     },
   );
 
-  const handleSubmit = (fieldValues: MemberFormType) => {
+  const handleSubmit = (fieldValues: MemberCreateSchemaType) => {
     trigger(fieldValues)
       .then(() => {
         toast.success('メンバーを登録しました。');

@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type MemberFormType from '@/features/members/components/BaseMemberForm';
+import type { MemberUpdateSchemaType } from '@/features/members/validation';
 import type { Member } from '@prisma/client';
 
 const MemberDetail = () => {
@@ -19,7 +19,7 @@ const MemberDetail = () => {
   ) as Member;
   const { trigger: updateTrigger, isMutating: isUpdating } = useSWRMutation(
     `/api/members/${memberId}`,
-    async (url: string, { arg }: { arg: MemberFormType }) => {
+    async (url: string, { arg }: { arg: MemberUpdateSchemaType }) => {
       await axios.put(url, arg);
     },
   );
@@ -30,7 +30,7 @@ const MemberDetail = () => {
     },
   );
 
-  const handleSubmit = (fieldValues: MemberFormType) => {
+  const handleSubmit = (fieldValues: MemberUpdateSchemaType) => {
     updateTrigger(fieldValues)
       .then(() => {
         toast.success('メンバーを更新しました。');

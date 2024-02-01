@@ -2,7 +2,7 @@ import {
   deleteMember,
   updateMember,
 } from '@/features/members/logic/repository';
-import { memberFormSchema } from '@/features/members/validation';
+import { memberUpdateSchema } from '@/features/members/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
@@ -13,7 +13,7 @@ const handlePut: NextApiHandler = withZod(
     query: z.object({
       memberId: z.string(),
     }),
-    body: memberFormSchema,
+    body: memberUpdateSchema,
   }),
   async (request, response) => {
     const id = parseInt(request.query.memberId);

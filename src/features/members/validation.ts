@@ -2,36 +2,41 @@ import { schemaForType } from '@/lib/zod';
 import { Level, Sex } from '@prisma/client';
 import { z } from 'zod';
 
-import type { Member } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
-export type MemberFormType = z.infer<typeof memberFormSchema>;
+export type MemberCreateSchemaType = z.infer<typeof memberCreateSchema>;
+
+export type MemberUpdateSchemaType = z.infer<typeof memberUpdateSchema>;
 
 export type MemberFilterType = z.infer<typeof memberFilterSchema>;
 
 export type MemberSortType = z.infer<typeof memberSortSchema>;
 
-export const memberSchema = schemaForType<Member>()(
+export const memberCreateSchema = schemaForType<
+  Omit<Prisma.MemberCreateInput, 'owner'>
+>()(
   z.object({
-    id: z.number(),
-    ownerId: z.string(),
-    createdAt: z.date(),
-    updatedAt: z.date(),
     name: z.string().min(1, '名前を入力してください。'),
-    kana: z.string().nullable(),
-    displayName: z.string().nullable(),
+    kana: z.string().nullable().optional(),
+    displayName: z.string().nullable().optional(),
     sex: z.nativeEnum(Sex),
     level: z.nativeEnum(Level),
-    note: z.string().nullable(),
+    note: z.string().nullable().optional(),
     emojiUnicode: z.string(),
   }),
 );
 
-export const memberFormSchema = memberSchema.omit({
-  id: true,
-  ownerId: true,
-  createdAt: true,
-  updatedAt: true,
-});
+export const memberUpdateSchema = schemaForType<Prisma.MemberUpdateInput>()(
+  z.object({
+    name: z.string().min(1, '名前を入力してください。').optional(),
+    kana: z.string().nullable().optional(),
+    displayName: z.string().nullable().optional(),
+    sex: z.nativeEnum(Sex).optional(),
+    level: z.nativeEnum(Level).optional(),
+    note: z.string().nullable().optional(),
+    emojiUnicode: z.string().optional(),
+  }),
+);
 
 export const memberFilterSchema = z.object({
   sexes: z.array(z.nativeEnum(Sex)),

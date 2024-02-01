@@ -12,27 +12,31 @@ import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Textarea } from '@/components/ui/textarea';
 import { levelMap, sexMap } from '@/features/members/constants';
-import { memberFormSchema } from '@/features/members/validation';
+import { memberCreateSchema } from '@/features/members/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
-import type { MemberFormType } from '@/features/members/validation';
+import type {
+  MemberCreateSchemaType,
+  MemberUpdateSchemaType,
+} from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
 
 type Props = {
-  defaultValues: MemberFormType;
-  onSubmit: (fieldValues: MemberFormType) => void;
+  defaultValues: MemberCreateSchemaType | MemberUpdateSchemaType;
+  onSubmit: (fieldValues: MemberCreateSchemaType) => void;
 };
 const MemberForm = ({ defaultValues, onSubmit }: Props) => {
-  const form = useForm<MemberFormType>({
+  const form = useForm<MemberCreateSchemaType>({
     defaultValues,
-    resolver: zodResolver(memberFormSchema),
+    resolver: zodResolver(memberCreateSchema),
   });
   const { control, register, getValues, setValue } = form;
   const emojiUnicode = getValues('emojiUnicode');
-  const submitHandler = form.handleSubmit((fieldValues) =>
-    onSubmit(fieldValues),
-  );
+  const submitHandler = form.handleSubmit((fieldValues) => {
+    onSubmit(fieldValues);
+  });
+
   const handleEmojiSelect = (emoji: EmojiClickData, _e: MouseEvent) => {
     setValue('emojiUnicode', emoji.unified, { shouldValidate: true });
   };
