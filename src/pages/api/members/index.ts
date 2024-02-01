@@ -8,7 +8,7 @@ import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
-import type { Member } from '@prisma/client';
+import type { Member, Prisma } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
 export type GetResponseData = {
@@ -45,10 +45,15 @@ const handlePost: NextApiHandler<PostResponseData> = withZod(
       return;
     }
 
-    const result = await createMember({
-      ownerId: session.user.id,
+    const data = {
       ...request.body,
-    });
+      owner: {
+        connect: {
+          id: session.user.id,
+        },
+      },
+    } satisfies Prisma.MemberCreateInput;
+    const result = await createMember(data);
 
     if (result.type === 'success') {
       response.status(201).json({ member: result.data });

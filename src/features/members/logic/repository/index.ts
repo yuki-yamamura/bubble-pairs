@@ -7,7 +7,7 @@ import type { Member, Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const createMember = (
-  data: Prisma.MemberUncheckedCreateInput,
+  data: Prisma.MemberCreateInput,
 ): Promise<Result<Member>> => {
   return withResult(() => prisma.member.create({ data }))();
 };
