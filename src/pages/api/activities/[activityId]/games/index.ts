@@ -1,5 +1,5 @@
 import { createGame, findAllGames } from '@/features/games/logic/repository';
-import { gameFormSchema } from '@/features/games/validation';
+import { gameCreateSchema } from '@/features/games/validation';
 import { withZod } from '@/lib/next';
 import { $Enums } from '@prisma/client';
 import { z } from 'zod';
@@ -9,6 +9,10 @@ import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 type GetResponseData = {
   games: Game[];
+};
+
+export type PostResponseData = {
+  game: Game;
 };
 
 const handleGet = async (
@@ -26,14 +30,18 @@ const handleGet = async (
 
 const handlePost = withZod(
   z.object({
-    body: gameFormSchema,
+    body: gameCreateSchema,
   }),
   async (request, response) => {
     const { activityId, members, singlesCount, doublesCount } = request.body;
     console.log({ activityId, members, singlesCount, doublesCount });
 
     const data = {
-      activityId,
+      activity: {
+        connect: {
+          id: activityId,
+        },
+      },
       gameDetails: {
         create: [
           {
@@ -41,10 +49,18 @@ const handlePost = withZod(
             players: {
               create: [
                 {
-                  participantId: 1,
+                  participant: {
+                    connect: {
+                      id: 1,
+                    },
+                  },
                 },
                 {
-                  participantId: 2,
+                  participant: {
+                    connect: {
+                      id: 2,
+                    },
+                  },
                 },
               ],
             },
@@ -54,23 +70,39 @@ const handlePost = withZod(
             players: {
               create: [
                 {
-                  participantId: 3,
+                  participant: {
+                    connect: {
+                      id: 1,
+                    },
+                  },
                 },
                 {
-                  participantId: 4,
+                  participant: {
+                    connect: {
+                      id: 2,
+                    },
+                  },
                 },
                 {
-                  participantId: 5,
+                  participant: {
+                    connect: {
+                      id: 3,
+                    },
+                  },
                 },
                 {
-                  participantId: 6,
+                  participant: {
+                    connect: {
+                      id: 4,
+                    },
+                  },
                 },
               ],
             },
           },
         ],
       },
-    } satisfies Prisma.GameUncheckedCreateInput;
+    } satisfies Prisma.GameCreateInput;
     const result = await createGame(data);
 
     if (result.type === 'success') {

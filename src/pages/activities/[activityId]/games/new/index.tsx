@@ -1,28 +1,40 @@
-import Loading from '@/components/Loading';
-import NewGamesScreen from '@/screens/NewGamesScreen';
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import useSWR from 'swr';
+import { findActivityById } from '@/features/activities/logic/repository';
+import NewGameScreen from '@/screens/NewGameScreen';
 
-import type { GetResponseData } from '@/pages/api/activities/[activityId]';
+import type { Activity } from '@/types/models/Activity';
+import type { GetServerSideProps } from 'next';
+import type { ParsedUrlQuery } from 'querystring';
 
-const Page = () => {
-  // todo: these code is a temporary solution, so revise them after finishing to create a modal.
-  const router = useRouter();
-  const { activityId } = router.query;
-
-  const { data, isLoading } = useSWR<GetResponseData>(
-    `/api/activities/${activityId as string}`,
-    (url: string) => {
-      return axios.get<GetResponseData>(url).then((response) => response.data);
-    },
-  );
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  return data && <NewGamesScreen activity={data.activity} />;
+type Params = ParsedUrlQuery & {
+  activityId: string;
 };
+
+type Props = {
+  activity: Activity;
+};
+
+export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
+  params,
+}) => {
+  const { activityId } = params as Params;
+  const result = await findActivityById(parseInt(activityId));
+
+  if (result.type === 'success') {
+    if (!result.data) {
+      throw new Error('Activity not found.');
+    }
+
+    return {
+      props: {
+        activity: result.data,
+      },
+      notFound: false,
+    };
+  } else {
+    throw result.error;
+  }
+};
+
+const Page = ({ activity }: Props) => <NewGameScreen activity={activity} />;
 
 export default Page;

@@ -2,7 +2,11 @@ import type { Prisma } from '@prisma/client';
 
 export type Activity = Prisma.ActivityGetPayload<{
   include: {
-    participants: true;
+    participants: {
+      include: {
+        member: true;
+      };
+    };
     place: true;
     games: {
       include: {

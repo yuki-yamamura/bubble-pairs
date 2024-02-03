@@ -1,94 +1,287 @@
-import NumberInput from '@/components/NumberInput';
-import { useGameForm } from '@/features/games/hooks/useGameForm';
-import MemberSelectModal from '@/features/members/components/MemberSelectModal';
-import { useMembers } from '@/features/members/hooks/useMembers';
-import axios from 'axios';
-import { useRef } from 'react';
-import { useFieldArray } from 'react-hook-form';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Command, CommandGroup, CommandItem } from '@/components/ui/command';
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from '@/components/ui/form';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+import {
+  gameCreateSchema,
+  type GameCreateSchemaType,
+} from '@/features/games/validation';
+import MemberSelectTable from '@/features/members/components/MemberSelectTable';
+import { cn } from '@/lib/shadcn-ui';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Check, ChevronDown, Trash2 } from 'lucide-react';
+import { useState } from 'react';
+import { useFieldArray, useForm } from 'react-hook-form';
 
-import type { GameFormType } from '@/features/games/validation';
 import type { Activity } from '@/types/models/Activity';
 import type { Member } from '@prisma/client';
 
 type Props = {
   activity: Activity;
+  onSubmit: (fieldValues: GameCreateSchemaType) => void;
 };
 
-const GameForm = ({ activity: { id, participants, place } }: Props) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
+const GameForm = ({ activity, onSubmit }: Props) => {
+  const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
+  const [isSinglesComboboxOpen, setIsSinglesComboboxOpen] = useState(false);
+  const [isDoublesComboboxOpen, setIsDoublesComboboxOpen] = useState(false);
+  const participants = activity.participants.map(
+    (participant) => participant.member,
+  );
+  const possibleCourtCounts = Array.from(
+    Array(activity.place.courtCount + 1),
+    (_, index) => index,
+  );
   const defaultValues = {
-    activityId: id,
-    members: participants.map(({ memberId }) => ({ memberId })),
+    activityId: activity.id,
+    members: activity.participants.map(({ memberId }) => ({
+      memberId,
+    })),
     singlesCount: 0,
-    doublesCount: place.courtCount / 2,
-  } satisfies GameFormType;
-  const {
-    control,
-    fieldValues,
-    handleSubmit,
-    decrementSinglesCount,
-    incrementSinglesCount,
-    decrementDoublesCount,
-    incrementDoublesCount,
-  } = useGameForm(defaultValues);
-  const { fields, append } = useFieldArray({
+    doublesCount: 0,
+  } satisfies GameCreateSchemaType;
+  const form = useForm<GameCreateSchemaType>({
+    defaultValues,
+    resolver: zodResolver(gameCreateSchema),
+  });
+  const { control, handleSubmit, getValues, setValue } = form;
+  const { append, remove } = useFieldArray({
     control,
     name: 'members',
   });
-  const { members } = useMembers();
-
-  const submitHandler = handleSubmit(async (data) => {
-    await axios.post(`/api/activities/${id}/games`, data);
+  const submitHandler = handleSubmit((fieldValues) => {
+    onSubmit(fieldValues);
   });
 
-  const handleNewGamesButtonClick = () => {
-    dialogRef.current?.showModal();
+  const updateSelectedMembers = (member: Member) => {
+    if (
+      selectedMembers.some((selectedMember) => selectedMember.id === member.id)
+    ) {
+      setSelectedMembers(
+        selectedMembers.filter(
+          (selectedMember) => selectedMember.id !== member.id,
+        ),
+      );
+    } else {
+      setSelectedMembers((previousSelectedMembers) => [
+        ...previousSelectedMembers,
+        member,
+      ]);
+    }
+  };
+  const handleAddMembersButtonClick = () => {
+    append(
+      selectedMembers.map((selectedMember) => ({
+        memberId: selectedMember.id,
+      })),
+    );
+  };
+  const handleCancelButtonClick = () => {
+    setSelectedMembers([]);
   };
 
-  const updateMembers = (members: Member[]) => {
-    const value = members.map((member) => ({ memberId: member.id }));
-    append(value);
-  };
+  const candidates = participants.filter((participant) => {
+    const members = getValues('members');
+
+    if (members) {
+      return !members.some(({ memberId }) => memberId === participant.id);
+    } else {
+      false;
+    }
+  });
 
   return (
-    <form onSubmit={submitHandler}>
-      <input type="hidden" {...fieldValues.activityId} />
-      <button type="button" onClick={handleNewGamesButtonClick}>
-        change members
-      </button>
-      <MemberSelectModal
-        members={members}
-        onSaveButtonClick={updateMembers}
-        dialogRef={dialogRef}
-      />
-      <ul>
-        {fields.map((field, index) => (
-          <li key={field.id}>
-            <label>
-              <input type="checkbox" value={index} />
-              {members.find((member) => member.id === field.memberId)?.name}
-            </label>
-          </li>
-        ))}
-      </ul>
-      <label>
-        <span>シングルス数</span>
-        <NumberInput
-          decrement={decrementSinglesCount}
-          increment={incrementSinglesCount}
-          {...fieldValues.singlesCount}
+    <Form {...form}>
+      <form onSubmit={submitHandler}>
+        <FormField
+          control={control}
+          name="members"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>参加者（２名以上）</FormLabel>
+              <ul>
+                {field.value?.map(({ memberId }, index) => (
+                  <li key={memberId}>
+                    <div className="flex items-center gap-x-4">
+                      <span>{memberId}</span>
+                      <Trash2 size={16} onClick={() => remove(index)} />
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <FormControl>
+                <AlertDialog>
+                  <AlertDialogTrigger
+                    disabled={
+                      activity.participants.length === field.value?.length
+                    }
+                    asChild
+                  >
+                    <Button
+                      variant="ghost"
+                      className="text-blue-400"
+                      disabled={
+                        activity.participants.length === field.value?.length
+                      }
+                    >
+                      参加者を追加...
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>参加者を追加</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        追加する参加者を選択してください。
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <MemberSelectTable
+                      members={candidates}
+                      selectedMembers={selectedMembers}
+                      updateSelectedMembers={updateSelectedMembers}
+                    />
+                    <div className="flex gap-x-4">
+                      <AlertDialogCancel onClick={handleCancelButtonClick}>
+                        キャンセル
+                      </AlertDialogCancel>
+                      <AlertDialogAction onClick={handleAddMembersButtonClick}>
+                        メンバーを追加
+                      </AlertDialogAction>
+                    </div>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </FormControl>
+            </FormItem>
+          )}
         />
-      </label>
-      <label>
-        <span>ダブルス数</span>
-        <NumberInput
-          decrement={decrementDoublesCount}
-          increment={incrementDoublesCount}
-          {...fieldValues.doublesCount}
+        <FormField
+          control={control}
+          name="singlesCount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>シングルス数</FormLabel>
+              <Popover
+                open={isSinglesComboboxOpen}
+                onOpenChange={setIsSinglesComboboxOpen}
+              >
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={isSinglesComboboxOpen}
+                    >
+                      {field.value}
+                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <Command>
+                    <CommandGroup>
+                      {possibleCourtCounts.map((courtCount) => (
+                        <CommandItem
+                          key={courtCount}
+                          value={courtCount.toString()}
+                          onSelect={(currentValue) => {
+                            const parsedCurrentValue = parseInt(currentValue);
+                            setValue(field.name, parsedCurrentValue);
+                            setIsSinglesComboboxOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              courtCount === field.value
+                                ? 'opacity-100'
+                                : 'opacity-0',
+                            )}
+                          />
+                          <span>{courtCount}</span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormItem>
+          )}
         />
-      </label>
-      <button type="submit">Submit</button>
-    </form>
+        <FormField
+          control={control}
+          name="doublesCount"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ダブルス数</FormLabel>
+              <Popover
+                open={isDoublesComboboxOpen}
+                onOpenChange={setIsDoublesComboboxOpen}
+              >
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      aria-expanded={isDoublesComboboxOpen}
+                    >
+                      {field.value}
+                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent>
+                  <Command>
+                    <CommandGroup>
+                      {possibleCourtCounts.map((courtCount) => (
+                        <CommandItem
+                          key={courtCount}
+                          value={courtCount.toString()}
+                          onSelect={(currentValue) => {
+                            const parsedCurrentValue = parseInt(currentValue);
+                            setValue(field.name, parsedCurrentValue);
+                            setIsSinglesComboboxOpen(false);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              'mr-2 h-4 w-4',
+                              courtCount === field.value
+                                ? 'opacity-100'
+                                : 'opacity-0',
+                            )}
+                          />
+                          <span>{courtCount}</span>
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+            </FormItem>
+          )}
+        />
+        <Button type="submit">ゲームを開始</Button>
+      </form>
+    </Form>
   );
 };
 

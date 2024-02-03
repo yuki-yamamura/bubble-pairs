@@ -4,9 +4,7 @@ import {
 } from '@/features/activities/logic/repository';
 import { activityCreateSchema } from '@/features/activities/validation';
 import { withZod } from '@/lib/next';
-import { authOptions } from '@/lib/next-auth';
 import { type ReturnTypeOf } from '@/utils/types';
-import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
@@ -37,14 +35,15 @@ const handlePost = withZod(
     body: activityCreateSchema,
   }),
   async (request, response) => {
-    const session = await getServerSession(request, response, authOptions);
-    if (!session) {
-      response.status(401).end();
+    // const session = await getServerSession(request, response, authOptions);
+    // if (!session) {
+    //   response.status(401).end();
 
-      return;
-    }
+    //   return;
+    // }
 
-    const { id: ownerId } = session.user;
+    // const { id: ownerId } = session.user;
+    const ownerId = 'testid';
     const { participants: members, placeId } = request.body;
     const result = await createActivity({
       ownerId,

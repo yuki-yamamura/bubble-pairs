@@ -150,12 +150,7 @@ const ActivityForm = ({ onSubmit }: Props) => {
                           ) as Member,
                         )}
                       </span>
-                      <Trash2
-                        size={16}
-                        onClick={() => {
-                          remove(index);
-                        }}
-                      />
+                      <Trash2 size={16} onClick={() => remove(index)} />
                     </div>
                   </li>
                 ))}

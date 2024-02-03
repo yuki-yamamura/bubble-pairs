@@ -34,7 +34,11 @@ export const findAllActivities = (): Promise<Result<Activity[]>> => {
   return withResult(() =>
     prisma.activity.findMany({
       include: {
-        participants: true,
+        participants: {
+          include: {
+            member: true,
+          },
+        },
         place: true,
         games: {
           include: {
@@ -59,7 +63,11 @@ export const findActivityById = (
         id,
       },
       include: {
-        participants: true,
+        participants: {
+          include: {
+            member: true,
+          },
+        },
         place: true,
         games: {
           include: {
@@ -88,7 +96,11 @@ export const updateActivity = ({
         id,
       },
       include: {
-        participants: true,
+        participants: {
+          include: {
+            member: true,
+          },
+        },
         place: true,
         games: {
           include: {
@@ -112,7 +124,11 @@ export const deleteActivity = (id: number): Promise<Result<Activity>> => {
       },
       include: {
         place: true,
-        participants: true,
+        participants: {
+          include: {
+            member: true,
+          },
+        },
         games: {
           include: {
             gameDetails: {

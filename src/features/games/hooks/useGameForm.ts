@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import type { GameFormType } from '@/features/games/validation';
+import type { GameCreateSchemaType } from '@/features/games/validation';
 import type {
   Control,
   UseFormHandleSubmit,
@@ -8,22 +8,22 @@ import type {
 } from 'react-hook-form';
 
 type GameFormFieldValues = {
-  [P in keyof GameFormType]: UseFormRegisterReturn<P>;
+  [P in keyof GameCreateSchemaType]: UseFormRegisterReturn<P>;
 };
 
 export const useGameForm = (
-  defaultValues: GameFormType,
+  defaultValues: GameCreateSchemaType,
 ): {
-  control: Control<GameFormType>;
+  control: Control<GameCreateSchemaType>;
   fieldValues: GameFormFieldValues;
-  handleSubmit: UseFormHandleSubmit<GameFormType>;
+  handleSubmit: UseFormHandleSubmit<GameCreateSchemaType>;
   decrementSinglesCount: () => void;
   incrementSinglesCount: () => void;
   decrementDoublesCount: () => void;
   incrementDoublesCount: () => void;
 } => {
   const { control, register, handleSubmit, setValue, getValues } =
-    useForm<GameFormType>({
+    useForm<GameCreateSchemaType>({
       defaultValues,
     });
   const decrementSinglesCount = () => {
@@ -41,7 +41,7 @@ export const useGameForm = (
 
   const fieldValues = {
     activityId: register('activityId'),
-    members: register('members'),
+    candidates: register('members'),
     singlesCount: register('singlesCount'),
     doublesCount: register('doublesCount'),
   } satisfies GameFormFieldValues;
