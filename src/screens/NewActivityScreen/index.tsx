@@ -1,7 +1,7 @@
-import ActivityForm from '@/features/activities/components/ActivityForm';
+import NewActivity from '@/features/activities/components/NewActivity';
 
 const NewActivityScreen = () => {
-  return <ActivityForm />;
+  return <NewActivity />;
 };
 
 export default NewActivityScreen;

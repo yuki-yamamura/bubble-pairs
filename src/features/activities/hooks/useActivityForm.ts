@@ -1,6 +1,6 @@
 import { useForm } from 'react-hook-form';
 
-import type { ActivityFormType } from '@/features/activities/validation';
+import type { ActivityCreateSchemaType } from '@/features/activities/validation';
 import type {
   Control,
   UseFormHandleSubmit,
@@ -8,22 +8,24 @@ import type {
 } from 'react-hook-form';
 
 type ActivityFormFieldValues = {
-  [P in keyof ActivityFormType]: UseFormRegisterReturn<P>;
+  [P in keyof ActivityCreateSchemaType]: UseFormRegisterReturn<P>;
 };
 
 export const useActivityForm = (
-  defaultValues: ActivityFormType,
+  defaultValues: ActivityCreateSchemaType,
 ): {
-  control: Control<ActivityFormType>;
+  control: Control<ActivityCreateSchemaType>;
   fieldValues: ActivityFormFieldValues;
-  handleSubmit: UseFormHandleSubmit<ActivityFormType>;
+  handleSubmit: UseFormHandleSubmit<ActivityCreateSchemaType>;
 } => {
-  const { control, register, handleSubmit } = useForm<ActivityFormType>({
-    defaultValues,
-  });
+  const { control, register, handleSubmit } = useForm<ActivityCreateSchemaType>(
+    {
+      defaultValues,
+    },
+  );
 
   const fieldValues = {
-    members: register('members'),
+    participants: register('members'),
     placeId: register('placeId'),
   } satisfies ActivityFormFieldValues;
 

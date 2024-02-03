@@ -2,7 +2,7 @@ import {
   createActivity,
   findAllActivities,
 } from '@/features/activities/logic/repository';
-import { activityFormSchema } from '@/features/activities/validation';
+import { activityCreateSchema } from '@/features/activities/validation';
 import { withZod } from '@/lib/next';
 import { authOptions } from '@/lib/next-auth';
 import { type ReturnTypeOf } from '@/utils/types';
@@ -13,6 +13,10 @@ import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 export type GetResponseData = {
   activities: ReturnTypeOf<typeof findAllActivities>;
+};
+
+export type PostResponseData = {
+  activity: ReturnTypeOf<typeof createActivity>;
 };
 
 const handleGet = async (
@@ -30,7 +34,7 @@ const handleGet = async (
 
 const handlePost = withZod(
   z.object({
-    body: activityFormSchema,
+    body: activityCreateSchema,
   }),
   async (request, response) => {
     const session = await getServerSession(request, response, authOptions);
@@ -41,7 +45,7 @@ const handlePost = withZod(
     }
 
     const { id: ownerId } = session.user;
-    const { members, placeId } = request.body;
+    const { participants: members, placeId } = request.body;
     const result = await createActivity({
       ownerId,
       placeId,
