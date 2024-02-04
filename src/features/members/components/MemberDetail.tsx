@@ -14,9 +14,7 @@ const MemberDetail = () => {
   const router = useRouter();
   const memberId = router.query.id as string;
   const { members, isLoading } = useMembers();
-  const member = members.find(
-    (member) => member.id === parseInt(memberId),
-  ) as Member;
+  const member = members.find((member) => member.id === memberId) as Member;
   const { trigger: updateTrigger, isMutating: isUpdating } = useSWRMutation(
     `/api/members/${memberId}`,
     async (url: string, { arg }: { arg: MemberUpdateSchemaType }) => {

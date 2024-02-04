@@ -16,7 +16,7 @@ const MemberSelectTable = ({
 }: Props) => {
   const handleOnClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     const updatedMember = members.find(
-      (member) => member.id === parseInt(e.currentTarget.value),
+      (member) => member.id === e.currentTarget.value,
     );
 
     if (!updatedMember) return;

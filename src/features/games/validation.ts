@@ -3,10 +3,10 @@ import { z } from 'zod';
 export type GameCreateSchemaType = z.infer<typeof gameCreateSchema>;
 
 export const gameCreateSchema = z.object({
-  activityId: z.number(),
+  activityId: z.string(),
   members: z.array(
     z.object({
-      memberId: z.number(),
+      memberId: z.string(),
     }),
   ),
   singlesCount: z.number(),

@@ -8,13 +8,13 @@ const handleGet = withZod(
   z.object({
     query: z.object({
       activityId: z.string(),
-      gameNumber: z.string(),
+      gameId: z.string(),
     }),
   }),
   async (request, response) => {
-    const activityId = parseInt(request.query.activityId);
-    const gameNumber = parseInt(request.query.gameNumber);
-    const result = await findGameById({ activityId, gameNumber });
+    const activityId = request.query.activityId;
+    const gameId = request.query.gameId;
+    const result = await findGameById({ activityId, gameId });
 
     if (result.type === 'success') {
       response.json({ game: result.data });
@@ -28,13 +28,12 @@ const handleDelete = withZod(
   z.object({
     query: z.object({
       activityId: z.string(),
-      gameNumber: z.string(),
+      gameId: z.string(),
     }),
   }),
   async (request, response) => {
-    const activityId = parseInt(request.query.activityId);
-    const gameNumber = parseInt(request.query.gameNumber);
-    const result = await deleteGame({ activityId, gameNumber });
+    const { activityId, gameId } = request.query;
+    const result = await deleteGame({ activityId, gameId });
 
     if (result.type === 'success') {
       response.status(204).end();

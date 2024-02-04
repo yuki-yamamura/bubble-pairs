@@ -1,5 +1,5 @@
 import { createPlace, findAllPlaces } from '@/features/places/logic/repository';
-import { placeFormSchema } from '@/features/places/validation';
+import { placeCreateSchema } from '@/features/places/validation';
 import { withZod } from '@/lib/next';
 import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
@@ -29,7 +29,7 @@ const handleGet: NextApiHandler<GetResponseData> = async (
 
 const handlePost: NextApiHandler<PostResponseData> = withZod(
   z.object({
-    body: placeFormSchema,
+    body: placeCreateSchema,
   }),
   async (request, response) => {
     const session = await getServerSession(request, response, authOptions);

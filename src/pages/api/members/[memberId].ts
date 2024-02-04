@@ -16,8 +16,8 @@ const handlePut: NextApiHandler = withZod(
     body: memberUpdateSchema,
   }),
   async (request, response) => {
-    const id = parseInt(request.query.memberId);
-    const result = await updateMember({ id, ...request.body });
+    const { memberId } = request.query;
+    const result = await updateMember({ id: memberId, ...request.body });
 
     if (result.type === 'success') {
       response.status(204).end();
@@ -34,8 +34,8 @@ const handleDelete: NextApiHandler = withZod(
     }),
   }),
   async (request, response) => {
-    const id = parseInt(request.query.memberId);
-    const result = await deleteMember(id);
+    const { memberId } = request.query;
+    const result = await deleteMember(memberId);
 
     if (result.type === 'success') {
       response.status(204).end();

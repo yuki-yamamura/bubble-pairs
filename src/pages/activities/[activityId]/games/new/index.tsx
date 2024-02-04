@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   params,
 }) => {
   const { activityId } = params as Params;
-  const result = await findActivityById(parseInt(activityId));
+  const result = await findActivityById(activityId);
 
   if (result.type === 'success') {
     if (!result.data) {

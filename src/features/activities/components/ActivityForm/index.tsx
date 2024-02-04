@@ -59,7 +59,7 @@ const ActivityForm = ({ onSubmit }: Props) => {
   const form = useForm<ActivityCreateSchemaType>({
     defaultValues: async () => {
       const response = await axios.get<GetResponseData>('/api/places');
-      const placeId = response.data.places.at(0)?.id as number;
+      const placeId = response.data.places.at(0)?.id as string;
 
       return {
         participants: [],
@@ -227,8 +227,7 @@ const ActivityForm = ({ onSubmit }: Props) => {
                           key={value}
                           value={value.toString()}
                           onSelect={(currentValue) => {
-                            const parsedCurrentValue = parseInt(currentValue);
-                            setValue(field.name, parsedCurrentValue);
+                            setValue(field.name, currentValue);
                             setIsComboboxOpen(false);
                           }}
                         >

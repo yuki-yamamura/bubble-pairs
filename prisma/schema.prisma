@@ -25,69 +25,8 @@ enum Rule {
   DOUBLES
 }
 
-model Activity {
-  id           Int           @id @default(autoincrement())
-  ownerId      String        @map("owner_id")
-  placeId      Int           @map("place_id")
-  createdAt    DateTime      @default(now()) @map("created_at")
-  isOpen       Boolean
-  owner        User          @relation(fields: [ownerId], references: [id])
-  place        Place         @relation(fields: [placeId], references: [id])
-  games        Game[]
-  participants Participant[]
-
-  @@map("activities")
-}
-
-model Participant {
-  activityId Int      @map("activity_id")
-  memberId   Int      @map("member_id")
-  activity   Activity @relation(fields: [activityId], references: [id])
-  member     Member   @relation(fields: [memberId], references: [id])
-  players    Player[]
-
-  @@id(name: "id", [activityId, memberId])
-  @@map("participants")
-}
-
-model Game {
-  activityId  Int          @map("activity_id")
-  gameNumber  Int          @default(autoincrement()) @map("game_number")
-  createdAt   DateTime     @default(now()) @map("created_at")
-  activity    Activity     @relation(fields: [activityId], references: [id])
-  gameDetails GameDetail[]
-
-  @@id(name: "id", fields: [activityId, gameNumber])
-  @@map("games")
-}
-
-model GameDetail {
-  activityId  Int      @map("activityId")
-  gameNumber  Int      @map("game_number")
-  courtNumber Int      @default(autoincrement()) @map("court_number")
-  rule        Rule
-  game        Game     @relation(fields: [activityId, gameNumber], references: [activityId, gameNumber])
-  players     Player[]
-
-  @@id(name: "id", fields: [activityId, gameNumber, courtNumber])
-  @@map("game_details")
-}
-
-model Player {
-  activityId    Int         @map("activityId")
-  gameNumber    Int         @map("game_number")
-  courtNumber   Int         @map("court_number")
-  participantId Int         @map("participant_id")
-  playerNumber  Int         @default(autoincrement()) @map("player_number")
-  participant   Participant @relation(fields: [activityId, participantId], references: [activityId, memberId])
-  gameDetail    GameDetail  @relation(fields: [activityId, gameNumber, courtNumber], references: [activityId, gameNumber, courtNumber])
-
-  @@id(name: "id", fields: [activityId, gameNumber, courtNumber, participantId])
-  @@map("players")
-}
-
 model Member {
-  id           Int           @id @default(autoincrement())
+  id           String        @id @default(cuid())
   ownerId      String        @map("owner_id")
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
@@ -105,9 +44,9 @@ model Member {
 }
 
 model Place {
-  id         Int        @id @default(autoincrement())
+  id         String     @id @default(cuid())
   ownerId    String     @map("owner_id")
-  createdAt  DateTime   @default(now()) @map("createad_at")
+  createdAt  DateTime   @default(now()) @map("created_at")
   updatedAt  DateTime   @updatedAt @map("updated_at")
   name       String
   courtCount Int        @map("court_count")
@@ -117,9 +56,67 @@ model Place {
   @@map("places")
 }
 
-// the models below depend on the Prisma adapter for NextAuth.js.
+model Activity {
+  id           String        @id @default(cuid())
+  ownerId      String        @map("owner_id")
+  placeId      String        @map("place_id")
+  createdAt    DateTime      @default(now()) @map("created_at")
+  isOpen       Boolean
+  owner        User          @relation(fields: [ownerId], references: [id])
+  place        Place         @relation(fields: [placeId], references: [id])
+  games        Game[]
+  participants Participant[]
+
+  @@map("activities")
+}
+
+model Participant {
+  id         String   @id @default(cuid())
+  activityId String   @map("activity_id")
+  memberId   String   @map("member_id")
+  activity   Activity @relation(fields: [activityId], references: [id])
+  member     Member   @relation(fields: [memberId], references: [id])
+  players    Player[]
+
+  @@unique([activityId, memberId])
+  @@map("participants")
+}
+
+model Game {
+  id          String       @id @default(cuid())
+  activityId  String       @map("activity_id")
+  createdAt   DateTime     @default(now()) @map("created_at")
+  activity    Activity     @relation(fields: [activityId], references: [id])
+  gameDetails GameDetail[]
+
+  @@map("games")
+}
+
+model GameDetail {
+  id          String   @id @default(cuid())
+  gameId      String   @map("game_id")
+  courtNumber Int      @map("court_number")
+  rule        Rule
+  game        Game     @relation(fields: [gameId], references: [id])
+  players     Player[]
+
+  @@unique([gameId, courtNumber])
+  @@map("game_details")
+}
+
+model Player {
+  id            String      @id @default(cuid())
+  gameDetailId  String      @map("game_detail_id")
+  participantId String      @map("participant_id")
+  participant   Participant @relation(fields: [participantId], references: [id])
+  gameDetail    GameDetail  @relation(fields: [gameDetailId], references: [id])
+
+  @@unique([gameDetailId, participantId])
+  @@map("players")
+}
+
+// the models below depend on the Prisma adapter for NextAuth.js, and do not put any domain model under this comment.
 // see https://authjs.dev/reference/adapter/prisma
-// and do not put any domain model under this comment.
 model Account {
   id                String  @id @default(cuid())
   userId            String  @map("user_id")

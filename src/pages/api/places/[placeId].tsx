@@ -1,5 +1,5 @@
 import { deletePlace, updatePlace } from '@/features/places/logic/repository';
-import { placeFormSchema } from '@/features/places/validation';
+import { placeCreateSchema } from '@/features/places/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
@@ -10,7 +10,7 @@ const handlePut: NextApiHandler = withZod(
     query: z.object({
       placeId: z.string(),
     }),
-    body: placeFormSchema,
+    body: placeCreateSchema,
   }),
   async (request, response) => {
     const id = parseInt(request.query.placeId);
@@ -31,8 +31,8 @@ const handleDelete: NextApiHandler = withZod(
     }),
   }),
   async (request, response) => {
-    const id = parseInt(request.query.placeId);
-    const result = await deletePlace(id);
+    const { placeId } = request.query;
+    const result = await deletePlace(placeId);
 
     if (result.type === 'success') {
       response.status(204).end();

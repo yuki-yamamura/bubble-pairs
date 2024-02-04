@@ -1,7 +1,6 @@
 import { findPlace } from '@/features/places/logic/repository';
-import { placeSchema } from '@/features/places/validation';
+import { placeCreateSchema } from '@/features/places/validation';
 import PlaceScreen from '@/screens/PlaceScreen';
-import { parseJson } from '@/utils';
 
 import type { GetServerSideProps } from 'next';
 import type { ParsedUrlQuery } from 'querystring';
@@ -17,7 +16,7 @@ type Props = {
 export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
   params,
 }) => {
-  const id = parseInt((params as Params).id);
+  const { id } = params as Params;
   const result = await findPlace(id);
 
   if (result.type === 'success') {
@@ -34,9 +33,9 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
 };
 
 const Page = ({ serializedPlace }: Props) => {
-  const result = parseJson(serializedPlace);
+  const result = serializedPlace;
   if (result.type === 'success') {
-    const place = placeSchema.parse(result.data);
+    const place = placeCreateSchema.parse(result.data);
 
     return <PlaceScreen place={place} />;
   }

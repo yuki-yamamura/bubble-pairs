@@ -11,20 +11,20 @@ const Activities = () => {
   const router = useRouter();
   const { activities, isLoading, mutate } = useActivities();
 
-  const closeActivity = async (id: number) => {
+  const closeActivity = async (id: string) => {
     await axios.put(`/api/activities/${id}`, {
       isOpen: false,
     });
     toast.success('アクティビティを終了しました。');
   };
 
-  const deleteActivity = async (id: number) => {
+  const deleteActivity = async (id: string) => {
     await axios.delete(`/api/activities/${id}`);
     await mutate();
     toast.success('アクティビティを削除しました。');
   };
 
-  const openActivity = async (id: number) => {
+  const openActivity = async (id: string) => {
     await router.push(`/activities/${id}`);
   };
 

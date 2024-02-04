@@ -10,10 +10,10 @@ export type ActivityCreateSchemaType = z.infer<typeof activityCreateSchema>;
 export const activityCreateSchema = z.object({
   participants: z.array(
     z.object({
-      memberId: z.number(),
+      memberId: z.string(),
     }),
   ),
-  placeId: z.number(),
+  placeId: z.string(),
   isOpen: z.boolean(),
 });
 

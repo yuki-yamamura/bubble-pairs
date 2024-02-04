@@ -16,7 +16,7 @@ export const findAllMembers = (): Promise<Result<Member[]>> => {
   return withResult(() => prisma.member.findMany())();
 };
 
-export const findMember = (id: number): Promise<Result<Member | null>> => {
+export const findMember = (id: string): Promise<Result<Member | null>> => {
   return withResult(() =>
     prisma.member.findUnique({
       where: {
@@ -42,7 +42,7 @@ export const updateMember = ({
   )();
 };
 
-export const deleteMember = (id: number): Promise<Result<Member>> => {
+export const deleteMember = (id: string): Promise<Result<Member>> => {
   return withResult(() =>
     prisma.member.delete({
       where: {

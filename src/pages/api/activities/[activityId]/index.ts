@@ -20,7 +20,7 @@ const handleGet: NextApiHandler<GetResponseData> = withZod(
     }),
   }),
   async (request, response) => {
-    const activityId = parseInt(request.query.activityId);
+    const activityId = request.query.activityId;
     const result = await findActivityById(activityId);
 
     if (result.type === 'success') {
@@ -43,7 +43,7 @@ const handlePut = withZod(
     body: activityUpdateSchema,
   }),
   async (request, response) => {
-    const id = parseInt(request.query.activityId);
+    const id = request.query.activityId;
     const result = await updateActivity({ ...request.body, id });
 
     if (result.type === 'success') {
@@ -61,7 +61,7 @@ const handleDelete = withZod(
     }),
   }),
   async (request, response) => {
-    const id = parseInt(request.query.activityId);
+    const id = request.query.activityId;
     const result = await deleteActivity(id);
 
     if (result.type === 'success') {

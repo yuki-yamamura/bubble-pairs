@@ -1,4 +1,4 @@
-import { placeFormSchema } from '@/features/places/validation';
+import { placeCreateSchema } from '@/features/places/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 
@@ -26,7 +26,7 @@ export const usePlaceForm = (
 } => {
   const useFormReturn = useForm<PlaceFormType>({
     defaultValues,
-    resolver: zodResolver(placeFormSchema),
+    resolver: zodResolver(placeCreateSchema),
   });
   const {
     register,

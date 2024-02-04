@@ -55,7 +55,7 @@ export const findAllActivities = (): Promise<Result<Activity[]>> => {
 };
 
 export const findActivityById = (
-  id: number,
+  id: string,
 ): Promise<Result<Activity | null>> => {
   return withResult(() =>
     prisma.activity.findUnique({
@@ -86,7 +86,7 @@ export const findActivityById = (
 export const updateActivity = ({
   id,
   ...rest
-}: { id: number } & Prisma.ActivityUpdateInput): Promise<Result<Activity>> => {
+}: { id: string } & Prisma.ActivityUpdateInput): Promise<Result<Activity>> => {
   return withResult(() =>
     prisma.activity.update({
       data: {
@@ -116,7 +116,7 @@ export const updateActivity = ({
   )();
 };
 
-export const deleteActivity = (id: number): Promise<Result<Activity>> => {
+export const deleteActivity = (id: string): Promise<Result<Activity>> => {
   return withResult(() =>
     prisma.activity.delete({
       where: {
