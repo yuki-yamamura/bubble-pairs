@@ -1,7 +1,7 @@
-import MemberTable from '../MemberTable';
-import NoMemberFound from '../NoMemberFound';
 import Loading from '@/components/Loading';
 import { Button } from '@/components/ui/button';
+import MemberTable from '@/features/members/components/MemberTable';
+import NoMemberFound from '@/features/members/components/NoMemberFound';
 import { useMembers } from '@/features/members/hooks/useMembers';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -37,7 +37,7 @@ const Members = () => {
     <div className="relative h-full w-full">
       <div className="mb-8 flex gap-x-4">
         <Button type="button" onClick={handleNewMemberButtonClick}>
-          メンバー追加
+          メンバー登録
         </Button>
       </div>
       {members.length !== 0 ? (
