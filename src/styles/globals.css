@@ -19,6 +19,8 @@
       --muted-foreground: 240 3.8% 46.1%;
       --accent: 240 4.8% 95.9%;
       --accent-foreground: 240 5.9% 10%;
+      --accent2: 220 92% 71%;
+      --accent2-foreground: white;
       --destructive: 0 84.2% 60.2%;
       --destructive-foreground: 0 0% 98%;
       --border: 240 5.9% 90%;
@@ -57,11 +59,17 @@
   }
 
   body {
-    @apply bg-background font-extralight text-foreground;
+    @apply bg-background text-sm !font-extralight text-foreground sm:text-base;
 
     font-feature-settings:
       'rlig' 1,
       'calt' 1;
+  }
+}
+
+@layer components {
+  .required-field::before {
+    @apply pr-1 text-red-400 content-["*"];
   }
 }
 

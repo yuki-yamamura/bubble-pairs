@@ -1,6 +1,4 @@
-import { useMembers } from '../hooks/useMembers';
-import LoadingModal from '@/components/LoadingModal';
-import { Button } from '@/components/ui/button';
+import Loading from '@/components/Loading';
 import MemberForm from '@/features/members/components/MemberForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -10,52 +8,39 @@ import useSWRMutation from 'swr/mutation';
 import type { MemberUpdateSchemaType } from '@/features/members/validation';
 import type { Member } from '@prisma/client';
 
-const MemberDetail = () => {
+type Props = {
+  member: Member;
+};
+
+const MemberDetail = ({ member }: Props) => {
   const router = useRouter();
-  const memberId = router.query.id as string;
-  const { members, isLoading } = useMembers();
-  const member = members.find((member) => member.id === memberId) as Member;
-  const { trigger: updateTrigger, isMutating: isUpdating } = useSWRMutation(
-    `/api/members/${memberId}`,
+  const { trigger, isMutating } = useSWRMutation(
+    `/api/members/${member.id}`,
     async (url: string, { arg }: { arg: MemberUpdateSchemaType }) => {
       await axios.put(url, arg);
     },
   );
-  const { trigger: deleteTrigger, isMutating: isDeleting } = useSWRMutation(
-    `/api/members/${memberId}`,
-    async (url: string) => {
-      await axios.delete(url);
-    },
-  );
 
-  const handleSubmit = (fieldValues: MemberUpdateSchemaType) => {
-    updateTrigger(fieldValues)
-      .then(() => {
-        toast.success('メンバーを更新しました。');
-        void router.push('/members');
-      })
-      .catch(() => toast.error('メンバーを更新できませんでした。'));
-  };
-  const handleDeleteButtonClick = () => {
-    deleteTrigger()
-      .then(() => {
-        toast.success('メンバーを削除しました。');
-        void router.push('/members');
-      })
-      .catch(() => toast.error('メンバーを削除できませんでした。'));
+  const handleSubmit = async (fieldValues: MemberUpdateSchemaType) => {
+    try {
+      await trigger(fieldValues);
+      toast.success('メンバーを更新しました。');
+      await router.push('/members');
+    } catch {
+      toast.error('メンバーを更新できませんでした。');
+    }
   };
 
-  if (isLoading || isUpdating || isDeleting) {
-    return <LoadingModal />;
+  if (isMutating) {
+    return <Loading />;
   }
 
   return (
-    <div>
-      <MemberForm defaultValues={member} onSubmit={handleSubmit} />
-      <Button variant="destructive" onClick={handleDeleteButtonClick}>
-        メンバーを削除
-      </Button>
-    </div>
+    <MemberForm
+      defaultValues={member}
+      submitButtonLabel="メンバーを更新"
+      onSubmit={handleSubmit}
+    />
   );
 };
 

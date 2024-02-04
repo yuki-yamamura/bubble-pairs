@@ -1,7 +1,7 @@
-import NewMemberForm from '@/features/members/components/NewMemberForm';
+import NewMember from '@/features/members/components/NewMember';
 
 const NewMemberScreen = () => {
-  return <NewMemberForm />;
+  return <NewMember />;
 };
 
 export default NewMemberScreen;

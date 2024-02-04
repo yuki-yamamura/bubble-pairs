@@ -8,16 +8,14 @@ import useSWRMutation from 'swr/mutation';
 import type { MemberCreateSchemaType } from '../validation';
 import type { PostResponseData } from '@/pages/api/members';
 
-const NewMemberForm = () => {
+const NewMember = () => {
   const router = useRouter();
   const defaultValues: MemberCreateSchemaType = {
     name: '',
-    kana: null,
-    displayName: null,
     sex: 'MALE',
     level: 'BEGINNER',
     note: null,
-    emojiUnicode: '1f9d1',
+    emojiUnicode: '1f9d1', // adult unicode: I think this is suitable for default avatar
   };
 
   const { trigger, isMutating } = useSWRMutation(
@@ -29,20 +27,27 @@ const NewMemberForm = () => {
     },
   );
 
-  const handleSubmit = (fieldValues: MemberCreateSchemaType) => {
-    trigger(fieldValues)
-      .then(() => {
-        toast.success('メンバーを登録しました。');
-        void router.push('/members');
-      })
-      .catch(() => toast.error('メンバーの登録に失敗しました。'));
+  const handleSubmit = async (fieldValues: MemberCreateSchemaType) => {
+    try {
+      await trigger(fieldValues);
+      toast.success('メンバーを登録しました。');
+      await router.push('/members');
+    } catch {
+      toast.error('メンバーを登録できませんでした。');
+    }
   };
 
   if (isMutating) {
     return <LoadingModal />;
   }
 
-  return <MemberForm defaultValues={defaultValues} onSubmit={handleSubmit} />;
+  return (
+    <MemberForm
+      defaultValues={defaultValues}
+      submitButtonLabel="メンバーを登録"
+      onSubmit={handleSubmit}
+    />
+  );
 };
 
-export default NewMemberForm;
+export default NewMember;

@@ -16,7 +16,9 @@ export const findAllMembers = (): Promise<Result<Member[]>> => {
   return withResult(() => prisma.member.findMany())();
 };
 
-export const findMember = (id: string): Promise<Result<Member | null>> => {
+export const findMemberById = (
+  id: Member['id'],
+): Promise<Result<Member | null>> => {
   return withResult(() =>
     prisma.member.findUnique({
       where: {

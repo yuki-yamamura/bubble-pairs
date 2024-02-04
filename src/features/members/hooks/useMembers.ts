@@ -4,22 +4,25 @@ import useSWR from 'swr';
 
 import type { GetResponseData } from '@/pages/api/members';
 import type { AxiosError } from 'axios';
+import type { KeyedMutator } from 'swr';
 
 export const useMembers = (): {
   members: Member[] | undefined;
   error: AxiosError | undefined;
   isLoading: boolean;
+  mutate: KeyedMutator<GetResponseData>;
 } => {
-  const { data, error, isLoading } = useSWR<GetResponseData, AxiosError>(
-    '/api/members',
-    (url: string) => {
-      return axios.get<GetResponseData>(url).then((response) => response.data);
-    },
-  );
+  const { data, error, isLoading, mutate } = useSWR<
+    GetResponseData,
+    AxiosError
+  >('/api/members', (url: string) => {
+    return axios.get<GetResponseData>(url).then((response) => response.data);
+  });
 
   return {
     members: data?.members,
     error,
     isLoading,
+    mutate,
   };
 };

@@ -11,7 +11,7 @@ import type { Member } from '@prisma/client';
 
 const Members = () => {
   const router = useRouter();
-  const { members, error, isLoading } = useMembers();
+  const { members, error, isLoading, mutate } = useMembers();
 
   const handleNewMemberButtonClick = () => {
     void router.push('/members/new');
@@ -19,6 +19,7 @@ const Members = () => {
 
   const deleteMember = async (memberId: Member['id']) => {
     await axios.delete(`/api/members/${memberId}`);
+    await mutate();
     toast.success('メンバーを削除しました。');
   };
   const openMemberDetail = async (memberId: Member['id']) => {

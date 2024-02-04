@@ -31,8 +31,6 @@ model Member {
   createdAt    DateTime      @default(now()) @map("created_at")
   updatedAt    DateTime      @updatedAt @map("updated_at")
   name         String
-  kana         String?
-  displayName  String?       @map("display_name")
   sex          Sex
   level        Level
   note         String?

@@ -1,10 +1,8 @@
-import Emoji from '@/components/Emoji';
 import {
   AlertDialog,
   AlertDialogContent,
   AlertDialogDescription,
   AlertDialogHeader,
-  AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
@@ -29,20 +27,14 @@ const EmojiPickerModal = ({ initialEmojiUnicode, onEmojiClick }: Props) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <div className="flex items-center gap-x-4">
-          <button type="button">
-            <Emoji unified={initialEmojiUnicode} size={48} />
-          </button>
-          <Button variant="outline" size="sm">
-            プロフィール画像を変更
-          </Button>
-        </div>
+        <Button variant="outline" size="sm" className="rounded-3xl">
+          プロフィール画像を変更
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>アバターを選択</AlertDialogTitle>
-          <AlertDialogDescription>
-            Emoji を選択してください。
+          <AlertDialogDescription className="mx-auto w-full max-w-fit">
+            プロフィール画像を選択してください。
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Picker
@@ -53,6 +45,7 @@ const EmojiPickerModal = ({ initialEmojiUnicode, onEmojiClick }: Props) => {
             showPreview: false,
           }}
           onEmojiClick={handleEmojiClick}
+          className="mx-auto w-full"
         />
       </AlertDialogContent>
     </AlertDialog>
