@@ -24,7 +24,6 @@ import {
 } from '@/features/activities/validation';
 import MemberSelectTable from '@/features/members/components/MemberSelectTable';
 import { useMembers } from '@/features/members/hooks/useMembers';
-import { getDisplayName } from '@/features/members/utils';
 import { usePlaces } from '@/features/places/hooks/usePlaces';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
@@ -132,13 +131,7 @@ const ActivityForm = ({ onSubmit }: Props) => {
                 {field.value?.map(({ memberId }, index) => (
                   <li key={memberId}>
                     <div className="flex items-center gap-x-4">
-                      <span>
-                        {getDisplayName(
-                          members.find(
-                            (member) => member.id === memberId,
-                          ) as Member,
-                        )}
-                      </span>
+                      {members.find((member) => member.id === memberId)?.name}
                       <Trash2 size={16} onClick={() => remove(index)} />
                     </div>
                   </li>

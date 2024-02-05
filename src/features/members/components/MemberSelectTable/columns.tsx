@@ -1,5 +1,4 @@
 import { Checkbox } from '@/components/ui/checkbox';
-import { getDisplayName } from '@/features/members/utils';
 
 import type { Member } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -30,7 +29,7 @@ export const createColumns = (
       cell: ({ row }) => {
         const { member } = row.original;
 
-        return getDisplayName(member);
+        return member.name;
       },
     },
   ];
