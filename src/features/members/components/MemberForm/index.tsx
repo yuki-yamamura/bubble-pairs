@@ -2,13 +2,7 @@ import Emoji from '@/components/Emoji';
 import EmojiPickerModal from '@/components/EmojiPickerModal';
 import RadioGroupField from '@/components/form/fields/RadioGroupField';
 import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
+import { Form, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { levelMap, sexMap } from '@/features/members/constants';
@@ -75,9 +69,7 @@ const MemberForm = ({ defaultValues, submitButtonLabel, onSubmit }: Props) => {
       >
         <FormItem>
           <FormLabel className="required-field">名前</FormLabel>
-          <FormControl>
-            <Input {...register('name')} />
-          </FormControl>
+          <Input {...register('name')} />
           {errors.name && <FormMessage>名前を入力してください。</FormMessage>}
         </FormItem>
         <RadioGroupField
@@ -96,9 +88,7 @@ const MemberForm = ({ defaultValues, submitButtonLabel, onSubmit }: Props) => {
         />
         <FormItem>
           <FormLabel>メモ</FormLabel>
-          <FormControl>
-            <Textarea {...register('note')} />
-          </FormControl>
+          <Textarea {...register('note')} />
         </FormItem>
         <Button
           type="submit"
