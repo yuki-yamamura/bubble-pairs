@@ -77,6 +77,7 @@ const MemberForm = ({ defaultValues, submitButtonLabel, onSubmit }: Props) => {
           control={control as unknown as Control<FieldValues>}
           name="sex"
           label="性別"
+          required
           options={sexOptions}
         />
         <RadioGroupField
@@ -84,6 +85,7 @@ const MemberForm = ({ defaultValues, submitButtonLabel, onSubmit }: Props) => {
           control={control as unknown as Control<FieldValues>}
           name="level"
           label="レベル"
+          required
           options={levelOptions}
         />
         <FormItem>

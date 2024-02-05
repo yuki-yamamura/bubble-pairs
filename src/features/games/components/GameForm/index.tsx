@@ -26,7 +26,7 @@ import {
   gameCreateSchema,
   type GameCreateSchemaType,
 } from '@/features/games/validation';
-import MemberSelectTable from '@/features/members/components/MemberSelectTable';
+import MemberPicker from '@/features/members/components/MemberPicker';
 import { cn } from '@/lib/shadcn-ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Check, ChevronDown, Trash2 } from 'lucide-react';
@@ -154,7 +154,7 @@ const GameForm = ({ activity, onSubmit }: Props) => {
                         追加する参加者を選択してください。
                       </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <MemberSelectTable
+                    <MemberPicker
                       members={candidates}
                       selectedMembers={selectedMembers}
                       updateSelectedMembers={updateSelectedMembers}

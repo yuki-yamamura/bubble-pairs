@@ -32,6 +32,7 @@ type Props<
   name: TName;
   setValue: UseFormSetValue<TFieldValues>;
   fieldLabel: string;
+  required: boolean;
   options: { value: string; label: string }[];
 };
 
@@ -44,6 +45,7 @@ const ComboboxField = <
   name,
   setValue,
   fieldLabel,
+  required,
   options,
 }: Props<TFieldValues, TName, TControl>) => {
   const [open, setOpen] = useState(false);
@@ -53,8 +55,10 @@ const ComboboxField = <
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>{fieldLabel}</FormLabel>
+        <FormItem className="flex flex-col">
+          <FormLabel className={cn({ 'required-field': required })}>
+            {fieldLabel}
+          </FormLabel>
           <Popover open={open} onOpenChange={setOpen}>
             <PopoverTrigger asChild>
               <FormControl>

@@ -6,6 +6,7 @@ import {
 } from '@/components/ui/form';
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { cn } from '@/lib/shadcn-ui';
 
 import type { Control, FieldPath, FieldValues } from 'react-hook-form';
 
@@ -17,6 +18,7 @@ type Props<
   control: TControl;
   name: TName;
   label: string;
+  required: boolean;
   options: { value: string; label: string }[];
 };
 
@@ -28,6 +30,7 @@ const RadioGroupField = <
   control,
   name,
   label,
+  required,
   options,
 }: Props<TFieldValues, TName, TControl>) => (
   <FormField
@@ -35,7 +38,9 @@ const RadioGroupField = <
     name={name}
     render={({ field }) => (
       <FormItem>
-        <FormLabel className="required-field">{label}</FormLabel>
+        <FormLabel className={cn({ 'required-field': required })}>
+          {label}
+        </FormLabel>
         <FormControl>
           <RadioGroup
             defaultValue={field.value}

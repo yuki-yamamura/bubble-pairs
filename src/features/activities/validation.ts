@@ -8,11 +8,13 @@ export type ActivityUpdateSchemaType = z.infer<typeof activityUpdateSchema>;
 export type ActivityCreateSchemaType = z.infer<typeof activityCreateSchema>;
 
 export const activityCreateSchema = z.object({
-  participants: z.array(
-    z.object({
-      memberId: z.string(),
-    }),
-  ),
+  participants: z
+    .array(
+      z.object({
+        memberId: z.string(),
+      }),
+    )
+    .min(2),
   placeId: z.string(),
   isOpen: z.boolean(),
 });

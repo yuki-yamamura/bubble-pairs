@@ -1,0 +1,1 @@
+export const MINIMUM_PARTICIPANT_COUNT = 2;
