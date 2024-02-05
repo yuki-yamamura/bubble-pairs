@@ -1,3 +1,4 @@
+import ComboboxField from '@/components/form/fields/ComboboxField';
 import Loading from '@/components/Loading';
 import {
   AlertDialog,
@@ -11,23 +12,12 @@ import {
 } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
 import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from '@/components/ui/command';
-import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover';
 import {
   activityCreateSchema,
   type ActivityCreateSchemaType,
@@ -36,10 +26,9 @@ import MemberSelectTable from '@/features/members/components/MemberSelectTable';
 import { useMembers } from '@/features/members/hooks/useMembers';
 import { getDisplayName } from '@/features/members/utils';
 import { usePlaces } from '@/features/places/hooks/usePlaces';
-import { cn } from '@/lib/shadcn-ui';
 import { zodResolver } from '@hookform/resolvers/zod';
 import axios from 'axios';
-import { Check, ChevronDown, Trash2 } from 'lucide-react';
+import { Trash2 } from 'lucide-react';
 import { useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 
@@ -54,7 +43,6 @@ const ActivityForm = ({ onSubmit }: Props) => {
   const { members, isLoading: loadingMembers } = useMembers();
   const { places, isLoading: loadingPlaces } = usePlaces();
   const [selectedMembers, setSelectedMembers] = useState<Member[]>([]);
-  const [isComboboxOpen, setIsComboboxOpen] = useState(false);
 
   const form = useForm<ActivityCreateSchemaType>({
     defaultValues: async () => {
@@ -105,15 +93,16 @@ const ActivityForm = ({ onSubmit }: Props) => {
     setSelectedMembers([]);
   };
 
-  const candidates = members.filter((member) => {
-    const participants = getValues('participants');
+  const candidates =
+    members?.filter((member) => {
+      const participants = getValues('participants');
 
-    if (participants) {
-      return !participants.some(({ memberId }) => memberId === member.id);
-    } else {
-      false;
-    }
-  });
+      if (participants) {
+        return !participants.some(({ memberId }) => memberId === member.id);
+      } else {
+        false;
+      }
+    }) ?? [];
 
   const placeOptions = places
     ? places.map((place) => ({
@@ -195,59 +184,12 @@ const ActivityForm = ({ onSubmit }: Props) => {
             </FormItem>
           )}
         />
-        <FormField
+        <ComboboxField
           control={control}
           name="placeId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>場所</FormLabel>
-              <Popover open={isComboboxOpen} onOpenChange={setIsComboboxOpen}>
-                <PopoverTrigger asChild>
-                  <FormControl>
-                    <Button
-                      variant="outline"
-                      role="combobox"
-                      aria-expanded={isComboboxOpen}
-                    >
-                      {
-                        placeOptions.find(
-                          (placeItem) => placeItem.value === field.value,
-                        )?.label
-                      }
-                      <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                    </Button>
-                  </FormControl>
-                </PopoverTrigger>
-                <PopoverContent>
-                  <Command>
-                    <CommandEmpty>場所が見つかりませんでした</CommandEmpty>
-                    <CommandGroup>
-                      {placeOptions.map(({ label, value }) => (
-                        <CommandItem
-                          key={value}
-                          value={value.toString()}
-                          onSelect={(currentValue) => {
-                            setValue(field.name, currentValue);
-                            setIsComboboxOpen(false);
-                          }}
-                        >
-                          <Check
-                            className={cn(
-                              'mr-2 h-4 w-4',
-                              value === field.value
-                                ? 'opacity-100'
-                                : 'opacity-0',
-                            )}
-                          />
-                          <span>{label}</span>
-                        </CommandItem>
-                      ))}
-                    </CommandGroup>
-                  </Command>
-                </PopoverContent>
-              </Popover>
-            </FormItem>
-          )}
+          setValue={setValue}
+          fieldLabel="場所"
+          options={placeOptions}
         />
         <Button type="submit">Submit</Button>
       </form>
