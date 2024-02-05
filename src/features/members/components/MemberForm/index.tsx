@@ -1,11 +1,10 @@
 import Emoji from '@/components/Emoji';
 import EmojiPickerModal from '@/components/EmojiPickerModal';
-import FormRadioGroup from '@/components/FormRadioGroup';
+import RadioGroupField from '@/components/form/fields/RadioGroupField';
 import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
-  FormField,
   FormItem,
   FormLabel,
   FormMessage,
@@ -20,6 +19,7 @@ import { useForm } from 'react-hook-form';
 
 import type { MemberCreateSchemaType } from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
+import type { Control, FieldValues } from 'react-hook-form';
 
 type Props = {
   defaultValues: MemberCreateSchemaType;
@@ -32,6 +32,7 @@ const MemberForm = ({ defaultValues, submitButtonLabel, onSubmit }: Props) => {
     resolver: zodResolver(memberCreateSchema),
   });
   const {
+    handleSubmit,
     control,
     register,
     setValue,
@@ -39,7 +40,7 @@ const MemberForm = ({ defaultValues, submitButtonLabel, onSubmit }: Props) => {
     formState: { errors },
   } = form;
 
-  const submitHandler = form.handleSubmit((fieldValues) => {
+  const submitHandler = handleSubmit((fieldValues) => {
     onSubmit(fieldValues);
   });
   const handleEmojiSelect = (emoji: EmojiClickData, _e: MouseEvent) => {
@@ -79,37 +80,19 @@ const MemberForm = ({ defaultValues, submitButtonLabel, onSubmit }: Props) => {
           </FormControl>
           {errors.name && <FormMessage>名前を入力してください。</FormMessage>}
         </FormItem>
-        <FormField
-          control={control}
+        <RadioGroupField
+          // I don't know why this type error happens.
+          control={control as unknown as Control<FieldValues>}
           name="sex"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="required-field">性別</FormLabel>
-              <FormControl>
-                <FormRadioGroup
-                  defaultValue={field.value}
-                  onValueChange={field.onChange}
-                  options={sexOptions}
-                />
-              </FormControl>
-            </FormItem>
-          )}
+          label="性別"
+          options={sexOptions}
         />
-        <FormField
-          control={control}
+        <RadioGroupField
+          // I don't know why this type error happens.
+          control={control as unknown as Control<FieldValues>}
           name="level"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="required-field">レベル</FormLabel>
-              <FormControl>
-                <FormRadioGroup
-                  defaultValue={field.value}
-                  onValueChange={field.onChange}
-                  options={levelOptions}
-                />
-              </FormControl>
-            </FormItem>
-          )}
+          label="レベル"
+          options={levelOptions}
         />
         <FormItem>
           <FormLabel>メモ</FormLabel>
