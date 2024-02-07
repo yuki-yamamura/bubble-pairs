@@ -7,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import dayjs from 'dayjs';
-import { MoreHorizontal } from 'lucide-react';
+import { CheckCircle2, CircleDot, MoreHorizontal } from 'lucide-react';
 
 import type { Activity } from '@/types/models/Activity';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -19,8 +19,17 @@ export const createColumns = (actions: {
 }): ColumnDef<Activity>[] => {
   return [
     {
-      accessorKey: 'id',
-      header: 'ID',
+      accessorKey: 'isOpen',
+      header: undefined,
+      cell: ({ row }) => {
+        const { isOpen } = row.original;
+
+        return isOpen ? (
+          <CircleDot size={16} className="text-slate-400" />
+        ) : (
+          <CheckCircle2 size={16} className="text-purple-400" />
+        );
+      },
     },
     {
       accessorKey: 'createdAt',
