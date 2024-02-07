@@ -24,13 +24,15 @@ const NewGame = ({ activity }: Props) => {
     },
   );
 
-  const handleSubmit = (fieldValues: GameCreateSchemaType) => {
-    trigger(fieldValues)
-      .then(() => {
-        toast.success('ゲームを追加しました。');
-        void router.push(`/activities/${activity.id}`);
-      })
-      .catch(() => toast.error('ゲームの追加に失敗しました'));
+  const handleSubmit = async (fieldValues: GameCreateSchemaType) => {
+    try {
+      await trigger(fieldValues);
+      toast.success('ゲームを追加しました。');
+
+      await router.push(`/activities/${activity.id}`);
+    } catch {
+      toast.error('ゲームの追加に失敗しました');
+    }
   };
 
   if (isMutating) {
