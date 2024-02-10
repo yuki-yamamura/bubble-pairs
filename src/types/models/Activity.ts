@@ -12,7 +12,15 @@ export type Activity = Prisma.ActivityGetPayload<{
       include: {
         gameDetails: {
           include: {
-            players: true;
+            players: {
+              include: {
+                participant: {
+                  include: {
+                    member: true;
+                  };
+                };
+              };
+            };
           };
         };
       };

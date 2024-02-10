@@ -30,7 +30,7 @@ type Props = {
 
 const GameForm = ({ activity, onSubmit }: Props) => {
   const defaultValues = {
-    activityId: activity.id,
+    activity: activity,
     members: activity.participants.map(({ memberId }) => ({
       memberId,
     })),
@@ -142,6 +142,9 @@ const GameForm = ({ activity, onSubmit }: Props) => {
           required={true}
           options={gameDetailCountOptions}
         />
+        {errors.doublesCount && (
+          <FormMessage>{errors.doublesCount.message}</FormMessage>
+        )}
         <Button type="submit">ゲームを開始</Button>
       </form>
     </Form>
