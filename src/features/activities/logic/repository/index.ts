@@ -42,6 +42,11 @@ export const findAllActivities = (): Promise<Result<Activity[]>> => {
         place: true,
         games: {
           include: {
+            activity: {
+              include: {
+                participants: true,
+              },
+            },
             gameDetails: {
               include: {
                 players: {
@@ -79,6 +84,11 @@ export const findActivityById = (
         place: true,
         games: {
           include: {
+            activity: {
+              include: {
+                participants: true,
+              },
+            },
             gameDetails: {
               include: {
                 players: {
@@ -120,6 +130,11 @@ export const updateActivity = ({
         place: true,
         games: {
           include: {
+            activity: {
+              include: {
+                participants: true,
+              },
+            },
             gameDetails: {
               include: {
                 players: {
@@ -155,6 +170,11 @@ export const deleteActivity = (id: string): Promise<Result<Activity>> => {
         },
         games: {
           include: {
+            activity: {
+              include: {
+                participants: true,
+              },
+            },
             gameDetails: {
               include: {
                 players: {

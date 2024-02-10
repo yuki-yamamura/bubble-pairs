@@ -1,14 +1,8 @@
-import ActivityDetail from '@/features/activities/components/ActivityDetail';
+import ActivityDetail from '@/features/ActivityDetail';
 
-type Props = {
-  activity: ActivityDetail;
-};
-
-const ActivityDetailScreen = ({ activity }: Props) => (
+const ActivityDetailScreen = () => (
   <div>
-    <div>
-      <ActivityDetail activity={activity} />
-    </div>
+    <ActivityDetail />
   </div>
 );
 

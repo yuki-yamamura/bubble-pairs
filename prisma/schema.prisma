@@ -72,7 +72,7 @@ model Participant {
   id         String   @id @default(cuid())
   activityId String   @map("activity_id")
   memberId   String   @map("member_id")
-  activity   Activity @relation(fields: [activityId], references: [id])
+  activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
   member     Member   @relation(fields: [memberId], references: [id])
   players    Player[]
 
@@ -84,7 +84,7 @@ model Game {
   id          String       @id @default(cuid())
   activityId  String       @map("activity_id")
   createdAt   DateTime     @default(now()) @map("created_at")
-  activity    Activity     @relation(fields: [activityId], references: [id])
+  activity    Activity     @relation(fields: [activityId], references: [id], onDelete: Cascade)
   gameDetails GameDetail[]
 
   @@map("games")
@@ -95,7 +95,7 @@ model GameDetail {
   gameId      String   @map("game_id")
   courtNumber Int      @map("court_number")
   rule        Rule
-  game        Game     @relation(fields: [gameId], references: [id])
+  game        Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
   players     Player[]
 
   @@unique([gameId, courtNumber])
@@ -106,8 +106,8 @@ model Player {
   id            String      @id @default(cuid())
   gameDetailId  String      @map("game_detail_id")
   participantId String      @map("participant_id")
-  participant   Participant @relation(fields: [participantId], references: [id])
-  gameDetail    GameDetail  @relation(fields: [gameDetailId], references: [id])
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+  gameDetail    GameDetail  @relation(fields: [gameDetailId], references: [id], onDelete: Cascade)
 
   @@unique([gameDetailId, participantId])
   @@map("players")

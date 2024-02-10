@@ -10,6 +10,11 @@ export type Activity = Prisma.ActivityGetPayload<{
     place: true;
     games: {
       include: {
+        activity: {
+          include: {
+            participants: true;
+          };
+        };
         gameDetails: {
           include: {
             players: {

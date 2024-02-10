@@ -12,9 +12,8 @@ const handleGet = withZod(
     }),
   }),
   async (request, response) => {
-    const activityId = request.query.activityId;
-    const gameId = request.query.gameId;
-    const result = await findGameById({ activityId, gameId });
+    const { gameId } = request.query;
+    const result = await findGameById(gameId);
 
     if (result.type === 'success') {
       response.json({ game: result.data });
@@ -32,12 +31,13 @@ const handleDelete = withZod(
     }),
   }),
   async (request, response) => {
-    const { activityId, gameId } = request.query;
-    const result = await deleteGame({ activityId, gameId });
+    const { gameId } = request.query;
+    const result = await deleteGame(gameId);
 
     if (result.type === 'success') {
       response.status(204).end();
     } else {
+      console.log(result.error);
       response.status(400).json({ error: result.error });
     }
   },
