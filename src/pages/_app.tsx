@@ -1,3 +1,4 @@
+import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
 import ErrorScreen from '@/screens/ErrorScreen';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
@@ -27,8 +28,10 @@ const App = ({
       <div className="mx-auto mt-12 min-h-screen w-full max-w-screen-lg px-4 pb-20 sm:px-8">
         <ErrorBoundary fallback={<ErrorScreen />}>
           <SessionProvider session={session}>
-            <Component {...pageProps} />
-            <Toaster />
+            <BreadcrumbsProvider>
+              <Component {...pageProps} />
+              <Toaster />
+            </BreadcrumbsProvider>
           </SessionProvider>
         </ErrorBoundary>
       </div>
