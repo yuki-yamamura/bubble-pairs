@@ -1,6 +1,6 @@
 import Emoji from '@/components/Emoji';
 import { Avatar } from '@/components/ui/avatar';
-import { levelMap, sexMap } from '@/features/members/constants';
+import { levelMap, sexMap } from '@/constants';
 import Link from 'next/link';
 
 import type { Member } from '@prisma/client';

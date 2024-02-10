@@ -6,7 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { levelMap, sexMap } from '@/features/members/constants';
+import { levelMap, sexMap } from '@/constants';
 import dayjs from 'dayjs';
 import { MoreHorizontal } from 'lucide-react';
 
