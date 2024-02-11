@@ -10,12 +10,12 @@ import {
 import { Form, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signIn } from 'next-auth/react';
+import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
 import type { LoginSchema } from './validation';
 
-const LoginButton = () => {
+export const LoginButton = () => {
   const form = useForm<LoginSchema>({
     defaultValues: {
       email: '',
@@ -29,7 +29,8 @@ const LoginButton = () => {
   } = form;
 
   const submitHandler = handleSubmit(async (fieldValues) => {
-    await signIn('email', fieldValues);
+    await axios.post('/api/auth/signin/email', fieldValues);
+    // await signIn('email', fieldValues);
   });
 
   return (
@@ -64,5 +65,3 @@ const LoginButton = () => {
     </Dialog>
   );
 };
-
-export default LoginButton;
