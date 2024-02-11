@@ -1,20 +1,20 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
-type Props = {
-  imagePath: string;
+type Props = React.ComponentPropsWithoutRef<typeof Card> & {
   title: string;
+  headerImage: string;
   content: string;
 };
-const FeatureCard = ({ imagePath, title, content }: Props) => (
-  <Card className="max-w-sm border-none md:max-w-72">
+const FeatureCard = ({ title, headerImage, content }: Props) => (
+  <Card className="max-w-lg">
     <CardHeader className="flex flex-row items-center justify-center gap-x-4 p-3">
       <img
-        src={imagePath}
+        src={headerImage}
         alt=""
         aria-hidden
         className="relative top-[2px] h-6 w-6"
       />
-      <CardTitle className="text-lg font-extralight">{title}</CardTitle>
+      <CardTitle className="text-lg font-light">{title}</CardTitle>
     </CardHeader>
     <CardContent>
       <p>{content}</p>
