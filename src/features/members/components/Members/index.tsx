@@ -1,7 +1,7 @@
+import EmptyState from '@/components/EmptyState';
 import Loading from '@/components/Loading';
 import { Button } from '@/components/ui/button';
 import MemberTable from '@/features/members/components/MemberTable';
-import NoMemberFound from '@/features/members/components/NoMemberFound';
 import { useMembers } from '@/features/members/hooks/useMembers';
 import axios from 'axios';
 import { useRouter } from 'next/router';
@@ -50,7 +50,9 @@ const Members = () => {
           }}
         />
       ) : (
-        <NoMemberFound />
+        <EmptyState src="/images/exploring.png" alt="exploring">
+          まずはメンバーを登録しましょう。
+        </EmptyState>
       )}
     </div>
   );

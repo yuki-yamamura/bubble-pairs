@@ -99,7 +99,8 @@ const GameForm = ({ activity, onSubmit }: Props) => {
               </FormControl>
               {field.value?.length === 0 ? (
                 <EmptyState
-                  image="/images/empty-box.png"
+                  src="/images/empty-box.png"
+                  alt="empty-box"
                   className="w-180 h-40"
                 >
                   <span>メンバーが選択されていません。</span>
