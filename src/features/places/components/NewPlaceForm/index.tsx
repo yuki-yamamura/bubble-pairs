@@ -1,32 +1,30 @@
-import LoadingModal from '@/components/LoadingModal';
-import BasePlaceForm from '@/features/places/components/BasePlaceForm';
+import Loading from '@/components/Loading';
+import PlaceForm from '@/features/places/components/PlaceForm';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { PlaceFormType } from '@/features/places/validation';
+import type { PlaceCreateSchema } from '@/features/places/validation';
 import type { PostResponseData } from '@/pages/api/places';
 
-const NewPlaceForm = () => {
+const NewPlace = () => {
   const router = useRouter();
-  const defaultValues: PlaceFormType = {
+  const defaultValues: PlaceCreateSchema = {
     name: '',
     courtCount: 1,
   };
 
-  const { trigger, isMutating } = useSWRMutation<
-    PostResponseData,
-    Error,
+  const { trigger, isMutating } = useSWRMutation(
     '/api/places',
-    PlaceFormType
-  >('/api/places', (url: string, { arg }: { arg: PlaceFormType }) => {
-    return axios
-      .post<PostResponseData>(url, arg)
-      .then((response) => response.data);
-  });
+    (url: string, { arg }: { arg: PlaceCreateSchema }) => {
+      return axios
+        .post<PostResponseData>(url, arg)
+        .then((response) => response.data);
+    },
+  );
 
-  const handleSubmit = (fieldValues: PlaceFormType) => {
+  const handleSubmit = (fieldValues: PlaceCreateSchema) => {
     trigger(fieldValues)
       .then(() => {
         toast.success('場所を追加しました。');
@@ -36,16 +34,10 @@ const NewPlaceForm = () => {
   };
 
   if (isMutating) {
-    return <LoadingModal />;
+    return <Loading />;
   }
 
-  return (
-    <BasePlaceForm
-      defaultValues={defaultValues}
-      submitButtonLabel="場所を保存"
-      submitPlace={handleSubmit}
-    />
-  );
+  return <PlaceForm defaultValues={defaultValues} onSubmit={handleSubmit} />;
 };
 
-export default NewPlaceForm;
+export default NewPlace;

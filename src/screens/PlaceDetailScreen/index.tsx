@@ -6,11 +6,6 @@ type Props = {
   place: Place;
 };
 
-const PlaceScreen = ({ place }: Props) => (
-  <>
-    <h1>サイト 詳細</h1>
-    <PlaceDetail place={place} />
-  </>
-);
+const PlaceDetailScreen = ({ place }: Props) => <PlaceDetail place={place} />;
 
-export default PlaceScreen;
+export default PlaceDetailScreen;

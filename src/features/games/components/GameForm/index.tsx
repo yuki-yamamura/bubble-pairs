@@ -74,8 +74,6 @@ const GameForm = ({ activity, onSubmit }: Props) => {
     label: count.toString(),
   }));
 
-  console.log({ errors });
-
   return (
     <Form {...form}>
       <form

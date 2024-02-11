@@ -13,7 +13,7 @@ const handlePut: NextApiHandler = withZod(
     body: placeCreateSchema,
   }),
   async (request, response) => {
-    const id = parseInt(request.query.placeId);
+    const { placeId: id } = request.query;
     const result = await updatePlace({ id, ...request.body });
 
     if (result.type === 'success') {

@@ -16,7 +16,7 @@ export const findAllPlaces = (): Promise<Result<Place[]>> => {
   return withResult(() => prisma.place.findMany())();
 };
 
-export const findPlace = (id: string): Promise<Result<Place | null>> => {
+export const findPlaceById = (id: string): Promise<Result<Place | null>> => {
   return withResult(() =>
     prisma.place.findUnique({
       where: {

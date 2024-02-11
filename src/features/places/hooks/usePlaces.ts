@@ -7,7 +7,7 @@ import type { AxiosError } from 'axios';
 import type { KeyedMutator } from 'swr';
 
 export const usePlaces = (): {
-  places: Place[] | undefined;
+  places: Place[];
   error: AxiosError | undefined;
   isLoading: boolean;
   mutate: KeyedMutator<GetResponseData>;
@@ -20,7 +20,7 @@ export const usePlaces = (): {
   );
 
   return {
-    places: data?.places,
+    places: data?.places ?? [],
     error,
     isLoading,
     mutate,

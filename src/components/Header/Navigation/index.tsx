@@ -1,4 +1,4 @@
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import {
   Sheet,
   SheetClose,
@@ -6,7 +6,7 @@ import {
   SheetHeader,
   SheetTrigger,
 } from '@/components/ui/sheet';
-import { CircleUserIcon, Menu } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import Link from 'next/link';
 import { useState } from 'react';
 
@@ -25,9 +25,6 @@ const Navigation = () => {
         <div className="mb-8 flex items-center gap-x-4">
           <Avatar>
             <AvatarImage src="/images/dolphin.png" alt="guest" />
-            <AvatarFallback>
-              <CircleUserIcon />
-            </AvatarFallback>
           </Avatar>
           <div>ゲストユーザー</div>
         </div>

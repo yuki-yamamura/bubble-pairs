@@ -24,6 +24,8 @@ const handleGet: NextApiHandler<GetResponseData> = async (
 
   if (result.type === 'success') {
     response.json({ places: result.data });
+  } else {
+    response.status(400);
   }
 };
 
