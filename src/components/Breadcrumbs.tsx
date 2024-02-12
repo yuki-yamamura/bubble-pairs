@@ -10,7 +10,7 @@ const Breadcrumbs = () => {
   const router = useRouter();
 
   return (
-    <nav className="flex gap-x-2">
+    <nav className="flex gap-x-1">
       {breadcrumbs.map(({ path, label, notFound }, index) => (
         <div className="flex items-center" key={path}>
           <Link
@@ -18,13 +18,16 @@ const Breadcrumbs = () => {
             aria-disabled={notFound || path === router.asPath}
             className={cn(
               buttonVariants({ variant: 'link' }),
+              'h-5 px-1',
               (notFound || path === router.asPath) &&
                 'pointer-events-none opacity-50',
             )}
           >
             {label}
           </Link>
-          {index + 1 !== breadcrumbs.length && <ChevronRight size={14} />}
+          {index + 1 !== breadcrumbs.length && (
+            <ChevronRight size={14} className="ml-2" />
+          )}
         </div>
       ))}
     </nav>

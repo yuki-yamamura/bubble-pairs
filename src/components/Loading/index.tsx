@@ -1,7 +1,16 @@
-import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { Loader2 } from 'lucide-react';
 
-const Loading = () => {
-  return <AiOutlineLoading3Quarters aria-label="読み込み中" />;
+type Props = {
+  text?: string;
+};
+
+const Loading = ({ text }: Props) => {
+  return (
+    <div className="flex items-center justify-center gap-x-1">
+      <Loader2 size={20} aria-busy className="animate-spin text-slate-300" />
+      {text}
+    </div>
+  );
 };
 
 export default Loading;

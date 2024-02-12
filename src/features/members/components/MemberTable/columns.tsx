@@ -15,7 +15,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
   deleteMember: (memberId: Member['id']) => Promise<void>;
-  openMemberDetail: (memberId: Member['id']) => Promise<void>;
+  openMemberDetail: (memberId: Member['id']) => void;
 }): ColumnDef<Member>[] => {
   return [
     {
