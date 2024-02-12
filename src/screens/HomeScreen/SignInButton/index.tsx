@@ -38,7 +38,7 @@ const SignInButton = () => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button type="button" variant="accent" className="rounded-3xl">
+        <Button type="button" variant="accent">
           はじめる
         </Button>
       </DialogTrigger>

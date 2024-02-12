@@ -1,5 +1,5 @@
 import FeatureCard from './FeatureCard';
-import SignInButton from './SingInButton';
+import SignInButton from './SignInButton';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
 
