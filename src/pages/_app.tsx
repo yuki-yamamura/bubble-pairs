@@ -4,6 +4,7 @@ import ErrorScreen from '@/screens/ErrorScreen';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Toaster } from 'react-hot-toast';
 
 import type { AppProps } from 'next/app';
 import type { Session } from 'next-auth';
@@ -26,6 +27,7 @@ const App = ({
   return (
     <div className={inter.className}>
       <ErrorBoundary fallback={<ErrorScreen />}>
+        <Toaster />
         <SessionProvider session={session}>
           <BreadcrumbsProvider>
             <Layout>

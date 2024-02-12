@@ -1,23 +1,15 @@
-import LoadingModal from '@/components/LoadingModal';
 import MemberForm from '@/features/members/components/MemberForm';
+import { $Enums } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { MemberCreateSchemaType } from '../validation';
+import type { MemberCreateSchemaType } from '@/features/members/validation';
 import type { PostResponseData } from '@/pages/api/members';
 
 const NewMember = () => {
   const router = useRouter();
-  const defaultValues: MemberCreateSchemaType = {
-    name: '',
-    sex: 'MALE',
-    level: 'BEGINNER',
-    note: null,
-    emojiUnicode: '1f9d1', // adult unicode: I think this is suitable for default avatar
-  };
-
   const { trigger, isMutating } = useSWRMutation(
     '/api/members',
     (url: string, { arg }: { arg: MemberCreateSchemaType }) => {
@@ -30,21 +22,26 @@ const NewMember = () => {
   const handleSubmit = async (fieldValues: MemberCreateSchemaType) => {
     try {
       await trigger(fieldValues);
-      toast.success('メンバーを登録しました。');
       await router.push('/members');
+      toast.success('メンバーを登録しました。');
     } catch {
       toast.error('メンバーを登録できませんでした。');
     }
   };
 
-  if (isMutating) {
-    return <LoadingModal />;
-  }
+  const defaultValues: MemberCreateSchemaType = {
+    name: '',
+    sex: $Enums.Sex.MALE,
+    level: $Enums.Level.BEGINNER,
+    note: null,
+    emojiUnicode: '1f9d1', // adult unicode: I think this is suitable as default avatar.
+  };
 
   return (
     <MemberForm
       defaultValues={defaultValues}
-      submitButtonLabel="メンバーを登録"
+      buttonLabel="メンバーを登録"
+      isSubmitting={isMutating}
       onSubmit={handleSubmit}
     />
   );

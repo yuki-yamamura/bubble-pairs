@@ -1,3 +1,4 @@
+import Button from '@/components/Button';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -5,7 +6,6 @@ import {
   AlertDialogHeader,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 import { type EmojiClickData, EmojiStyle } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
@@ -13,12 +13,13 @@ import { useState } from 'react';
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 type Props = {
-  initialEmojiUnicode: string;
+  defaultUnicode: string;
   onEmojiClick: (emoji: EmojiClickData, event: MouseEvent) => void;
 };
 
-const EmojiPickerModal = ({ initialEmojiUnicode, onEmojiClick }: Props) => {
+const EmojiPicker = ({ defaultUnicode, onEmojiClick }: Props) => {
   const [open, setOpen] = useState(false);
+
   const handleEmojiClick = (emoji: EmojiClickData, event: MouseEvent) => {
     onEmojiClick(emoji, event);
     setOpen(false);
@@ -27,22 +28,21 @@ const EmojiPickerModal = ({ initialEmojiUnicode, onEmojiClick }: Props) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="outline" size="sm" className="rounded-3xl">
+        <Button variant="outline" size="sm">
           プロフィール画像を変更
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogDescription className="mx-auto w-full max-w-fit">
-            プロフィール画像を選択してください。
+          <AlertDialogDescription className="text-center">
+            絵文字を選択してください。
           </AlertDialogDescription>
         </AlertDialogHeader>
         <Picker
           emojiStyle={EmojiStyle.TWITTER}
           skinTonesDisabled
           previewConfig={{
-            defaultEmoji: initialEmojiUnicode,
-            showPreview: false,
+            defaultEmoji: defaultUnicode,
           }}
           onEmojiClick={handleEmojiClick}
           className="mx-auto w-full"
@@ -52,4 +52,4 @@ const EmojiPickerModal = ({ initialEmojiUnicode, onEmojiClick }: Props) => {
   );
 };
 
-export default EmojiPickerModal;
+export default EmojiPicker;

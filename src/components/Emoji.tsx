@@ -1,14 +1,18 @@
-import { Emoji as BaseEmoji, EmojiStyle } from 'emoji-picker-react';
+import { Emoji as EmojiPrimitive, EmojiStyle } from 'emoji-picker-react';
 
 import type { ComponentPropsWithoutRef } from 'react';
 
 type Props = Pick<
-  ComponentPropsWithoutRef<typeof BaseEmoji>,
+  ComponentPropsWithoutRef<typeof EmojiPrimitive>,
   'unified' | 'size'
 >;
 
 const Emoji = ({ unified, size }: Props) => (
-  <BaseEmoji unified={unified} size={size} emojiStyle={EmojiStyle.TWITTER} />
+  <EmojiPrimitive
+    unified={unified}
+    size={size}
+    emojiStyle={EmojiStyle.TWITTER}
+  />
 );
 
 export default Emoji;

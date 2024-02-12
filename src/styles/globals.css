@@ -68,7 +68,8 @@
 }
 
 @layer components {
-  .required-field::before {
+  /* pseudo-element for label in required field */
+  .required::before {
     @apply pr-1 text-red-400 content-["*"];
   }
 }

@@ -44,13 +44,12 @@ const handlePost: NextApiHandler<PostResponseData> = withZod(
 
       return;
     }
-    const ownerId = 'testid';
 
     const data = {
       ...request.body,
       owner: {
         connect: {
-          id: ownerId,
+          id: session.user.id,
         },
       },
     } satisfies Prisma.MemberCreateInput;

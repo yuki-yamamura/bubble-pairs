@@ -38,7 +38,8 @@ const MemberDetail = ({ member }: Props) => {
   return (
     <MemberForm
       defaultValues={member}
-      submitButtonLabel="メンバーを更新"
+      buttonLabel="メンバーを更新"
+      isSubmitting={isMutating}
       onSubmit={handleSubmit}
     />
   );
