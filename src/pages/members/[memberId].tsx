@@ -1,6 +1,5 @@
 import { findMemberById } from '@/features/members/logic/repository';
 import MemberDetailScreen from '@/screens/MemberDetailScreen';
-import { notFound } from 'next/navigation';
 
 import type { Member } from '@prisma/client';
 import type { GetServerSideProps } from 'next';
@@ -22,14 +21,13 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
 
   if (result.type === 'success') {
     if (!result.data) {
-      notFound();
+      return { notFound: true };
     }
 
     return {
       props: {
         member: result.data,
       },
-      notFound: false,
     };
   } else {
     throw result.error;
