@@ -1,7 +1,5 @@
 import NewMember from '@/features/members/components/NewMember';
 
-const NewMemberScreen = () => {
-  return <NewMember />;
-};
+const NewMemberScreen = () => <NewMember />;
 
 export default NewMemberScreen;

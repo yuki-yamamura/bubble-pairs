@@ -6,7 +6,7 @@ import type { Prisma } from '@prisma/client';
 
 export type MemberCreateSchema = z.infer<typeof memberCreateSchema>;
 
-export type MemberUpdateSchemaType = z.infer<typeof memberUpdateSchema>;
+export type MemberUpdateSchema = z.infer<typeof memberUpdateSchema>;
 
 export const memberCreateSchema = schemaForType<
   Omit<Prisma.MemberCreateInput, 'owner'>

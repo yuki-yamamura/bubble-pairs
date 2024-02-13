@@ -137,7 +137,7 @@ const MemberForm = ({
           type="submit"
           isBusy={isSubmitting}
           variant="accent-secondary"
-          className="mx-auto max-w-fit"
+          className="self-center"
         >
           {buttonLabel}
         </Button>
