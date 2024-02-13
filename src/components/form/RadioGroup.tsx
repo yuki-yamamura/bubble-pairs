@@ -8,17 +8,18 @@ import {
 import type { Options } from '@/types/Options';
 import type { RadioGroupProps } from '@radix-ui/react-radio-group';
 
-type Props = {
+type Props = React.ComponentPropsWithRef<typeof RadioGroupPrimitive> & {
   options: Options;
   value: RadioGroupProps['value'];
   onValueChange: RadioGroupProps['onValueChange'];
 };
 
-const RadioGroup = ({ options, value, onValueChange }: Props) => (
+const RadioGroup = ({ options, value, onValueChange, ...rest }: Props) => (
   <RadioGroupPrimitive
     defaultValue={value}
     onValueChange={onValueChange}
     className="flex gap-x-4"
+    {...rest}
   >
     {options.map(({ value, label }) => (
       <FormItem key={value}>

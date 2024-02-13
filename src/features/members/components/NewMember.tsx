@@ -5,21 +5,21 @@ import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { MemberCreateSchemaType } from '@/features/members/validation';
+import type { MemberCreateSchema } from '@/features/members/validation';
 import type { PostResponseData } from '@/pages/api/members';
 
 const NewMember = () => {
   const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(
     '/api/members',
-    (url: string, { arg }: { arg: MemberCreateSchemaType }) => {
+    (url: string, { arg }: { arg: MemberCreateSchema }) => {
       return axios
         .post<PostResponseData>(url, arg)
         .then((response) => response.data);
     },
   );
 
-  const handleSubmit = async (fieldValues: MemberCreateSchemaType) => {
+  const handleSubmit = async (fieldValues: MemberCreateSchema) => {
     try {
       await trigger(fieldValues);
       await router.push('/members');
@@ -29,7 +29,7 @@ const NewMember = () => {
     }
   };
 
-  const defaultValues: MemberCreateSchemaType = {
+  const defaultValues: MemberCreateSchema = {
     name: '',
     sex: $Enums.Sex.MALE,
     level: $Enums.Level.BEGINNER,

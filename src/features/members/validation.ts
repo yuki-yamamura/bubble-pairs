@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import type { Prisma } from '@prisma/client';
 
-export type MemberCreateSchemaType = z.infer<typeof memberCreateSchema>;
+export type MemberCreateSchema = z.infer<typeof memberCreateSchema>;
 
 export type MemberUpdateSchemaType = z.infer<typeof memberUpdateSchema>;
 

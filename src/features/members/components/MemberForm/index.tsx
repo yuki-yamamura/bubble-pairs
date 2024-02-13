@@ -19,15 +19,15 @@ import { Sex } from '@prisma/client';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
-import type { MemberCreateSchemaType } from '@/features/members/validation';
+import type { MemberCreateSchema } from '@/features/members/validation';
 import type { Options } from '@/types/Options';
 import type { EmojiClickData } from 'emoji-picker-react';
 
 type Props = {
-  defaultValues: MemberCreateSchemaType;
+  defaultValues: MemberCreateSchema;
   buttonLabel: string;
   isSubmitting: boolean;
-  onSubmit: (fieldValues: MemberCreateSchemaType) => Promise<void>;
+  onSubmit: (fieldValues: MemberCreateSchema) => Promise<void>;
 };
 const MemberForm = ({
   defaultValues,
@@ -35,7 +35,7 @@ const MemberForm = ({
   isSubmitting,
   onSubmit,
 }: Props) => {
-  const form = useForm<MemberCreateSchemaType>({
+  const form = useForm<MemberCreateSchema>({
     defaultValues,
     resolver: zodResolver(memberCreateSchema),
   });
@@ -81,12 +81,14 @@ const MemberForm = ({
         />
       </div>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((fieldValues) => onSubmit(fieldValues))}
         className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
       >
         <FormItem>
-          <FormLabel className="required">名前</FormLabel>
-          <Input placeholder="山田 太郎" {...register('name')} />
+          <FormLabel htmlFor="name" className="required">
+            名前
+          </FormLabel>
+          <Input id="name" placeholder="山田 太郎" {...register('name')} />
           {errors.name && <FormMessage>名前を入力してください。</FormMessage>}
         </FormItem>
         <FormField
@@ -94,12 +96,15 @@ const MemberForm = ({
           name="sex"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="required">性別</FormLabel>
+              <FormLabel id="sex" className="required">
+                性別
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   options={sexOptions}
                   value={field.value}
                   onValueChange={field.onChange}
+                  aria-labelledby="sex"
                 />
               </FormControl>
             </FormItem>
@@ -110,20 +115,23 @@ const MemberForm = ({
           name="level"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="required">レベル</FormLabel>
+              <FormLabel id="level" className="required">
+                レベル
+              </FormLabel>
               <FormControl>
                 <RadioGroup
                   options={levelOptions}
                   value={field.value}
                   onValueChange={field.onChange}
+                  aria-labelledby="level"
                 />
               </FormControl>
             </FormItem>
           )}
         />
         <FormItem>
-          <FormLabel>メモ</FormLabel>
-          <Textarea {...register('note')} />
+          <FormLabel htmlFor="note">メモ</FormLabel>
+          <Textarea id="note" {...register('note')} />
         </FormItem>
         <Button
           type="submit"

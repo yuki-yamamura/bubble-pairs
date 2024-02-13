@@ -8,9 +8,9 @@ export const DOUBLES_PLAYER_COUNT = 4;
 
 export const levelMap = new Map<Level, string>([
   ['BEGINNER', '入門'],
-  ['ELEMENTARY', '初心者'],
-  ['INTERMEDIATE', '中級者'],
-  ['ADVANCED', '上級者'],
+  ['ELEMENTARY', '初級'],
+  ['INTERMEDIATE', '中級'],
+  ['ADVANCED', '上級'],
 ]);
 
 export const sexMap = new Map<Sex, string>([
