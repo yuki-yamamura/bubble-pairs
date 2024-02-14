@@ -2,7 +2,6 @@ import MemberForm from '.';
 import { Level, Sex } from '@prisma/client';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import 'intersection-observer';
 
 import type { MemberCreateSchema } from '@/features/members/validation';
 
@@ -70,7 +69,7 @@ describe('MemberForm', () => {
     });
   });
 
-  describe('if user fills out all the fileds, then clicks the submit button', () => {
+  describe('if user fills out all the fields, then clicks the submit button', () => {
     test('should call a callback function with correct values', async () => {
       // arrange
       const user = userEvent.setup();
