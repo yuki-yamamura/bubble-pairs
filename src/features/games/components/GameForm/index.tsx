@@ -21,7 +21,6 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 import type { Activity } from '@/types/models/Activity';
 import type { Member } from '@prisma/client';
-import type { Control, FieldValues } from 'react-hook-form';
 
 type Props = {
   activity: Activity;
@@ -124,26 +123,44 @@ const GameForm = ({ activity, onSubmit }: Props) => {
           )}
         />
         {errors.members && <FormMessage>{errors.members.message}</FormMessage>}
-        <Select
-          control={control as unknown as Control<FieldValues>}
+        <FormField
+          control={control}
           name="singlesCount"
-          label="シングルス数"
-          required={true}
-          options={gameDetailCountOptions}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel className="required">シングルス数</FormLabel>
+              <Select
+                options={gameDetailCountOptions}
+                value={field.value}
+                defaultValue={field.value}
+                onValueChange={field.onChange}
+              />
+              {errors.singlesCount && (
+                <FormMessage>{errors.singlesCount.message}</FormMessage>
+              )}
+            </FormItem>
+          )}
         />
-        {errors.singlesCount && (
-          <FormMessage>{errors.singlesCount.message}</FormMessage>
-        )}
-        <Select
-          control={control as unknown as Control<FieldValues>}
+        <FormField
+          control={control}
           name="doublesCount"
-          label="ダブルス数"
-          required={true}
-          options={gameDetailCountOptions}
+          rules={{ required: true }}
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel className="required">ダブルス数</FormLabel>
+              <Select
+                options={gameDetailCountOptions}
+                value={field.value}
+                defaultValue={field.value}
+                onValueChange={field.onChange}
+              />
+              {errors.doublesCount && (
+                <FormMessage>{errors.doublesCount.message}</FormMessage>
+              )}
+            </FormItem>
+          )}
         />
-        {errors.doublesCount && (
-          <FormMessage>{errors.doublesCount.message}</FormMessage>
-        )}
         <Button type="submit">ゲームを開始</Button>
       </form>
     </Form>
