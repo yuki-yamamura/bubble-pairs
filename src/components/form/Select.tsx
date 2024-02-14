@@ -14,13 +14,12 @@ import type { NonUndefined } from 'react-hook-form';
 type Props = SelectProps & {
   options: Options;
   value: NonUndefined<SelectProps['value']>;
-  defaultValue: NonUndefined<SelectProps['defaultValue']>;
   onValueChange: NonUndefined<SelectProps['onValueChange']>;
 };
 
-const Select = ({ options, value, defaultValue, onValueChange }: Props) => {
+const Select = ({ options, value, onValueChange, ...rest }: Props) => {
   return (
-    <SelectPrimitive onValueChange={onValueChange} defaultValue={defaultValue}>
+    <SelectPrimitive onValueChange={onValueChange} {...rest}>
       <FormControl>
         <SelectTrigger>
           <SelectValue

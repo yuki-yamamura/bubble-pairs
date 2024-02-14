@@ -7,16 +7,17 @@ import {
 
 import type { Options } from '@/types/Options';
 import type { RadioGroupProps } from '@radix-ui/react-radio-group';
+import type { NonUndefined } from 'react-hook-form';
 
-type Props = React.ComponentPropsWithRef<typeof RadioGroupPrimitive> & {
+type Props = RadioGroupProps & {
   options: Options;
-  value: RadioGroupProps['value'];
-  onValueChange: RadioGroupProps['onValueChange'];
+  value: NonUndefined<RadioGroupProps['value']>;
+  onValueChange: NonUndefined<RadioGroupProps['onValueChange']>;
 };
 
 const RadioGroup = ({ options, value, onValueChange, ...rest }: Props) => (
   <RadioGroupPrimitive
-    defaultValue={value}
+    value={value}
     onValueChange={onValueChange}
     className="flex gap-x-4"
     {...rest}
