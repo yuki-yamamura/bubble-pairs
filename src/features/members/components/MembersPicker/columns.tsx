@@ -1,17 +1,15 @@
 import { Emoji } from 'emoji-picker-react';
 
+import type { SelectableData } from '@/types/SelectableData';
 import type { Member } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
 
-export const columns: ColumnDef<
-  { value: Member; selected: boolean },
-  unknown
->[] = [
+export const columns: ColumnDef<SelectableData<Member>>[] = [
   {
     accessorKey: 'name',
     header: '名前',
     cell: ({ row }) => {
-      const { value: member } = row.original;
+      const { model: member } = row.original;
 
       return (
         <div className="flex items-center gap-x-4">

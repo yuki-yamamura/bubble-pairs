@@ -1,127 +1,137 @@
+import Button from '@/components/Button';
 import DataTable from '@/components/DataTable';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useEffect, useState } from 'react';
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { useState } from 'react';
 
+import type { SelectableData } from '@/types/SelectableData';
 import type { ColumnDef } from '@tanstack/react-table';
 
-type SelectableData<TData extends { id: string }> = {
-  value: TData;
-  selected: boolean;
-};
-
-type Props<TData extends { id: string }, TValue> = React.ComponentPropsWithRef<
-  typeof AlertDialog
+type Props<TData extends { id: string }> = React.ComponentPropsWithoutRef<
+  typeof Dialog
 > & {
-  columns: ColumnDef<SelectableData<TData>, TValue>[];
+  columns: ColumnDef<SelectableData<TData>, unknown>[];
   data: TData[];
   triggerButtonLabel: string;
-  cancelButtonLabel: string;
   actionButtonLabel: string;
   dialogTitle?: string;
   dialogDescription?: string;
-  setData: (newData: TData[]) => void;
+  setData: (selectedData: TData[]) => void;
 };
 
-const DataPicker = <TData extends { id: string }, TValue>({
+const DataPicker = <TData extends { id: string }>({
   columns,
   data,
   triggerButtonLabel,
-  cancelButtonLabel,
   actionButtonLabel,
   dialogTitle,
   dialogDescription,
   setData,
   ...rest
-}: Props<TData, TValue>) => {
-  const [selectableData, setSelectableData] = useState<SelectableData<TData>[]>(
-    [],
-  );
+}: Props<TData>) => {
+  const initialData: SelectableData<TData>[] = data.map((model) => ({
+    model,
+    isSelected: false,
+  }));
+  const [selectableData, setSelectableData] =
+    useState<SelectableData<TData>[]>(initialData);
+
   const handleCheckboxClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     setSelectableData(
-      selectableData.map((data) =>
-        data.value.id === e.currentTarget.value
-          ? { value: data.value, selected: !data.selected }
-          : data,
+      selectableData.map((item) =>
+        // toggle whether or not the item is selected.
+        item.model.id === e.currentTarget.value
+          ? { ...item, isSelected: !item.isSelected }
+          : item,
       ),
     );
   };
   const handleActionButtonClick = () => {
-    const selectedData = selectableData
-      .filter((item) => item.selected)
-      .map((item) => item.value);
+    const selectedModels = selectableData
+      .filter((item) => item.isSelected)
+      .map((item) => item.model);
 
-    setData(selectedData);
+    setData(selectedModels);
   };
 
-  const checkboxColumn: ColumnDef<{ value: TData; selected: boolean }, TValue> =
-    {
-      accessorKey: 'selected',
-      header: '選択中',
-      cell: ({ row }) => {
-        const { value, selected } = row.original;
+  const reset = () => {
+    setSelectableData(initialData);
+  };
+  const selectAll = () => {
+    setSelectableData(data.map((model) => ({ model, isSelected: true })));
+  };
+  const toggleCheck = () => {
+    if (isEverySelected) {
+      reset();
+    } else {
+      selectAll();
+    }
+  };
+  const isEverySelected = selectableData.every((item) => item.isSelected);
 
-        return (
-          <Checkbox
-            value={value.id}
-            checked={selected}
-            onClick={handleCheckboxClick}
-          />
-        );
-      },
-    };
+  const checkboxColumn: ColumnDef<SelectableData<TData>> = {
+    accessorKey: 'selected',
+    header: () => {
+      return <Checkbox checked={isEverySelected} onClick={toggleCheck} />;
+    },
+    cell: ({ row }) => {
+      const { model, isSelected: selected } = row.original;
 
-  useEffect(() => {
-    const defaultSelectableData = data.map((data) => {
-      return { value: data, selected: false };
-    }) satisfies SelectableData<TData>[];
-
-    setSelectableData(defaultSelectableData);
-  }, [data]);
+      return (
+        <Checkbox
+          value={model.id}
+          checked={selected}
+          onClick={handleCheckboxClick}
+        />
+      );
+    },
+  };
 
   return (
     <div>
-      <AlertDialog {...rest}>
-        <AlertDialogTrigger asChild>
+      <Dialog {...rest} onOpenChange={reset}>
+        <DialogTrigger asChild>
           <Button
-            variant="link"
-            className="max-w-fit text-blue-400"
             disabled={data.length === 0}
+            variant="link"
+            className="max-w-fit p-0 text-blue-400"
           >
             {triggerButtonLabel}
           </Button>
-        </AlertDialogTrigger>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            {dialogTitle && <AlertDialogTitle>{dialogTitle}</AlertDialogTitle>}
-            {dialogDescription && (
-              <AlertDialogDescription>
-                {dialogDescription}
-              </AlertDialogDescription>
-            )}
-          </AlertDialogHeader>
+        </DialogTrigger>
+        <DialogContent className="flex flex-col">
+          {(dialogTitle || dialogDescription) && (
+            <DialogHeader className="self-center">
+              {dialogTitle && <DialogTitle>{dialogTitle}</DialogTitle>}
+              {dialogDescription && (
+                <DialogDescription>{dialogDescription}</DialogDescription>
+              )}
+            </DialogHeader>
+          )}
           <DataTable
             columns={[checkboxColumn, ...columns]}
             data={selectableData}
           />
-          <div className="flex gap-x-4">
-            <AlertDialogCancel>{cancelButtonLabel}</AlertDialogCancel>
-            <AlertDialogAction onClick={handleActionButtonClick}>
+          <DialogClose asChild>
+            <Button
+              type="button"
+              onClick={handleActionButtonClick}
+              variant="outline"
+              className="self-end"
+            >
               {actionButtonLabel}
-            </AlertDialogAction>
-          </div>
-        </AlertDialogContent>
-      </AlertDialog>
+            </Button>
+          </DialogClose>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

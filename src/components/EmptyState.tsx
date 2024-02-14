@@ -1,8 +1,10 @@
+import { cn } from '@/lib/shadcn-ui';
+
 type Props = React.PropsWithChildren<React.ImgHTMLAttributes<HTMLImageElement>>;
 
-const EmptyState = ({ children, alt, ...rest }: Props) => (
+const EmptyState = ({ alt, className, children, ...rest }: Props) => (
   <div className="flex flex-col items-center justify-center">
-    <img alt={alt} {...rest} className="w-240 h-60" />
+    <img alt={alt} className={cn('h-60 w-60', className)} {...rest} />
     {children}
   </div>
 );

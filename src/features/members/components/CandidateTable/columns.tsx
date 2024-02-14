@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import Button from '@/components/Button';
 import { Emoji } from 'emoji-picker-react';
 import { Trash2 } from 'lucide-react';
 
@@ -6,7 +6,7 @@ import type { Member } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
-  deleteByRowIndex: (index: number) => void;
+  deleteRowByIndex: (index: number) => void;
 }): ColumnDef<Member>[] => {
   return [
     {
@@ -28,15 +28,15 @@ export const createColumns = (actions: {
     {
       id: 'deletion',
       cell: ({ row }) => {
-        const { deleteByRowIndex } = actions;
+        const { deleteRowByIndex } = actions;
 
         return (
-          <div className="text-right">
+          <div className="flex justify-end">
             <Button type="button" variant="ghost" className="h-8 w-8 p-0">
               <Trash2
+                aria-label="参加者を削除"
+                onClick={() => deleteRowByIndex(row.index)}
                 className="h-4 w-4 stroke-1"
-                aria-label="メニューを開く"
-                onClick={() => deleteByRowIndex(row.index)}
               />
             </Button>
           </div>

@@ -1,6 +1,5 @@
-import EmptyState from '@/components/EmptyState';
-import SelectField from '@/components/form/fields/SelectField';
-import { Button } from '@/components/ui/button';
+import Button from '@/components/Button';
+import Select from '@/components/form/Select';
 import {
   Form,
   FormControl,
@@ -9,27 +8,25 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  activityCreateSchema,
-  type ActivityCreateSchemaType,
-} from '@/features/activities/validation';
+import { activityCreateSchema } from '@/features/activities/validation';
 import CandidateTable from '@/features/members/components/CandidateTable';
-import MemberPicker from '@/features/members/components/MemberPicker';
+import MembersPicker from '@/features/members/components/MembersPicker';
 import { zodResolver } from '@hookform/resolvers/zod';
-import Link from 'next/link';
 import { useFieldArray, useForm } from 'react-hook-form';
 
+import type { ActivityCreateSchema } from '@/features/activities/validation';
+import type { Options } from '@/types/Options';
 import type { Member, Place } from '@prisma/client';
-import type { Control, FieldValues } from 'react-hook-form';
 
 type Props = {
   members: Member[];
   places: Place[];
-  onSubmit: (fieldValues: ActivityCreateSchemaType) => void;
+  isSubmitting: boolean;
+  onSubmit: (fieldValues: ActivityCreateSchema) => void;
 };
 
-const ActivityForm = ({ members, places, onSubmit }: Props) => {
-  const form = useForm<ActivityCreateSchemaType>({
+const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
+  const form = useForm<ActivityCreateSchema>({
     defaultValues: {
       participants: [],
       placeId: places[0].id,
@@ -39,15 +36,12 @@ const ActivityForm = ({ members, places, onSubmit }: Props) => {
   });
   const {
     control,
-    handleSubmit,
     formState: { errors },
+    handleSubmit,
   } = form;
   const { append, remove, fields } = useFieldArray({
     control,
     name: 'participants',
-  });
-  const submitHandler = handleSubmit((fieldValues) => {
-    onSubmit(fieldValues);
   });
 
   const updateParticipants = (addedMembers: Member[]) => {
@@ -55,13 +49,11 @@ const ActivityForm = ({ members, places, onSubmit }: Props) => {
     append(values);
   };
 
-  // members who haven't joined yet
-  const restMembers = members.filter((member) => {
-    const participantIds = fields.map((value) => value.memberId);
-
-    return !participantIds.includes(member.id);
-  });
-  const placeOptions = places.map(({ name, id }) => ({
+  // members who haven't joined an activity yet.
+  const restMembers = members.filter(
+    (member) => !fields.some((field) => field.memberId === member.id),
+  );
+  const placeOptions: Options = places.map(({ id, name }) => ({
     value: id,
     label: name,
   }));
@@ -69,66 +61,64 @@ const ActivityForm = ({ members, places, onSubmit }: Props) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={submitHandler}
-        className="mx-auto flex max-w-md flex-col gap-y-6"
+        onSubmit={handleSubmit(onSubmit)}
+        className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
       >
         <FormField
           control={control}
           name="participants"
+          rules={{ required: true }}
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel className="required-field">
-                参加者（２名以上）
-              </FormLabel>
+              <FormLabel className="required">参加者</FormLabel>
+              {errors.participants && (
+                <FormMessage>{errors.participants.message}</FormMessage>
+              )}
               <FormControl>
-                <MemberPicker
+                <MembersPicker
                   members={restMembers}
                   updateParticipants={updateParticipants}
                 />
               </FormControl>
-              {field.value?.length === 0 && (
-                <EmptyState
-                  src="/images/empty-box.png"
-                  alt="empty-box"
-                  className="w-180 h-40"
-                >
-                  <span>メンバーが選択されていません。</span>
-                  <span>
-                    <Link
-                      // todo: navigate default members
-                      href="#"
-                      className="text-blue-400 hover:underline focus:underline"
-                    >
-                      いつも参加するメンバー
-                    </Link>{' '}
-                    を登録できます。
-                  </span>
-                </EmptyState>
-              )}
-              {field.value?.length !== 0 && (
-                <CandidateTable
-                  data={
-                    field.value.map(({ memberId }) =>
-                      members.find((member) => member.id === memberId),
-                    ) as Member[]
-                  }
-                  actions={{
-                    deleteByRowIndex: (index: number) => remove(index),
-                  }}
-                />
+              <CandidateTable
+                data={field.value
+                  .map(({ memberId }) =>
+                    members.find((member) => member.id === memberId),
+                  )
+                  // remove undefined and TypeScript recognizes correct type.
+                  .filter((member): member is Member => !!member)}
+                actions={{
+                  deleteRowByIndex: (index: number) => remove(index),
+                }}
+              />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={control}
+          name="placeId"
+          rules={{ required: true }}
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel className="required">活動場所</FormLabel>
+              <Select
+                options={placeOptions}
+                value={field.value}
+                defaultValue={field.value}
+                onValueChange={field.onChange}
+              />
+              {errors.placeId && (
+                <FormMessage>{errors.placeId?.message}</FormMessage>
               )}
             </FormItem>
           )}
         />
-        <SelectField
-          control={control as unknown as Control<FieldValues>}
-          name="placeId"
-          label="場所"
-          required={true}
-          options={placeOptions}
-        />
-        {errors.placeId && <FormMessage>{errors.placeId?.message}</FormMessage>}
-        <Button type="submit" variant="accent" className="mx-auto max-w-fit">
+        <Button
+          type="submit"
+          isBusy={isSubmitting}
+          variant="accent-secondary"
+          className="self-center"
+        >
           アクティビティを開始
         </Button>
       </form>

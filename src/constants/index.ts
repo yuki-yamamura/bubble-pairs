@@ -1,10 +1,10 @@
 import type { Level, Rule, Sex } from '@prisma/client';
 
-export const MINIMUM_PARTICIPANT_COUNT = 2;
-
 export const SINGLES_PLAYER_COUNT = 2;
 
 export const DOUBLES_PLAYER_COUNT = 4;
+
+export const MINIMUM_PARTICIPANT_COUNT = SINGLES_PLAYER_COUNT;
 
 export const levelMap = new Map<Level, string>([
   ['BEGINNER', '入門'],

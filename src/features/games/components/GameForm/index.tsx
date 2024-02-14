@@ -1,5 +1,5 @@
 import EmptyState from '@/components/EmptyState';
-import SelectField from '@/components/form/fields/SelectField';
+import Select from '@/components/form/Select';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -15,7 +15,7 @@ import {
   type GameCreateSchemaType,
 } from '@/features/games/validation';
 import CandidateTable from '@/features/members/components/CandidateTable';
-import MemberPicker from '@/features/members/components/MemberPicker';
+import MembersPicker from '@/features/members/components/MembersPicker';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 
@@ -92,7 +92,7 @@ const GameForm = ({ activity, onSubmit }: Props) => {
                 参加者（２名以上）
               </FormLabel>
               <FormControl>
-                <MemberPicker
+                <MembersPicker
                   members={restMembers}
                   updateParticipants={updateMembers}
                 />
@@ -116,7 +116,7 @@ const GameForm = ({ activity, onSubmit }: Props) => {
                     ) ?? []
                   }
                   actions={{
-                    deleteByRowIndex: (index: number) => remove(index),
+                    deleteRowByIndex: (index: number) => remove(index),
                   }}
                 />
               )}
@@ -124,7 +124,7 @@ const GameForm = ({ activity, onSubmit }: Props) => {
           )}
         />
         {errors.members && <FormMessage>{errors.members.message}</FormMessage>}
-        <SelectField
+        <Select
           control={control as unknown as Control<FieldValues>}
           name="singlesCount"
           label="シングルス数"
@@ -134,7 +134,7 @@ const GameForm = ({ activity, onSubmit }: Props) => {
         {errors.singlesCount && (
           <FormMessage>{errors.singlesCount.message}</FormMessage>
         )}
-        <SelectField
+        <Select
           control={control as unknown as Control<FieldValues>}
           name="doublesCount"
           label="ダブルス数"

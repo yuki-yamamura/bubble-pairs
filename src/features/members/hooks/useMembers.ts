@@ -7,7 +7,7 @@ import type { AxiosError } from 'axios';
 import type { KeyedMutator } from 'swr';
 
 export const useMembers = (): {
-  members: Member[] | undefined;
+  members: Member[];
   error: AxiosError | undefined;
   isLoading: boolean;
   mutate: KeyedMutator<GetResponseData>;
@@ -20,7 +20,7 @@ export const useMembers = (): {
   });
 
   return {
-    members: data?.members,
+    members: data?.members ?? [],
     error,
     isLoading,
     mutate,
