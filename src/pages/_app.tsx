@@ -1,4 +1,4 @@
-import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
+// import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
 import Layout from '@/features/members/components/Layout';
 import ErrorScreen from '@/screens/ErrorScreen';
 import { Inter } from 'next/font/google';
@@ -29,11 +29,11 @@ const App = ({
       <ErrorBoundary fallback={<ErrorScreen />}>
         <Toaster />
         <SessionProvider session={session}>
-          <BreadcrumbsProvider>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </BreadcrumbsProvider>
+          {/* <BreadcrumbsProvider> */}
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+          {/* </BreadcrumbsProvider> */}
         </SessionProvider>
       </ErrorBoundary>
     </div>

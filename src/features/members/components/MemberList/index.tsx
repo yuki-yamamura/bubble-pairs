@@ -1,4 +1,3 @@
-import Breadcrumbs from '@/components/Breadcrumbs';
 import Button from '@/components/Button';
 import EmptyState from '@/components/EmptyState';
 import Loading from '@/components/Loading';
@@ -31,7 +30,7 @@ const MemberList = () => {
 
   return (
     <div>
-      <Breadcrumbs />
+      {/* <Breadcrumbs /> */}
       <Separator className="my-2" />
       <div className="flex justify-end">
         <Button
