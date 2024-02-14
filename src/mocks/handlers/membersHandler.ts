@@ -1,4 +1,4 @@
-import { fakeMembers } from '../fakeData/members';
+import { fakeMembers } from '@/mocks/fakeData/members';
 import { rest } from 'msw';
 
 import type { GetResponseData } from '@/pages/api/members';

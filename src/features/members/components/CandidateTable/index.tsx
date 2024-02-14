@@ -22,7 +22,7 @@ const CandidateTable = ({ data, actions }: Props) => {
       alt="empty-box"
       className="h-40 w-40"
     >
-      <p className="text-sm text-slate-400">メンバーが選択されていません。</p>
+      <p className="text-sm text-slate-400">参加者が選択されていません。</p>
     </EmptyState>
   );
 };

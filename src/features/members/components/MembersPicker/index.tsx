@@ -12,7 +12,7 @@ const MembersPicker = ({ members, updateParticipants }: Props) => {
     <DataPicker
       columns={columns}
       data={members}
-      triggerButtonLabel="メンバーを追加..."
+      triggerButtonLabel="参加者を追加..."
       actionButtonLabel="参加者を追加"
       dialogDescription="参加者を選択してください。"
       setData={updateParticipants}

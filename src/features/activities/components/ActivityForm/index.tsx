@@ -22,7 +22,7 @@ type Props = {
   members: Member[];
   places: Place[];
   isSubmitting: boolean;
-  onSubmit: (fieldValues: ActivityCreateSchema) => void;
+  onSubmit: (fieldValues: ActivityCreateSchema) => Promise<void>;
 };
 
 const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
@@ -61,7 +61,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
   return (
     <Form {...form}>
       <form
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={handleSubmit((fieldValues) => onSubmit(fieldValues))}
         className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
       >
         <FormField
