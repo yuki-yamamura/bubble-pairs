@@ -16,7 +16,7 @@ export const columns: ColumnDef<SelectableData<Member>>[] = [
           <div className="max-w-fit rounded-full bg-gray-50 p-2">
             <Emoji unified={member.emojiUnicode} size={16} />
           </div>
-          {member.name}
+          <span id={member.id}>{member.name}</span>
         </div>
       );
     },

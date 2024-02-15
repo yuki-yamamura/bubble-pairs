@@ -18,7 +18,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 type Props<TData extends { id: string }> = React.ComponentPropsWithoutRef<
   typeof Dialog
 > & {
-  columns: ColumnDef<SelectableData<TData>, unknown>[];
+  columns: ColumnDef<SelectableData<TData>>[];
   data: TData[];
   triggerButtonLabel: string;
   actionButtonLabel: string;
@@ -83,12 +83,13 @@ const DataPicker = <TData extends { id: string }>({
       return <Checkbox checked={isEverySelected} onClick={toggleCheck} />;
     },
     cell: ({ row }) => {
-      const { model, isSelected: selected } = row.original;
+      const { model, isSelected } = row.original;
 
       return (
         <Checkbox
           value={model.id}
-          checked={selected}
+          checked={isSelected}
+          aria-labelledby={model.id}
           onClick={handleCheckboxClick}
         />
       );

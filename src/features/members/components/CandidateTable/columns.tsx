@@ -29,12 +29,13 @@ export const createColumns = (actions: {
       id: 'deletion',
       cell: ({ row }) => {
         const { deleteRowByIndex } = actions;
+        const member = row.original;
 
         return (
           <div className="flex justify-end">
             <Button type="button" variant="ghost" className="h-8 w-8 p-0">
               <Trash2
-                aria-label="参加者を削除"
+                aria-label={`${member.name}を削除`}
                 onClick={() => deleteRowByIndex(row.index)}
                 className="h-4 w-4 stroke-1"
               />

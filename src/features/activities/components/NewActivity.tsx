@@ -15,8 +15,8 @@ import type { PostResponseData } from '@/pages/api/activities';
 
 const NewActivity = () => {
   const router = useRouter();
-  const { members, isLoading: loadingMembers } = useMembers();
-  const { places, isLoading: loadingPlaces } = usePlaces();
+  const { members, isLoading: isLoadingMembers } = useMembers();
+  const { places, isLoading: isLoadingPlaces } = usePlaces();
   const { trigger, isMutating } = useSWRMutation(
     '/api/activities',
     (url: string, { arg }: { arg: ActivityCreateSchema }) => {
@@ -36,7 +36,7 @@ const NewActivity = () => {
     }
   };
 
-  if (loadingMembers || loadingPlaces) {
+  if (isLoadingMembers || isLoadingPlaces) {
     return <Loading />;
   }
 
