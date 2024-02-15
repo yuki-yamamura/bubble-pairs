@@ -23,8 +23,6 @@ const getSexByLabel = (label: string) =>
 const getLevelByLabel = (label: string) =>
   within(getLevelGroup()).getByRole('radio', { name: label });
 const getNote = () => screen.getByRole('textbox', { name: 'メモ' });
-const getProfileImageButton = () =>
-  screen.getByRole('button', { name: 'プロフィール画像を変更' });
 const getSubmitButton = () => screen.getByRole('button', { name: buttonLabel });
 
 describe('MemberForm', () => {
@@ -95,15 +93,11 @@ describe('MemberForm', () => {
       await user.click(getLevelByLabel('中級'));
       await user.type(getNote(), '水曜日のみ参加');
 
-      await user.click(getProfileImageButton());
-      // pick the grinning face emoji.
-      await user.click(screen.getByAltText('grinning'));
-
       await user.click(getSubmitButton());
 
       // assert
       expect(mockFn).toHaveBeenCalledWith({
-        emojiUnicode: '1f600',
+        emojiUnicode: '1f9d1',
         name: '森 拓郎',
         sex: 'MALE',
         level: 'INTERMEDIATE',
