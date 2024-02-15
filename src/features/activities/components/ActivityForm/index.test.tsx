@@ -78,10 +78,10 @@ describe('ActivityForm', () => {
       await user.click(getApplyButton());
 
       // user can see the list of the participants who have been selected.
-      expect(getParticipantByLabel(fakeMembers[0].name)).toBeInTheDocument();
-      expect(getParticipantByLabel(fakeMembers[1].name)).toBeInTheDocument();
-      expect(getParticipantByLabel(fakeMembers[2].name)).toBeInTheDocument();
-      expect(getParticipantByLabel(fakeMembers[3].name)).toBeInTheDocument();
+      expect(getParticipantByLabel(fakeMembers[0].name)).toBeVisible();
+      expect(getParticipantByLabel(fakeMembers[1].name)).toBeVisible();
+      expect(getParticipantByLabel(fakeMembers[2].name)).toBeVisible();
+      expect(getParticipantByLabel(fakeMembers[3].name)).toBeVisible();
 
       // select the place
       await user.click(getPlaceCombobox());
