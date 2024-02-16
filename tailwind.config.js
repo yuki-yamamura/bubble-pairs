@@ -47,6 +47,10 @@ module.exports = {
           DEFAULT: 'hsl(var(--accent-secondary))',
           foreground: 'hsl(var(--accent-secondary-foreground))',
         },
+        'primary-blue': {
+          DEFAULT: 'hsl(var(--primary-blue))',
+          foreground: 'hsl(var(--primary-blue-foreground))',
+        },
         popover: {
           DEFAULT: 'hsl(var(--popover))',
           foreground: 'hsl(var(--popover-foreground))',

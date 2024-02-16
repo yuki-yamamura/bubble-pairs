@@ -10,6 +10,7 @@ import {
 import { Form, FormItem, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { CornerDownLeft } from 'lucide-react';
 import { signIn } from 'next-auth/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -24,48 +25,62 @@ const SignInButton = () => {
     },
     resolver: zodResolver(loginSchema),
   });
-
   const {
     handleSubmit,
     register,
     formState: { errors },
   } = form;
+
   const submitHandler = handleSubmit(async (fieldValues) => {
     setIsBusy(true);
-    await signIn('email', fieldValues).then(() => setIsBusy(false));
+    await signIn('email', fieldValues);
+    setIsBusy(false);
   });
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button type="button" variant="accent">
+        <Button type="button" variant="primary-blue">
           はじめる
         </Button>
       </DialogTrigger>
-      <DialogContent className="max-w-md">
-        <DialogHeader>
-          <DialogDescription>
-            入力したメールアドレスにログイン用のリンクを送ります。
-          </DialogDescription>
-        </DialogHeader>
-        <Form {...form}>
-          <form onSubmit={submitHandler} className="flex flex-col gap-y-4">
-            <FormItem>
-              <Input
-                placeholder="email@example.com"
-                disabled={isBusy}
-                aria-label="メールアドレス"
-                {...register('email')}
-              />
-              {errors.email && (
-                <FormMessage>{errors.email.message}</FormMessage>
-              )}
-            </FormItem>
-            <Button isBusy={isBusy} type="submit">
-              メールを送信
-            </Button>
-          </form>
-        </Form>
+      <DialogContent>
+        <div className="flex w-full flex-col items-center gap-y-6 py-8">
+          <DialogHeader>
+            <DialogDescription>
+              入力したメールアドレスにログイン用のリンクを送ります。
+            </DialogDescription>
+          </DialogHeader>
+          <Form {...form}>
+            <form onSubmit={submitHandler} className="relative w-full max-w-xs">
+              <FormItem>
+                <Input
+                  placeholder="email@example.com"
+                  aria-label="メールアドレス"
+                  disabled={isBusy}
+                  {...register('email')}
+                  className="focus-visible:ring-0"
+                />
+                {errors.email && (
+                  <FormMessage>{errors.email.message}</FormMessage>
+                )}
+              </FormItem>
+              <Button
+                type="submit"
+                variant="primary-blue"
+                isBusy={isBusy}
+                className="absolute right-[-16px] top-[-4px] h-12 w-12 rounded-full p-0"
+              >
+                {!isBusy && (
+                  <CornerDownLeft
+                    size={16}
+                    className="text-primary-blue-foreground"
+                  />
+                )}
+              </Button>
+            </form>
+          </Form>
+        </div>
       </DialogContent>
     </Dialog>
   );

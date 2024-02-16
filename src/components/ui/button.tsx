@@ -17,7 +17,8 @@ const buttonVariants = cva(
           'bg-secondary text-secondary-foreground hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground',
         link: 'text-primary underline-offset-4 hover:underline',
-        accent: 'bg-accent2 text-white hover:bg-accent2/90',
+        'primary-blue':
+          'bg-primary-blue text-primary-blue-foreground hover:bg-primary-blue/80',
         'accent-secondary':
           'border border-accent-secondary-foreground bg-accent-secondary text-accent-secondary-foreground hover:bg-accent-secondary-foreground hover:text-accent-secondary',
       },
