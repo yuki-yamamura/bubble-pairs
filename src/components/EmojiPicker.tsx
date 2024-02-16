@@ -1,11 +1,11 @@
 import Button from '@/components/Button';
 import {
-  AlertDialog,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogHeader,
-  AlertDialogTrigger,
-} from '@/components/ui/alert-dialog';
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import { type EmojiClickData, EmojiStyle } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
@@ -13,11 +13,11 @@ import { useState } from 'react';
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
 type Props = {
-  defaultUnicode: string;
+  initialUnicode: string;
   onEmojiClick: (emoji: EmojiClickData, event: MouseEvent) => void;
 };
 
-const EmojiPicker = ({ defaultUnicode, onEmojiClick }: Props) => {
+const EmojiPicker = ({ initialUnicode, onEmojiClick }: Props) => {
   const [open, setOpen] = useState(false);
 
   const handleEmojiClick = (emoji: EmojiClickData, event: MouseEvent) => {
@@ -26,29 +26,29 @@ const EmojiPicker = ({ defaultUnicode, onEmojiClick }: Props) => {
   };
 
   return (
-    <AlertDialog open={open} onOpenChange={setOpen}>
-      <AlertDialogTrigger asChild>
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
         <Button variant="outline" size="sm">
           プロフィール画像を変更
         </Button>
-      </AlertDialogTrigger>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogDescription className="text-center">
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogDescription className="text-center">
             絵文字を選択してください。
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+          </DialogDescription>
+        </DialogHeader>
         <Picker
           emojiStyle={EmojiStyle.TWITTER}
           skinTonesDisabled
           previewConfig={{
-            defaultEmoji: defaultUnicode,
+            defaultEmoji: initialUnicode,
           }}
           onEmojiClick={handleEmojiClick}
           className="mx-auto w-full"
         />
-      </AlertDialogContent>
-    </AlertDialog>
+      </DialogContent>
+    </Dialog>
   );
 };
 

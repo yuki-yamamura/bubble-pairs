@@ -76,7 +76,7 @@ const MemberForm = ({
           <Emoji unified={watch('emojiUnicode')} size={32} />
         </div>
         <EmojiPicker
-          defaultUnicode={watch('emojiUnicode')}
+          initialUnicode={watch('emojiUnicode')}
           onEmojiClick={handleEmojiSelect}
         />
       </div>
