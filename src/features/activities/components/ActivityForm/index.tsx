@@ -116,7 +116,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
         <Button
           type="submit"
           isBusy={isSubmitting}
-          variant="accent-secondary"
+          variant="primary-green"
           className="self-center"
         >
           アクティビティを開始

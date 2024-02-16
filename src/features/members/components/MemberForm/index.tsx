@@ -136,7 +136,7 @@ const MemberForm = ({
         <Button
           type="submit"
           isBusy={isSubmitting}
-          variant="accent-secondary"
+          variant="primary-green"
           className="self-center"
         >
           {buttonLabel}
