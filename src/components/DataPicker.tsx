@@ -12,12 +12,12 @@ import {
 } from '@/components/ui/dialog';
 import { useState } from 'react';
 
+import type { Model } from '@/types/models/Model';
 import type { SelectableData } from '@/types/SelectableData';
+import type { DialogProps } from '@radix-ui/react-alert-dialog';
 import type { ColumnDef } from '@tanstack/react-table';
 
-type Props<TData extends { id: string }> = React.ComponentPropsWithoutRef<
-  typeof Dialog
-> & {
+type Props<TData extends Model> = DialogProps & {
   columns: ColumnDef<SelectableData<TData>>[];
   data: TData[];
   triggerButtonLabel: string;
@@ -27,7 +27,7 @@ type Props<TData extends { id: string }> = React.ComponentPropsWithoutRef<
   setData: (selectedData: TData[]) => void;
 };
 
-const DataPicker = <TData extends { id: string }>({
+const DataPicker = <TData extends Model>({
   columns,
   data,
   triggerButtonLabel,
@@ -65,22 +65,24 @@ const DataPicker = <TData extends { id: string }>({
   const reset = () => {
     setSelectableData(initialData);
   };
-  const selectAll = () => {
-    setSelectableData(data.map((model) => ({ model, isSelected: true })));
-  };
   const toggleCheck = () => {
-    if (isEverySelected) {
+    if (isAllDataSelected) {
       reset();
     } else {
-      selectAll();
+      setSelectableData(
+        data.map((model) => ({
+          model,
+          isSelected: true,
+        })),
+      );
     }
   };
-  const isEverySelected = selectableData.every((item) => item.isSelected);
 
+  const isAllDataSelected = selectableData.every((item) => item.isSelected);
   const checkboxColumn: ColumnDef<SelectableData<TData>> = {
     accessorKey: 'selected',
     header: () => {
-      return <Checkbox checked={isEverySelected} onClick={toggleCheck} />;
+      return <Checkbox checked={isAllDataSelected} onClick={toggleCheck} />;
     },
     cell: ({ row }) => {
       const { model, isSelected } = row.original;

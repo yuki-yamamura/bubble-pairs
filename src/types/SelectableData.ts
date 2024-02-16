@@ -1,7 +1,6 @@
-/**
- * Data type that is supposed to handle within the DataPicker component.
- */
-export type SelectableData<TModel extends { id: string }> = {
+import type { Model } from '@/types/models/Model';
+
+export type SelectableData<TModel extends Model> = {
   model: TModel;
   isSelected: boolean;
 };
