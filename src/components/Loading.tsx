@@ -6,9 +6,15 @@ type Props = {
 
 const Loading = ({ text }: Props) => {
   return (
-    <div className="flex items-center justify-center gap-x-1">
-      <Loader2 size={20} aria-busy className="animate-spin text-slate-300" />
-      {text}
+    <div className="fixed left-0 top-0 flex h-screen w-screen justify-center bg-background/70">
+      <div className="flex items-center justify-center gap-x-1">
+        <Loader2
+          size={20}
+          aria-busy
+          className="top-20 animate-spin text-slate-300"
+        />
+        {text}
+      </div>
     </div>
   );
 };
