@@ -5,18 +5,18 @@ import {
 import { activityCreateSchema } from '@/features/activities/validation';
 import { withZod } from '@/lib/next';
 import { authOptions } from '@/lib/next-auth';
-import { type ReturnTypeOf } from '@/utils/types';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
+import type { Activity } from '@/types/models/Activity';
 import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
 
 export type GetResponseData = {
-  activities: ReturnTypeOf<typeof findAllActivities>;
+  activities: Activity[];
 };
 
 export type PostResponseData = {
-  activity: ReturnTypeOf<typeof createActivity>;
+  activity: Activity;
 };
 
 const handleGet = async (

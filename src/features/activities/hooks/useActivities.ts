@@ -20,7 +20,7 @@ export const useActivities = (): {
   });
 
   return {
-    activities: data?.activities,
+    activities: data?.activities ?? [],
     error,
     isLoading,
     mutate,

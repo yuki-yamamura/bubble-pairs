@@ -12,24 +12,27 @@ import useSWRMutation from 'swr/mutation';
 
 import type { ActivityCreateSchema } from '@/features/activities/validation';
 import type { PostResponseData } from '@/pages/api/activities';
+import type { MutationFetcher } from 'swr/mutation';
 
 const NewActivity = () => {
   const router = useRouter();
   const { members, isLoading: isLoadingMembers } = useMembers();
   const { places, isLoading: isLoadingPlaces } = usePlaces();
-  const { trigger, isMutating } = useSWRMutation(
+  const fetcher: MutationFetcher<
+    PostResponseData,
     '/api/activities',
-    (url: string, { arg }: { arg: ActivityCreateSchema }) => {
-      return axios
-        .post<PostResponseData>(url, arg)
-        .then((response) => response.data);
-    },
-  );
+    ActivityCreateSchema
+  > = async (key, { arg }) => {
+    return axios
+      .post<PostResponseData>(key, arg)
+      .then((response) => response.data);
+  };
+  const { trigger, isMutating } = useSWRMutation('/api/activities', fetcher);
 
   const handleSubmit = async (fieldValues: ActivityCreateSchema) => {
     try {
-      const { activity } = await trigger(fieldValues);
-      await router.push(`/activities/${activity.id}`);
+      const data = await trigger(fieldValues);
+      await router.push(`/activities/${data.activity.id}`);
       toast.success('アクティビティを開始しました。');
     } catch {
       toast.error('アクティビティを開始できませんでした。');
