@@ -8,6 +8,7 @@ import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
+import type { Prisma } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
 const handleGet: NextApiHandler = async (_, response) => {
@@ -33,16 +34,20 @@ const handlePost = withZod(
       return;
     }
 
-    const { id: ownerId } = session.user;
-    const { participants: members, placeId } = request.body;
-    const result = await createActivity({
-      ownerId,
-      placeId,
-      isOpen: true,
-      participants: {
-        create: members,
+    const { participants, placeId, isOpen } = request.body;
+    const data = {
+      owner: {
+        connect: { id: session.user.id },
       },
-    });
+      participants: {
+        create: participants,
+      },
+      place: {
+        connect: { id: placeId },
+      },
+      isOpen,
+    } satisfies Prisma.ActivityCreateInput;
+    const result = await createActivity(data);
 
     if (result.type === 'success') {
       response.status(201).json({ activity: result.data });

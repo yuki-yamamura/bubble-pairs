@@ -5,6 +5,7 @@ import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
+import type { Prisma } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
 const handleGet: NextApiHandler = async (_request, response) => {
@@ -30,8 +31,13 @@ const handlePost: NextApiHandler = withZod(
       return;
     }
 
-    const { id: ownerId } = session.user;
-    const result = await createPlace({ ...request.body, ownerId });
+    const data = {
+      owner: {
+        connect: { id: session.user.id },
+      },
+      ...request.body,
+    } satisfies Prisma.PlaceCreateInput;
+    const result = await createPlace(data);
 
     if (result.type === 'success') {
       response.status(201).end();

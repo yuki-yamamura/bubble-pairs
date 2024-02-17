@@ -8,7 +8,7 @@ import type { Prisma } from '@prisma/client';
 const prisma = new PrismaClient();
 
 export const createActivity = (
-  data: Prisma.ActivityUncheckedCreateInput,
+  data: Prisma.ActivityCreateInput,
 ): Promise<
   Result<
     Prisma.ActivityGetPayload<{
