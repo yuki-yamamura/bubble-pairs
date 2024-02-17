@@ -26,16 +26,16 @@ const App = ({
 
   return (
     <div className={inter.className}>
-      <ErrorBoundary fallback={<ErrorScreen />}>
-        <Toaster />
-        <SessionProvider session={session}>
-          {/* <BreadcrumbsProvider> */}
-          <Layout>
+      <Toaster />
+      <SessionProvider session={session}>
+        {/* <BreadcrumbsProvider> */}
+        <Layout>
+          <ErrorBoundary fallback={<ErrorScreen />}>
             <Component {...pageProps} />
-          </Layout>
-          {/* </BreadcrumbsProvider> */}
-        </SessionProvider>
-      </ErrorBoundary>
+          </ErrorBoundary>
+        </Layout>
+        {/* </BreadcrumbsProvider> */}
+      </SessionProvider>
     </div>
   );
 };
