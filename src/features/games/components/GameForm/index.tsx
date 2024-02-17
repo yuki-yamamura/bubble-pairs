@@ -161,7 +161,7 @@ const GameForm = ({ activity, onSubmit }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit">ゲームを開始</Button>
+        <Button type="submit">ゲームをはじめる</Button>
       </form>
     </Form>
   );

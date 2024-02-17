@@ -119,7 +119,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
           variant="primary-green"
           className="self-center"
         >
-          アクティビティを開始
+          アクティビティをはじめる
         </Button>
       </form>
     </Form>
