@@ -1,10 +1,9 @@
-import Button from '@/components/Button';
+import CreateButton from '@/components/CreateButton';
 import EmptyState from '@/components/EmptyState';
 import Loading from '@/components/Loading';
 import MemberTable from '@/features/members/components/MemberTable';
 import { useMembers } from '@/features/members/hooks/useMembers';
 import axios from 'axios';
-import { Plus } from 'lucide-react';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
@@ -14,7 +13,7 @@ const MemberList = () => {
   const router = useRouter();
   const { members, isLoading, mutate } = useMembers();
 
-  const handleNewMemberButtonClick = () => {
+  const handleCreateButtonClick = () => {
     void router.push('/members/new');
   };
 
@@ -29,16 +28,7 @@ const MemberList = () => {
 
   return (
     <div>
-      <div className="flex justify-end">
-        <Button
-          type="button"
-          onClick={handleNewMemberButtonClick}
-          variant="outline"
-          className="h-10 w-10 rounded-full p-0"
-        >
-          <Plus size={16} className="text-slate-400" />
-        </Button>
-      </div>
+      <CreateButton onClick={handleCreateButtonClick} />
       {isLoading ? (
         <Loading text="メンバーを読み込んでいます..." />
       ) : members?.length === 0 ? (
