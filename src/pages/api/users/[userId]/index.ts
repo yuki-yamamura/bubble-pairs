@@ -23,6 +23,7 @@ const handleDelete: NextApiHandler = withZod(
     if (result.type === 'success') {
       response.status(204).end();
     } else {
+      console.error(result.error);
       response.status(400).end();
     }
   },

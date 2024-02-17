@@ -5,31 +5,20 @@ import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
-import type { Place } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
-export type GetResponseData = {
-  places: Place[];
-};
-
-export type PostResponseData = {
-  place: Place;
-};
-
-const handleGet: NextApiHandler<GetResponseData> = async (
-  _request,
-  response,
-) => {
+const handleGet: NextApiHandler = async (_request, response) => {
   const result = await findAllPlaces();
 
   if (result.type === 'success') {
     response.json({ places: result.data });
   } else {
-    response.status(400);
+    console.error(result.error);
+    response.status(400).end();
   }
 };
 
-const handlePost: NextApiHandler<PostResponseData> = withZod(
+const handlePost: NextApiHandler = withZod(
   z.object({
     body: placeCreateSchema,
   }),
@@ -47,7 +36,8 @@ const handlePost: NextApiHandler<PostResponseData> = withZod(
     if (result.type === 'success') {
       response.status(201).end();
     } else {
-      response.status(400).json({ error: result.error });
+      console.error(result.error);
+      response.status(400).end();
     }
   },
 );

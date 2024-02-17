@@ -8,21 +8,10 @@ import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
-import type { Member, Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
-export type GetResponseData = {
-  members: Member[];
-};
-
-export type PostResponseData = {
-  member: Member;
-};
-
-const handleGet: NextApiHandler<GetResponseData> = async (
-  _request,
-  response,
-) => {
+const handleGet: NextApiHandler = async (_, response) => {
   const result = await findAllMembers();
 
   if (result.type === 'success') {
@@ -32,7 +21,7 @@ const handleGet: NextApiHandler<GetResponseData> = async (
   }
 };
 
-const handlePost: NextApiHandler<PostResponseData> = withZod(
+const handlePost: NextApiHandler = withZod(
   z.object({
     body: memberCreateSchema,
   }),
@@ -58,8 +47,8 @@ const handlePost: NextApiHandler<PostResponseData> = withZod(
     if (result.type === 'success') {
       response.status(201).json({ member: result.data });
     } else {
-      response.status(400).json({ error: result.error });
-      console.log({ error: result.error });
+      console.error(result.error);
+      response.status(400);
     }
   },
 );

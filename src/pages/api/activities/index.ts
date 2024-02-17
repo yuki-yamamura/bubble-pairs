@@ -8,26 +8,15 @@ import { authOptions } from '@/lib/next-auth';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
 
-import type { Activity } from '@/types/models/Activity';
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiHandler } from 'next';
 
-export type GetResponseData = {
-  activities: Activity[];
-};
-
-export type PostResponseData = {
-  activity: Activity;
-};
-
-const handleGet = async (
-  _request: NextApiRequest,
-  response: NextApiResponse<GetResponseData>,
-) => {
+const handleGet: NextApiHandler = async (_, response) => {
   const result = await findAllActivities();
 
   if (result.type === 'success') {
     response.json({ activities: result.data });
   } else {
+    console.error(result.error);
     response.status(400).end();
   }
 };
@@ -58,6 +47,7 @@ const handlePost = withZod(
     if (result.type === 'success') {
       response.status(201).json({ activity: result.data });
     } else {
+      console.error(result.error);
       response.status(400).end();
     }
   },

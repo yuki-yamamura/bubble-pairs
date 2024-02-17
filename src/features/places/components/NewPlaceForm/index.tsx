@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 import type { PlaceCreateSchema } from '@/features/places/validation';
-import type { PostResponseData } from '@/pages/api/places';
+import type { PostResponseData } from '@/types/api/places';
 
 const NewPlace = () => {
   const router = useRouter();

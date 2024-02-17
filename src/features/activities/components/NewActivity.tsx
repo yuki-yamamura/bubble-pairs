@@ -11,7 +11,7 @@ import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 import type { ActivityCreateSchema } from '@/features/activities/validation';
-import type { PostResponseData } from '@/pages/api/activities';
+import type { PostResponseData } from '@/types/api/activities';
 import type { MutationFetcher } from 'swr/mutation';
 
 const NewActivity = () => {

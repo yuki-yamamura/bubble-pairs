@@ -10,31 +10,21 @@ import { withZod } from '@/lib/next';
 import { $Enums } from '@prisma/client';
 import { z } from 'zod';
 
-import type { Game, Prisma } from '@prisma/client';
-import type { NextApiHandler, NextApiRequest, NextApiResponse } from 'next';
+import type { Prisma } from '@prisma/client';
+import type { NextApiHandler } from 'next';
 
-type GetResponseData = {
-  games: Game[];
-};
-
-export type PostResponseData = {
-  game: Game;
-};
-
-const handleGet = async (
-  _request: NextApiRequest,
-  response: NextApiResponse<GetResponseData>,
-) => {
+const handleGet: NextApiHandler = async (_, response) => {
   const result = await findAllGames();
 
   if (result.type === 'success') {
     response.json({ games: result.data });
   } else {
+    console.error(result.error);
     response.status(400).end();
   }
 };
 
-const handlePost = withZod(
+const handlePost: NextApiHandler = withZod(
   z.object({
     body: gameCreateSchema,
   }),
@@ -43,6 +33,7 @@ const handlePost = withZod(
     const activityResult = await findActivityById(request.body.activity.id);
 
     if (activityResult.type === 'error') {
+      console.error(activityResult.error);
       throw activityResult.error;
     }
 
@@ -126,7 +117,8 @@ const handlePost = withZod(
     if (gameResult.type === 'success') {
       response.status(200).json({ game: gameResult.data });
     } else {
-      response.status(400).json({ error: gameResult.error });
+      console.error(gameResult.error);
+      response.status(400).end();
     }
   },
 );

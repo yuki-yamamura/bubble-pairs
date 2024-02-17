@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 import type { MemberCreateSchema } from '@/features/members/validation';
-import type { PostResponseData } from '@/pages/api/members';
+import type { PostResponseData } from '@/types/api/members';
 
 const NewMember = () => {
   const router = useRouter();

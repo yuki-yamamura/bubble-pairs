@@ -22,7 +22,8 @@ const handlePut: NextApiHandler = withZod(
     if (result.type === 'success') {
       response.status(204).end();
     } else {
-      response.status(400).json({ error: result.error });
+      console.error(result.error);
+      response.status(400).end();
     }
   },
 );
@@ -40,7 +41,8 @@ const handleDelete: NextApiHandler = withZod(
     if (result.type === 'success') {
       response.status(204).end();
     } else {
-      response.status(400).json({ error: result.error });
+      console.error(result.error);
+      response.status(400).end();
     }
   },
 );

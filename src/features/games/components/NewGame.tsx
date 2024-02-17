@@ -6,7 +6,7 @@ import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 import type { GameCreateSchemaType } from '../validation';
-import type { PostResponseData } from '@/pages/api/activities/[activityId]/games';
+import type { PostResponseData } from '@/types/api/games';
 import type { Activity } from '@/types/models/Activity';
 
 type Props = {

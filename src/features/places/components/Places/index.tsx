@@ -2,7 +2,7 @@ import axios from 'axios';
 import Link from 'next/link';
 import useSWR from 'swr';
 
-import type { GetResponseData } from '@/pages/api/places';
+import type { GetResponseData } from '@/types/api/places';
 
 const Places = () => {
   const { data } = useSWR<GetResponseData>('/api/places', (url: string) => {

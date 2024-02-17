@@ -2,7 +2,7 @@ import { type Member } from '@prisma/client';
 import axios from 'axios';
 import useSWR from 'swr';
 
-import type { GetResponseData } from '@/pages/api/members';
+import type { GetResponseData } from '@/types/api/members';
 import type { AxiosError } from 'axios';
 import type { KeyedMutator } from 'swr';
 

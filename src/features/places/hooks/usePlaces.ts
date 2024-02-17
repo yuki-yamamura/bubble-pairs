@@ -1,7 +1,7 @@
 import axios from 'axios';
 import useSWR from 'swr';
 
-import type { GetResponseData } from '@/pages/api/places';
+import type { GetResponseData } from '@/types/api/places';
 import type { Place } from '@prisma/client';
 import type { AxiosError } from 'axios';
 import type { KeyedMutator } from 'swr';

@@ -4,7 +4,7 @@ import { z } from 'zod';
 
 import type { NextApiHandler } from 'next';
 
-const handleGet = withZod(
+const handleGet: NextApiHandler = withZod(
   z.object({
     query: z.object({
       activityId: z.string(),
@@ -18,12 +18,13 @@ const handleGet = withZod(
     if (result.type === 'success') {
       response.json({ game: result.data });
     } else {
-      response.status(400).json({ error: result.error });
+      console.error(result.error);
+      response.status(400).end();
     }
   },
 );
 
-const handleDelete = withZod(
+const handleDelete: NextApiHandler = withZod(
   z.object({
     query: z.object({
       activityId: z.string(),
@@ -37,7 +38,7 @@ const handleDelete = withZod(
     if (result.type === 'success') {
       response.status(204).end();
     } else {
-      console.log(result.error);
+      console.error(result.error);
       response.status(400).json({ error: result.error });
     }
   },
