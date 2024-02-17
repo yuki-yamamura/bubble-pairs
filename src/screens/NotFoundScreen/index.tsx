@@ -1,16 +1,19 @@
-import Link from 'next/link';
+import Link from '@/components/Link';
+import { ArrowLeft } from 'lucide-react';
 
 const NotFoundScreen = () => (
-  <div>
-    <div>
+  <div className="flex grow flex-col items-center justify-center">
+    <div className="flex flex-col items-center gap-y-2 md:-translate-y-1/4">
       <img
         src="/images/not-found.png"
-        alt="Not Found"
-        height={320}
-        width={320}
+        alt="not-found"
+        height={240}
+        width={240}
       />
-      <h1>ページが見つかりませんでした</h1>
-      <Link href="/">ホームに戻る</Link>
+      <div className="flex flex-col items-center gap-y-2">
+        <h1>ページが見つかりませんでした。</h1>
+        <Link text="ホームに戻る" Icon={ArrowLeft}></Link>
+      </div>
     </div>
   </div>
 );
