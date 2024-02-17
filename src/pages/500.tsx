@@ -1,4 +1,4 @@
-import ErrorScreen from '@/screens/ErrorScreen';
+import ErrorScreen from '@/screens/error';
 
 const Page = () => <ErrorScreen />;
 

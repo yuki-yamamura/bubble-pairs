@@ -1,5 +1,5 @@
 import { findMemberById } from '@/features/members/logic/repository';
-import MemberDetailScreen from '@/screens/MemberDetailScreen';
+import MemberDetailScreen from '@/screens/members/[memberId]';
 
 import type { Member } from '@prisma/client';
 import type { GetServerSideProps } from 'next';

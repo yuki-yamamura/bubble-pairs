@@ -1,5 +1,5 @@
 import { findGameById } from '@/features/games/logic/repository';
-import GameDetailScreen from '@/screens/GameDetailScreen';
+import GameDetailScreen from '@/screens/activities/[activityId]/games/[gameId]';
 
 import type { Game } from '@/types/models/Game';
 import type { GetServerSideProps } from 'next';

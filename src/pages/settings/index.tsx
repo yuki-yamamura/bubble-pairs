@@ -1,4 +1,4 @@
-import SettingsScreen from '@/screens/SettingsScreen';
+import SettingsScreen from '@/screens/settings';
 
 const Page = () => {
   return <SettingsScreen />;
