@@ -8,7 +8,7 @@ type Props = {
 };
 
 const NewGameScreen = ({ activity }: Props) => (
-  <PageContainer>
+  <PageContainer title="Games">
     <NewGame activity={activity} />
   </PageContainer>
 );

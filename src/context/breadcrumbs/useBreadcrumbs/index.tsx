@@ -2,8 +2,10 @@ import { createBreadcrumbs } from './createBreadcrumbs';
 import { useRouter } from 'next/router';
 import { createContext, useContext } from 'react';
 
-import type { Breadcrumb } from '@/types/Breadcrumb';
-
+export type Breadcrumb = {
+  path: string;
+  label: string;
+};
 type BreadcrumbsContextType = {
   breadcrumbs: Breadcrumb[];
 };

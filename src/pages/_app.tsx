@@ -1,4 +1,4 @@
-// import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
+import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
 import Layout from '@/features/members/components/Layout';
 import ErrorScreen from '@/screens/error';
 import { Inter } from 'next/font/google';
@@ -10,7 +10,6 @@ import type { AppProps } from 'next/app';
 import type { Session } from 'next-auth';
 
 import '@/styles/globals.css';
-import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
 
 const inter = Inter({
   subsets: ['latin'],

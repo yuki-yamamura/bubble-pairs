@@ -18,7 +18,7 @@ const Breadcrumbs = () => {
               <Link text={label} href={path} />
             )}
             {!isLastItem && (
-              <ChevronLeftIcon size={14} className="ml-3 mr-1 stroke-1" />
+              <ChevronLeftIcon size={14} className="ml-2 mr-1 stroke-1" />
             )}
           </div>
         );

@@ -1,4 +1,4 @@
-import type { Breadcrumb } from '@/types/Breadcrumb';
+import type { Breadcrumb } from '..';
 
 export const createBreadcrumbs = (path: string): Breadcrumb[] => {
   const params = path.split('/');
@@ -10,92 +10,69 @@ export const createBreadcrumbs = (path: string): Breadcrumb[] => {
   return (
     params
       .map((_, index) => params.slice(0, index + 1).join('/'))
-      // replace the first param with '/'.
+      // replace the first param with '/' to take care of the root path.
       .map((path, index) => (index === 0 ? '/' : path))
-      // requires two breadcrumbs.
-      .slice(-2, params.length)
       .map((path) => toBreadcrumb(path))
+      // exclude unexpected breadcrumbs.
       .filter((path): path is Breadcrumb => path !== null)
+      // take two of them to avoid being too long.
+      .slice(-2, params.length)
   );
 };
 
 const toBreadcrumb = (path: string): Breadcrumb | null => {
+  const label = getLabel(path);
+  if (!label) {
+    return null;
+  }
+
+  return { path, label };
+};
+
+const getLabel = (path: string): string | null => {
   const activityDetailRegex = /^\/activities\/(.+)$/;
   const gameDetailRegex = /^\/activities\/(.+)\/games\/(.+)$/;
   const memberDetailRegex = /^\/members\/(.+)$/;
 
   switch (true) {
-    // paths under '/members'
+    // for paths under '/members' route
     case /^\/members\/new$/.test(path): {
-      return {
-        path,
-        label: 'メンバー追加',
-      };
+      return 'メンバー追加';
     }
     case memberDetailRegex.test(path): {
-      return {
-        path,
-        label: formatId(path.match(memberDetailRegex)?.at(1) as string),
-      };
+      return path.match(memberDetailRegex)?.at(1) as string;
     }
     case /^\/members\/?$/.test(path): {
-      return {
-        path,
-        label: 'メンバー',
-      };
+      return 'メンバー';
     }
 
-    // paths under '/activities/[activityId]/games'
+    // for paths under `/activities/[activityId]/games' route
     case /^\/activities\/.+\/games\/new$/.test(path): {
-      return {
-        path,
-        label: 'ゲーム追加',
-      };
+      return 'ゲーム追加';
     }
     case gameDetailRegex.test(path): {
-      return {
-        path,
-        label: formatId(path.match(gameDetailRegex)?.at(1) as string),
-      };
-    }
-    case /^\/activities\/.+\/games\/?$/.test(path): {
-      // since this route does not exist, return nul to exclude it from breadcrumbs.
-      return null;
+      return path.match(gameDetailRegex)?.at(1) as string;
     }
 
-    // paths under '/activities'
+    // for paths under '/activities' route
     case /^\/activities\/new$/.test(path): {
-      return {
-        path,
-        label: 'アクティビティ追加',
-      };
+      return 'アクティビティ追加';
     }
     case activityDetailRegex.test(path): {
-      return {
-        path,
-        label: formatId(path.match(activityDetailRegex)?.at(1) as string),
-      };
+      return path.match(activityDetailRegex)?.at(1) as string;
     }
     case /^\/activities\/?$/.test(path): {
-      return {
-        path,
-        label: 'アクティビティ',
-      };
-    }
-    case /^\/$/.test(path): {
-      return {
-        path,
-        label: 'ホーム',
-      };
+      return 'アクティビティ';
     }
 
-    // otherwise return null.
+    // for the root path
+    case /^\/$/.test(path): {
+      return 'ホーム';
+    }
+
+    // otherwise return null
     default: {
       return null;
     }
   }
-};
-
-const formatId = (id: string): string => {
-  return `ID:${id.substring(7, -1)}...`;
 };
