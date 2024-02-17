@@ -12,7 +12,7 @@ const NotFoundScreen = () => (
       />
       <div className="flex flex-col items-center gap-y-2">
         <h1>ページが見つかりませんでした。</h1>
-        <Link text="ホームに戻る" Icon={ArrowLeft}></Link>
+        <Link href="/" text="ホームに戻る" Icon={ArrowLeft}></Link>
       </div>
     </div>
   </div>

@@ -7,7 +7,7 @@ type Props = {
   member: Member;
 };
 const MemberDetailScreen = ({ member }: Props) => (
-  <PageContainer>
+  <PageContainer title="Members">
     <MemberDetail member={member} />
   </PageContainer>
 );

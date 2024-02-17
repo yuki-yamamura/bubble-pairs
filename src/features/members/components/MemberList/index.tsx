@@ -1,7 +1,6 @@
 import Button from '@/components/Button';
 import EmptyState from '@/components/EmptyState';
 import Loading from '@/components/Loading';
-import { Separator } from '@/components/ui/separator';
 import MemberTable from '@/features/members/components/MemberTable';
 import { useMembers } from '@/features/members/hooks/useMembers';
 import axios from 'axios';
@@ -30,8 +29,6 @@ const MemberList = () => {
 
   return (
     <div>
-      {/* <Breadcrumbs /> */}
-      <Separator className="my-2" />
       <div className="flex justify-end">
         <Button
           type="button"

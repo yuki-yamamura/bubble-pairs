@@ -2,7 +2,7 @@ import PageContainer from '@/components/PageContainer';
 import Activities from '@/features/activities/components/Activities';
 
 const ActivitiesScreen = () => (
-  <PageContainer>
+  <PageContainer title="Activity">
     <Activities />
   </PageContainer>
 );

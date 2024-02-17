@@ -10,6 +10,7 @@ import type { AppProps } from 'next/app';
 import type { Session } from 'next-auth';
 
 import '@/styles/globals.css';
+import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -28,13 +29,13 @@ const App = ({
     <div className={inter.className}>
       <Toaster />
       <SessionProvider session={session}>
-        {/* <BreadcrumbsProvider> */}
         <Layout>
           <ErrorBoundary fallback={<ErrorScreen />}>
-            <Component {...pageProps} />
+            <BreadcrumbsProvider>
+              <Component {...pageProps} />
+            </BreadcrumbsProvider>
           </ErrorBoundary>
         </Layout>
-        {/* </BreadcrumbsProvider> */}
       </SessionProvider>
     </div>
   );

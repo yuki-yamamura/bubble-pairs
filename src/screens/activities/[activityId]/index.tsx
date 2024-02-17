@@ -8,7 +8,7 @@ type Props = {
 };
 
 const ActivityDetailScreen = ({ activity }: Props) => (
-  <PageContainer>
+  <PageContainer title="Activity">
     <ActivityDetail activity={activity} />
   </PageContainer>
 );

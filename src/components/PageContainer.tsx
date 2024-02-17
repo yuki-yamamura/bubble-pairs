@@ -1,7 +1,19 @@
-type Props = React.PropsWithChildren;
+import Breadcrumbs from '@/components/Breadcrumbs';
+import { Separator } from '@/components/ui/separator';
 
-const PageContainer = ({ children }: Props) => (
-  <div className="mx-auto w-full max-w-screen-md px-6 sm:px-10">{children}</div>
+type Props = React.PropsWithChildren<{ title: string }>;
+
+const PageContainer = ({ title, children }: Props) => (
+  <div className="mx-auto w-full max-w-screen-md px-6 sm:px-10">
+    <header className="mb-12 flex flex-col">
+      <h1 className="text-lg sm:text-xl">{title}</h1>
+      <Separator className="mb-2 mt-1" />
+      <div className="self-end">
+        <Breadcrumbs />
+      </div>
+    </header>
+    {children}
+  </div>
 );
 
 export default PageContainer;
