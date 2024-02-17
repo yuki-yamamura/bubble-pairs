@@ -1,4 +1,4 @@
-import ActivitiesScreen from '@/screens/ActivitiesScreen';
+import ActivitiesScreen from '@/screens/activities';
 
 const Page = () => <ActivitiesScreen />;
 

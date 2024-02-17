@@ -1,4 +1,4 @@
-import NewMemberScreen from '@/screens/NewMemberScreen';
+import NewMemberScreen from '@/screens/members/new';
 
 const Page = () => <NewMemberScreen />;
 

@@ -1,4 +1,4 @@
-import NotFoundScreen from '@/screens/NotFoundScreen';
+import NotFoundScreen from '@/screens/not-found';
 
 const Page = () => <NotFoundScreen />;
 

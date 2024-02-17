@@ -21,16 +21,18 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
 
   if (result.type === 'success') {
     if (!result.data) {
-      throw new Error('Game not found.');
+      return {
+        notFound: true,
+      };
     }
 
     return {
       props: {
         game: result.data,
       },
-      notFound: false,
     };
   } else {
+    console.error(result.error);
     throw result.error;
   }
 };

@@ -30,6 +30,7 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
       },
     };
   } else {
+    console.error(result.error);
     throw result.error;
   }
 };

@@ -1,3 +1,4 @@
+import PageContainer from '@/components/PageContainer';
 import ActivityDetail from '@/features/activities/components/ActivityDetail';
 
 import type { Activity } from '@/types/models/Activity';
@@ -7,9 +8,9 @@ type Props = {
 };
 
 const ActivityDetailScreen = ({ activity }: Props) => (
-  <div>
+  <PageContainer>
     <ActivityDetail activity={activity} />
-  </div>
+  </PageContainer>
 );
 
 export default ActivityDetailScreen;

@@ -1,7 +1,5 @@
-import NewActivityScreen from '@/screens/NewActivityScreen';
+import NewActivityScreen from '@/screens/activities/new';
 
-const Page = () => {
-  return <NewActivityScreen />;
-};
+const Page = () => <NewActivityScreen />;
 
 export default Page;

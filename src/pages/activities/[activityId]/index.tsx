@@ -1,5 +1,5 @@
 import { findActivityById } from '@/features/activities/logic/repository';
-import ActivityDetailScreen from '@/screens/ActivityDetailScreen';
+import ActivityDetailScreen from '@/screens/activities/[activityId]';
 
 import type { Activity } from '@/types/models/Activity';
 import type { GetServerSideProps } from 'next';
@@ -21,16 +21,18 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
 
   if (result.type === 'success') {
     if (!result.data) {
-      throw new Error('Activity not found.');
+      return {
+        notFound: true,
+      };
     }
 
     return {
       props: {
         activity: result.data,
       },
-      notFound: false,
     };
   } else {
+    console.error(result.error);
     throw result.error;
   }
 };

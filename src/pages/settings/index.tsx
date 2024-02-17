@@ -1,7 +1,5 @@
 import SettingsScreen from '@/screens/settings';
 
-const Page = () => {
-  return <SettingsScreen />;
-};
+const Page = () => <SettingsScreen />;
 
 export default Page;
