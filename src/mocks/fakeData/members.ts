@@ -1,4 +1,4 @@
-import type { Member } from '@prisma/client';
+import { Level, type Member, Sex } from '@prisma/client';
 
 export const fakeMembers: Member[] = [
   {
@@ -8,8 +8,8 @@ export const fakeMembers: Member[] = [
     updatedAt: new Date('2023-02-02T13:00:00+09:00'),
     emojiUnicode: '1f9d1',
     name: '田中 実',
-    sex: 'NOT_KNOWN',
-    level: 'INTERMEDIATE',
+    sex: Sex.NOT_KNOWN,
+    level: Level.INTERMEDIATE,
     note: null,
   },
   {
@@ -19,8 +19,8 @@ export const fakeMembers: Member[] = [
     updatedAt: new Date('2023-02-21T13:00:00+09:00'),
     emojiUnicode: '1f9d1',
     name: '佐藤 春子',
-    sex: 'FEMALE',
-    level: 'ELEMENTARY',
+    sex: Sex.FEMALE,
+    level: Level.ELEMENTARY,
     note: null,
   },
   {
@@ -30,8 +30,8 @@ export const fakeMembers: Member[] = [
     updatedAt: new Date('2023-03-27T13:00:00+09:00'),
     emojiUnicode: '1f9d1',
     name: '吉田 茂',
-    sex: 'MALE',
-    level: 'BEGINNER',
+    sex: Sex.MALE,
+    level: Level.BEGINNER,
     note: '毎月第３土曜日は仕事のため欠席。',
   },
   {
@@ -41,8 +41,8 @@ export const fakeMembers: Member[] = [
     updatedAt: new Date('2023-04-30T13:00:00+09:00'),
     emojiUnicode: '1f9d1',
     name: '高橋 ゆかり',
-    sex: 'FEMALE',
-    level: 'ADVANCED',
+    sex: Sex.FEMALE,
+    level: Level.ADVANCED,
     note: null,
   },
 ];
