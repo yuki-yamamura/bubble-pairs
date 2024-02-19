@@ -1,22 +1,29 @@
 import { schemaForType } from '@/lib/zod';
 import { z } from 'zod';
 
-import type { Place } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export type PlaceCreateSchema = z.infer<typeof placeCreateSchema>;
 
-export const placeSchema = schemaForType<Place>()(
+export type PlaceUpdateSchema = z.infer<typeof placeUpdateSchema>;
+
+export const placeCreateSchema = schemaForType<
+  Pick<Prisma.PlaceCreateInput, 'name' | 'courtCount'>
+>()(
   z.object({
-    id: z.string(),
-    ownerId: z.string(),
-    createdAt: z.coerce.date(),
-    updatedAt: z.coerce.date(),
-    name: z.string(),
-    courtCount: z.number(),
+    name: z.string().min(1, '場所名を入力してください。'),
+    courtCount: z.number().positive('1 以上のコート数を入力してください。'),
   }),
 );
 
-export const placeCreateSchema = z.object({
-  name: z.string().min(1, '場所名を入力してください。'),
-  courtCount: z.number().min(1, '1 つ以上のコート数を入力してください。'),
-});
+export const placeUpdateSchema = schemaForType<
+  Pick<Prisma.PlaceUpdateInput, 'name' | 'courtCount'>
+>()(
+  z.object({
+    name: z.string().min(1, '場所名を入力してください。').optional(),
+    courtCount: z
+      .number()
+      .positive('1 以上のコート数を入力してください。')
+      .optional(),
+  }),
+);
