@@ -1,7 +1,5 @@
-import Loading from '@/components/Loading';
 import PlaceForm from '@/features/places/components/PlaceForm';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
@@ -9,7 +7,6 @@ import type { PlaceCreateSchema } from '@/features/places/validation';
 import type { PostResponseData } from '@/types/api/places';
 
 const NewPlace = () => {
-  const router = useRouter();
   const defaultValues: PlaceCreateSchema = {
     name: '',
     courtCount: 1,
@@ -24,20 +21,23 @@ const NewPlace = () => {
     },
   );
 
-  const handleSubmit = (fieldValues: PlaceCreateSchema) => {
-    trigger(fieldValues)
-      .then(() => {
-        toast.success('場所を追加しました。');
-        void router.push('/places');
-      })
-      .catch(() => toast.error('場所の追加に失敗しました。'));
+  const handleSubmit = async (fieldValues: PlaceCreateSchema) => {
+    try {
+      await trigger(fieldValues);
+      toast.success('場所を追加しました。');
+    } catch {
+      toast.error('場所の追加に失敗しました。');
+    }
   };
 
-  if (isMutating) {
-    return <Loading />;
-  }
-
-  return <PlaceForm defaultValues={defaultValues} onSubmit={handleSubmit} />;
+  return (
+    <PlaceForm
+      defaultValues={defaultValues}
+      buttonLabel="場所を登録"
+      isSubmitting={isMutating}
+      onSubmit={handleSubmit}
+    />
+  );
 };
 
 export default NewPlace;

@@ -1,7 +1,5 @@
-import Loading from '@/components/Loading';
 import PlaceForm from '@/features/places/components/PlaceForm';
 import axios from 'axios';
-import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
@@ -13,7 +11,6 @@ type Props = {
 };
 
 const PlaceDetail = ({ place }: Props) => {
-  const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(
     `/api/places/${place.id}`,
     async (url: string, { arg }: { arg: PlaceCreateSchema }) => {
@@ -22,21 +19,22 @@ const PlaceDetail = ({ place }: Props) => {
   );
 
   const handleSubmit = async (fieldValues: PlaceCreateSchema) => {
-    console.log({ fieldValues });
     try {
       await trigger(fieldValues);
       toast.success('場所を更新しました。');
-      await router.push('/places');
     } catch {
       toast.error('場所を更新できませんでした。');
     }
   };
 
-  if (isMutating) {
-    return <Loading />;
-  }
-
-  return <PlaceForm defaultValues={place} onSubmit={handleSubmit} />;
+  return (
+    <PlaceForm
+      defaultValues={place}
+      buttonLabel="変更を保存"
+      isSubmitting={isMutating}
+      onSubmit={handleSubmit}
+    />
+  );
 };
 
 export default PlaceDetail;
