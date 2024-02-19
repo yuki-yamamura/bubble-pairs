@@ -1,4 +1,7 @@
-import { deletePlace, updatePlace } from '@/features/places/logic/repository';
+import {
+  deletePlaceById,
+  updatePlace,
+} from '@/features/places/logic/repository';
 import { placeCreateSchema } from '@/features/places/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
@@ -33,7 +36,7 @@ const handleDelete: NextApiHandler = withZod(
   }),
   async (request, response) => {
     const { placeId } = request.query;
-    const result = await deletePlace(placeId);
+    const result = await deletePlaceById(placeId);
 
     if (result.type === 'success') {
       response.status(204).end();

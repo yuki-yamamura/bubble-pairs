@@ -16,38 +16,32 @@ export const findAllPlaces = (): Promise<Result<Place[]>> => {
   return withResult(() => prisma.place.findMany())();
 };
 
-export const findPlaceById = (id: string): Promise<Result<Place | null>> => {
+export const findPlaceById = (
+  id: Place['id'],
+): Promise<Result<Place | null>> => {
   return withResult(() =>
     prisma.place.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
     }),
   )();
 };
 
 export const updatePlace = ({
   id,
-  ...rest
+  ...data
 }: Pick<Place, 'id'> & Prisma.PlaceUpdateInput): Promise<Result<Place>> => {
   return withResult(() =>
     prisma.place.update({
-      where: {
-        id,
-      },
-      data: {
-        ...rest,
-      },
+      where: { id },
+      data,
     }),
   )();
 };
 
-export const deletePlace = (id: string): Promise<Result<Place>> => {
+export const deletePlaceById = (id: Place['id']): Promise<Result<Place>> => {
   return withResult(() =>
     prisma.place.delete({
-      where: {
-        id,
-      },
+      where: { id },
     }),
   )();
 };
