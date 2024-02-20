@@ -1,59 +1,50 @@
-import { calculateTotalPlayers } from './logic/utils';
+import { DOUBLES_PLAYER_COUNT, SINGLES_PLAYER_COUNT } from '@/constants';
 import { activitySchema } from '@/features/activities/validation';
 import { z } from 'zod';
 
-export type GameCreateSchemaType = z.infer<typeof gameCreateSchema>;
+export type GameCreateSchema = z.infer<typeof gameCreateSchema>;
 
 export const gameCreateSchema = z
   .object({
     activity: activitySchema,
-    members: z.array(
+    memberIds: z.array(
       z.object({
         memberId: z.string(),
       }),
     ),
-    singlesCount: z.string(),
-    doublesCount: z.string(),
+    singlesCount: z.coerce.number(),
+    doublesCount: z.coerce.number(),
   })
   .refine(
-    (schema) => {
-      const { courtCount } = schema.activity.place;
-      const singlesCount = parseInt(schema.singlesCount);
-      const doublesCount = parseInt(schema.doublesCount);
+    ({ activity, singlesCount, doublesCount }) => {
+      const { courtCount } = activity.place;
 
       return singlesCount + doublesCount <= courtCount;
     },
-    (schema) => {
-      const singlesCount = parseInt(schema.singlesCount);
-      const doublesCount = parseInt(schema.doublesCount);
-
-      return {
-        message:
-          'シングルスとダブルスの合計がコート数以下になる様に変更してください。',
-        path: [singlesCount < doublesCount ? 'doublesCount' : 'singlesCount'],
-      };
-    },
+    ({ singlesCount, doublesCount }) => ({
+      message: '試合数の合計がコート数以下になる様に変更してください。',
+      path: [singlesCount, doublesCount],
+    }),
   )
   .refine(
-    (schema) => {
-      const { members } = schema;
-      const singlesCount = parseInt(schema.singlesCount);
-      const doublesCount = parseInt(schema.doublesCount);
-      const playerCount = calculateTotalPlayers(singlesCount, doublesCount);
+    ({ memberIds, singlesCount, doublesCount }) => {
+      const playerCount =
+        singlesCount * SINGLES_PLAYER_COUNT +
+        doublesCount * DOUBLES_PLAYER_COUNT;
 
-      return playerCount <= members.length;
+      return playerCount <= memberIds.length;
     },
     {
       message: '参加者を追加してください。',
-      path: ['members'],
+      path: ['memberIds'],
     },
   )
   .refine(
-    (schema) => {
-      const singlesCount = parseInt(schema.singlesCount);
-      const doublesCount = parseInt(schema.doublesCount);
-
+    ({ singlesCount, doublesCount }) => {
       return singlesCount + doublesCount !== 0;
     },
-    { message: '試合数を入力してください。', path: ['doublesCount'] },
+    {
+      message: '試合数を入力してください。',
+      path: ['singlesCount, doublesCount'],
+    },
   );
