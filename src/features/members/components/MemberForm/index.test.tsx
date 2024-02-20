@@ -42,6 +42,7 @@ describe('MemberForm', () => {
         <MemberForm
           defaultValues={defaultValues}
           buttonLabel={buttonLabel}
+          buttonVariant={undefined}
           isSubmitting={false}
           onSubmit={mockFn}
         />,
@@ -83,6 +84,7 @@ describe('MemberForm', () => {
         <MemberForm
           defaultValues={defaultValues}
           buttonLabel={buttonLabel}
+          buttonVariant={undefined}
           isSubmitting={false}
           onSubmit={mockFn}
         />,
@@ -122,6 +124,7 @@ describe('MemberForm', () => {
         <MemberForm
           defaultValues={defaultValues}
           buttonLabel={buttonLabel}
+          buttonVariant={undefined}
           isSubmitting={false}
           onSubmit={mockFn}
         />,

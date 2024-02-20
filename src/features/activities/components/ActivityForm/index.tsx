@@ -26,18 +26,20 @@ type Props = {
 };
 
 const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
+  const defaultValues = {
+    participants: [],
+    placeId: places[0].id,
+    isOpen: true,
+  };
   const form = useForm<ActivityCreateSchema>({
-    defaultValues: {
-      participants: [],
-      placeId: places[0].id,
-      isOpen: true,
-    },
+    defaultValues,
     resolver: zodResolver(activityCreateSchema),
   });
   const {
     control,
     formState: { errors },
     handleSubmit,
+    watch,
   } = form;
   const { append, remove, fields } = useFieldArray({
     control,
@@ -57,6 +59,8 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
     value: id,
     label: name,
   }));
+  const shouldDisableSubmitButton =
+    JSON.stringify(defaultValues) === JSON.stringify(watch());
 
   return (
     <Form {...form}>
@@ -116,6 +120,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
         <Button
           type="submit"
           isBusy={isSubmitting}
+          disabled={shouldDisableSubmitButton}
           variant="primary-green"
           className="self-center"
         >

@@ -23,6 +23,7 @@ export const usePlaceForm = ({
   form: UseFormReturn<PlaceCreateSchema>;
   errors: FieldErrors<PlaceCreateSchema>;
   register: UseFormRegister<PlaceCreateSchema>;
+  shouldDisableSubmitButton: boolean;
   submitHandler: (
     e?: BaseSyntheticEvent<object, unknown, unknown> | undefined,
   ) => Promise<void>;
@@ -35,16 +36,20 @@ export const usePlaceForm = ({
     formState: { errors },
     handleSubmit,
     register,
+    watch,
   } = form;
 
   const submitHandler = handleSubmit((fieldValues) => {
     onSubmit(fieldValues);
   });
+  const shouldDisableSubmitButton =
+    JSON.stringify(defaultValues) === JSON.stringify(watch());
 
   return {
     form,
     errors,
     register,
+    shouldDisableSubmitButton,
     submitHandler,
   };
 };

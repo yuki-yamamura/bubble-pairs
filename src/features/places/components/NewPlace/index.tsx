@@ -34,6 +34,7 @@ const NewPlace = () => {
     <PlaceForm
       defaultValues={defaultValues}
       buttonLabel="場所を登録"
+      buttonVariant="primary-green"
       isSubmitting={isMutating}
       onSubmit={handleSubmit}
     />

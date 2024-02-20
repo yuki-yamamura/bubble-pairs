@@ -3,11 +3,13 @@ import Button from '@/components/Button';
 import { Form, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 
+import type { ButtonProps } from '@/components/ui/button';
 import type { PlaceCreateSchema } from '@/features/places/validation';
 
 type Props = {
   defaultValues: PlaceCreateSchema;
   buttonLabel: string;
+  buttonVariant: ButtonProps['variant'];
   isSubmitting: boolean;
   onSubmit: (fieldValues: PlaceCreateSchema) => void;
 };
@@ -15,13 +17,15 @@ type Props = {
 const PlaceForm = ({
   defaultValues,
   buttonLabel,
+  buttonVariant,
   isSubmitting,
   onSubmit,
 }: Props) => {
-  const { form, errors, register, submitHandler } = usePlaceForm({
-    defaultValues,
-    onSubmit,
-  });
+  const { form, errors, register, shouldDisableSubmitButton, submitHandler } =
+    usePlaceForm({
+      defaultValues,
+      onSubmit,
+    });
 
   return (
     <Form {...form}>
@@ -43,7 +47,12 @@ const PlaceForm = ({
           )}
         </FormItem>
       </form>
-      <Button type="submit" isBusy={isSubmitting} variant="primary-green">
+      <Button
+        type="submit"
+        isBusy={isSubmitting}
+        disabled={shouldDisableSubmitButton}
+        variant={buttonVariant}
+      >
         {buttonLabel}
       </Button>
     </Form>

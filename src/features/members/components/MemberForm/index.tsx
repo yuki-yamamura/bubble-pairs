@@ -19,6 +19,7 @@ import { Sex } from '@prisma/client';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 
+import type { ButtonProps } from '@/components/ui/button';
 import type { MemberCreateSchema } from '@/features/members/validation';
 import type { Options } from '@/types/Options';
 import type { EmojiClickData } from 'emoji-picker-react';
@@ -26,12 +27,14 @@ import type { EmojiClickData } from 'emoji-picker-react';
 type Props = {
   defaultValues: MemberCreateSchema;
   buttonLabel: string;
+  buttonVariant: ButtonProps['variant'];
   isSubmitting: boolean;
   onSubmit: (fieldValues: MemberCreateSchema) => Promise<void>;
 };
 const MemberForm = ({
   defaultValues,
   buttonLabel,
+  buttonVariant,
   isSubmitting,
   onSubmit,
 }: Props) => {
@@ -64,6 +67,8 @@ const MemberForm = ({
     value,
     label,
   }));
+  const shouldDisableSubmitButton =
+    JSON.stringify(defaultValues) === JSON.stringify(watch());
 
   useEffect(() => {
     setFocus('name');
@@ -136,7 +141,8 @@ const MemberForm = ({
         <Button
           type="submit"
           isBusy={isSubmitting}
-          variant="primary-green"
+          disabled={shouldDisableSubmitButton}
+          variant={buttonVariant}
           className="self-center"
         >
           {buttonLabel}

@@ -41,6 +41,7 @@ const NewMember = () => {
     <MemberForm
       defaultValues={defaultValues}
       buttonLabel="メンバーを登録"
+      buttonVariant="primary-green"
       isSubmitting={isMutating}
       onSubmit={handleSubmit}
     />

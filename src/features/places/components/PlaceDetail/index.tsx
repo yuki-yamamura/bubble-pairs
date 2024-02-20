@@ -31,6 +31,7 @@ const PlaceDetail = ({ place }: Props) => {
     <PlaceForm
       defaultValues={place}
       buttonLabel="変更を保存"
+      buttonVariant="outline"
       isSubmitting={isMutating}
       onSubmit={handleSubmit}
     />
