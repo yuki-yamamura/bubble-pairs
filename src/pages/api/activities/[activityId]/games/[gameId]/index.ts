@@ -1,4 +1,7 @@
-import { deleteGame, findGameById } from '@/features/games/logic/repository';
+import {
+  deleteGameById,
+  findGameById,
+} from '@/features/games/logic/repository';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
@@ -33,7 +36,7 @@ const handleDelete: NextApiHandler = withZod(
   }),
   async (request, response) => {
     const { gameId } = request.query;
-    const result = await deleteGame(gameId);
+    const result = await deleteGameById(gameId);
 
     if (result.type === 'success') {
       response.status(204).end();

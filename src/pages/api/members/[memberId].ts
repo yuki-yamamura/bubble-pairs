@@ -1,5 +1,5 @@
 import {
-  deleteMember,
+  deleteMemberById,
   updateMember,
 } from '@/features/members/logic/repository';
 import { memberUpdateSchema } from '@/features/members/validation';
@@ -36,7 +36,7 @@ const handleDelete: NextApiHandler = withZod(
   }),
   async (request, response) => {
     const { memberId } = request.query;
-    const result = await deleteMember(memberId);
+    const result = await deleteMemberById(memberId);
 
     if (result.type === 'success') {
       response.status(204).end();

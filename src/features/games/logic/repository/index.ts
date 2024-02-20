@@ -93,7 +93,7 @@ export const findGameById = (id: string): Promise<Result<Game | null>> => {
   )();
 };
 
-export const deleteGame = (id: string): Promise<Result<Game>> => {
+export const deleteGameById = (id: string): Promise<Result<Game>> => {
   return withResult(() =>
     prisma.game.delete({
       where: {

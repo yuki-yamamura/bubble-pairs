@@ -1,4 +1,4 @@
-import { deleteUser } from '@/features/users/logic/repository';
+import { deleteUserById } from '@/features/users/logic/repository';
 import { withZod } from '@/lib/next';
 import { getServerSession } from 'next-auth';
 import { z } from 'zod';
@@ -19,7 +19,7 @@ const handleDelete: NextApiHandler = withZod(
 
     const { userId } = request.query;
 
-    const result = await deleteUser(userId);
+    const result = await deleteUserById(userId);
     if (result.type === 'success') {
       response.status(204).end();
     } else {

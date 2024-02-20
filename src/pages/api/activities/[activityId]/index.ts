@@ -1,5 +1,5 @@
 import {
-  deleteActivity,
+  deleteActivityById,
   updateActivity,
 } from '@/features/activities/logic/repository';
 import { activityUpdateSchema } from '@/features/activities/validation';
@@ -36,7 +36,7 @@ const handleDelete = withZod(
   }),
   async (request, response) => {
     const id = request.query.activityId;
-    const result = await deleteActivity(id);
+    const result = await deleteActivityById(id);
 
     if (result.type === 'success') {
       response.status(204).end();

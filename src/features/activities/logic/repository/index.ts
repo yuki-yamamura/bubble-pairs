@@ -155,7 +155,7 @@ export const updateActivity = ({
   )();
 };
 
-export const deleteActivity = (id: string): Promise<Result<Activity>> => {
+export const deleteActivityById = (id: string): Promise<Result<Activity>> => {
   return withResult(() =>
     prisma.activity.delete({
       where: {

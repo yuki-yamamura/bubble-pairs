@@ -44,7 +44,7 @@ export const updateMember = ({
   )();
 };
 
-export const deleteMember = (id: string): Promise<Result<Member>> => {
+export const deleteMemberById = (id: string): Promise<Result<Member>> => {
   return withResult(() =>
     prisma.member.delete({
       where: {

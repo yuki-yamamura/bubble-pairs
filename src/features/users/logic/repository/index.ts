@@ -6,12 +6,10 @@ import type { User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const deleteUser = (id: string): Promise<Result<User>> => {
+export const deleteUserById = (id: User['id']): Promise<Result<User>> => {
   return withResult(() =>
     prisma.user.delete({
-      where: {
-        id,
-      },
+      where: { id },
     }),
   )();
 };
