@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import Button from '@/components/Button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -29,6 +29,8 @@ export const createColumns = (actions: {
       cell: ({ row }) => {
         const place = row.original;
         const { deletePlace, openPlaceDetail } = actions;
+        const handleDelete = () => deletePlace(place.id);
+        const handleOpen = () => openPlaceDetail(place.id);
 
         return (
           <DropdownMenu>
@@ -41,12 +43,12 @@ export const createColumns = (actions: {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => openPlaceDetail(place.id)}>
+              <DropdownMenuItem onClick={handleDelete}>
                 詳細を開く
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => deletePlace(place.id)}
+                onClick={() => handleOpen}
                 className="text-destructive"
               >
                 削除
