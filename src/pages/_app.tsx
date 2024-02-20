@@ -1,5 +1,5 @@
+import Layout from '@/components/Layout';
 import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
-import Layout from '@/features/members/components/Layout';
 import ErrorScreen from '@/screens/error';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
