@@ -5,7 +5,7 @@ import type { Member } from '@prisma/client';
 
 type Props = {
   members: Member[];
-  updateParticipants: (addedMembers: Member[]) => void;
+  updateParticipants: (addedParticipants: Member[]) => void;
 };
 const MembersPicker = ({ members, updateParticipants }: Props) => {
   return (

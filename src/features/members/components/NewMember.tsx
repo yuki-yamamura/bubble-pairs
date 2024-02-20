@@ -1,5 +1,5 @@
 import MemberForm from '@/features/members/components/MemberForm';
-import { $Enums } from '@prisma/client';
+import { Level, Sex } from '@prisma/client';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -31,10 +31,10 @@ const NewMember = () => {
 
   const defaultValues: MemberCreateSchema = {
     name: '',
-    sex: $Enums.Sex.MALE,
-    level: $Enums.Level.BEGINNER,
+    sex: Sex.MALE,
+    level: Level.BEGINNER,
     note: null,
-    emojiUnicode: '1f9d1', // adult unicode: I think this is suitable as default avatar.
+    emojiUnicode: '1f9d1', // adult unicode: I think this is suitable as a default avatar.
   };
 
   return (

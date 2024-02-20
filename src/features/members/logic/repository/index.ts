@@ -21,35 +21,27 @@ export const findMemberById = (
 ): Promise<Result<Member | null>> => {
   return withResult(() =>
     prisma.member.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
     }),
   )();
 };
 
 export const updateMember = ({
   id,
-  ...rest
+  ...data
 }: Pick<Member, 'id'> & Prisma.MemberUpdateInput): Promise<Result<Member>> => {
   return withResult(() =>
     prisma.member.update({
-      where: {
-        id,
-      },
-      data: {
-        ...rest,
-      },
+      where: { id },
+      data,
     }),
   )();
 };
 
-export const deleteMemberById = (id: string): Promise<Result<Member>> => {
+export const deleteMemberById = (id: Member['id']): Promise<Result<Member>> => {
   return withResult(() =>
     prisma.member.delete({
-      where: {
-        id,
-      },
+      where: { id },
     }),
   )();
 };
