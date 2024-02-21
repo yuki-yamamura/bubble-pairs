@@ -39,8 +39,8 @@ export const usePlaceForm = ({
     watch,
   } = form;
 
-  const submitHandler = handleSubmit((fieldValues) => {
-    onSubmit(fieldValues);
+  const submitHandler = handleSubmit(async (fieldValues) => {
+    await onSubmit(fieldValues);
   });
   const shouldDisableSubmitButton =
     JSON.stringify(defaultValues) === JSON.stringify(watch());

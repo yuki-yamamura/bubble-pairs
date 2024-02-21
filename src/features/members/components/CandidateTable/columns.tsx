@@ -33,9 +33,13 @@ export const createColumns = (actions: {
 
         return (
           <div className="flex justify-end">
-            <Button type="button" variant="ghost" className="h-8 w-8 p-0">
+            <Button
+              type="button"
+              variant="ghost"
+              aria-label={`${member.name}を削除`}
+              className="h-8 w-8 p-0"
+            >
               <Trash2
-                aria-label={`${member.name}を削除`}
                 onClick={() => deleteRowByIndex(row.index)}
                 className="h-4 w-4 stroke-1"
               />

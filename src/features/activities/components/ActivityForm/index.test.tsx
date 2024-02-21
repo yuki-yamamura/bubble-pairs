@@ -22,7 +22,7 @@ const getParticipantByLabel = (label: string) =>
 const getPlaceCombobox = () =>
   screen.getByRole('combobox', { name: '活動場所' });
 const getSubmitButton = () =>
-  screen.getByRole('button', { name: 'アクティビティを開始' });
+  screen.getByRole('button', { name: 'アクティビティをはじめる' });
 const getCheckboxByLabel = (label: string) =>
   screen.getByRole('checkbox', { name: label });
 const getApplyButton = () =>
@@ -32,7 +32,7 @@ const getOptionByLabel = (label: string) =>
 
 describe('ActivityForm', () => {
   describe('initialization', () => {
-    test('should render necessary fields having the default values', () => {
+    test('should render necessary fields having the default correct values', () => {
       // act
       render(
         <ActivityForm
@@ -56,7 +56,7 @@ describe('ActivityForm', () => {
   });
 
   describe('if user picks number of members that are more than or equal to 2, then click the submit button', () => {
-    test('should call a callback function with correct values', async () => {
+    test('should call a callback function with the correct values', async () => {
       // arrange
       const user = userEvent.setup();
       render(

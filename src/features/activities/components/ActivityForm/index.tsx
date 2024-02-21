@@ -30,7 +30,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
     participants: [],
     placeId: places[0].id,
     isOpen: true,
-  };
+  } satisfies ActivityCreateSchema;
   const form = useForm<ActivityCreateSchema>({
     defaultValues,
     resolver: zodResolver(activityCreateSchema),
@@ -71,7 +71,6 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
         <FormField
           control={control}
           name="participants"
-          rules={{ required: true }}
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="required">参加者</FormLabel>
@@ -81,7 +80,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
               <FormControl>
                 <MembersPicker
                   members={restMembers}
-                  updateParticipants={updateParticipants}
+                  updateMembers={updateParticipants}
                 />
               </FormControl>
               <CandidateTable
@@ -89,7 +88,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
                   .map(({ memberId }) =>
                     members.find((member) => member.id === memberId),
                   )
-                  // remove undefined and TypeScript recognizes correct type.
+                  // remove undefined so that TypeScript will recognize correct type.
                   .filter((member): member is Member => !!member)}
                 actions={{
                   deleteRowByIndex: (index: number) => remove(index),
@@ -101,7 +100,6 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
         <FormField
           control={control}
           name="placeId"
-          rules={{ required: true }}
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="required">活動場所</FormLabel>

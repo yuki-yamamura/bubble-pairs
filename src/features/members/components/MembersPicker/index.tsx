@@ -5,9 +5,9 @@ import type { Member } from '@prisma/client';
 
 type Props = {
   members: Member[];
-  updateParticipants: (addedParticipants: Member[]) => void;
+  updateMembers: (addedMembers: Member[]) => void;
 };
-const MembersPicker = ({ members, updateParticipants }: Props) => {
+const MembersPicker = ({ members, updateMembers }: Props) => {
   return (
     <DataPicker
       columns={columns}
@@ -15,7 +15,7 @@ const MembersPicker = ({ members, updateParticipants }: Props) => {
       triggerButtonLabel="参加者を追加..."
       actionButtonLabel="参加者を追加"
       dialogDescription="参加者を選択してください。"
-      setData={updateParticipants}
+      setData={updateMembers}
     />
   );
 };

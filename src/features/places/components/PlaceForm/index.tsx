@@ -11,7 +11,7 @@ type Props = {
   buttonLabel: string;
   buttonVariant: ButtonProps['variant'];
   isSubmitting: boolean;
-  onSubmit: (fieldValues: PlaceCreateSchema) => void;
+  onSubmit: (fieldValues: PlaceCreateSchema) => Promise<void>;
 };
 
 const PlaceForm = ({

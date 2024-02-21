@@ -27,7 +27,7 @@ const getSubmitButton = () => screen.getByRole('button', { name: buttonLabel });
 
 describe('MemberForm', () => {
   describe('initialization', () => {
-    test('should render necessary fields having the default values', () => {
+    test('should render necessary fields having the correct default values', () => {
       // arrange
       const defaultValues: MemberCreateSchema = {
         emojiUnicode: '1f9d1',
@@ -69,7 +69,7 @@ describe('MemberForm', () => {
   });
 
   describe('if user fills out all the fields, then clicks the submit button', () => {
-    test('should call a callback function with correct values', async () => {
+    test('should call a callback function with the correct values', async () => {
       // arrange
       const user = userEvent.setup();
       const defaultValues: MemberCreateSchema = {
