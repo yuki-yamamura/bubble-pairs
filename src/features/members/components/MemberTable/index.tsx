@@ -7,7 +7,7 @@ type Props = {
   data: Member[];
   actions: {
     deleteMember: (memberId: Member['id']) => Promise<void>;
-    openMemberDetail: (memberId: Member['id']) => void;
+    openMemberDetail: (memberId: Member['id']) => Promise<void>;
   };
 };
 

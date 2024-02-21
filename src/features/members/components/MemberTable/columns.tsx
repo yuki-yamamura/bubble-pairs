@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import Button from '@/components/Button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { levelMap, sexMap } from '@/constants';
-import dayjs from 'dayjs';
 import { MoreHorizontal } from 'lucide-react';
 
 import type { Member } from '@prisma/client';
@@ -15,14 +14,9 @@ import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
   deleteMember: (memberId: Member['id']) => Promise<void>;
-  openMemberDetail: (memberId: Member['id']) => void;
+  openMemberDetail: (memberId: Member['id']) => Promise<void>;
 }): ColumnDef<Member>[] => {
   return [
-    {
-      accessorKey: 'createdAt',
-      header: '登録日',
-      cell: ({ row }) => dayjs(row.original.createdAt).format('YYYY/MM/DD'),
-    },
     {
       accessorKey: 'name',
       header: '名前',
