@@ -7,7 +7,7 @@ import type { AxiosError } from 'axios';
 import type { KeyedMutator } from 'swr';
 
 export const useActivities = (): {
-  activities: Activity[] | undefined;
+  activities: Activity[];
   error: AxiosError | undefined;
   isLoading: boolean;
   mutate: KeyedMutator<GetResponseData>;
