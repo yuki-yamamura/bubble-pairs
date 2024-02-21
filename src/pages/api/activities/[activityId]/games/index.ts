@@ -29,16 +29,14 @@ const handlePost: NextApiHandler = withZod(
     body: gameCreateSchema,
   }),
   async (request, response) => {
-    const { members } = request.body;
-    const activityResult = await findActivityById(request.body.activity.id);
+    const { memberIds, singlesCount, doublesCount } = request.body;
+    const activityResult = await findActivityById(request.body.activityId);
 
     if (activityResult.type === 'error') {
       console.error(activityResult.error);
       throw activityResult.error;
     }
 
-    const singlesCount = parseInt(request.body.singlesCount);
-    const doublesCount = parseInt(request.body.doublesCount);
     const singlesPlayerCount = calculateSinglesPlayerCount(singlesCount);
     const doublesPlayerCount = calculateDoublesPlayerCount(doublesCount);
     const totalPlayerCount = singlesPlayerCount + doublesPlayerCount;
@@ -48,10 +46,10 @@ const handlePost: NextApiHandler = withZod(
     const currentPlayers = currentGameDetails
       .map((gameDetail) => gameDetail.players)
       .flat();
-    const electedMembers = members
-      .map((member) =>
+    const electedMembers = memberIds
+      .map(({ memberId }) =>
         activityResult.data?.participants.find(
-          (participant) => participant.memberId === member.memberId,
+          (participant) => participant.memberId === memberId,
         ),
       )
       .map((participant) => ({

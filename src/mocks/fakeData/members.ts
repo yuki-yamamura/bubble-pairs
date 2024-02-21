@@ -45,4 +45,15 @@ export const fakeMembers: Member[] = [
     level: Level.ADVANCED,
     note: null,
   },
+  {
+    id: '5',
+    ownerId: 'clrcnez7q000108l6gb34bi8b',
+    createdAt: new Date('2023-05-01T13:00:00+09:00'),
+    updatedAt: new Date('2023-05-01T13:00:00+09:00'),
+    emojiUnicode: '1f9d1',
+    name: '渡辺 早季',
+    sex: Sex.FEMALE,
+    level: Level.BEGINNER,
+    note: null,
+  },
 ];

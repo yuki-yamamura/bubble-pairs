@@ -1,12 +1,14 @@
 import { DOUBLES_PLAYER_COUNT, SINGLES_PLAYER_COUNT } from '@/constants';
-import { activitySchema } from '@/features/activities/validation';
+import axios from 'axios';
 import { z } from 'zod';
+
+import type { GetResponseData } from '@/types/api/activities/[activityId]';
 
 export type GameCreateSchema = z.infer<typeof gameCreateSchema>;
 
 export const gameCreateSchema = z
   .object({
-    activity: activitySchema,
+    activityId: z.string(),
     memberIds: z.array(
       z.object({
         memberId: z.string(),
@@ -16,14 +18,27 @@ export const gameCreateSchema = z
     doublesCount: z.coerce.number(),
   })
   .refine(
-    ({ activity, singlesCount, doublesCount }) => {
+    ({ singlesCount, doublesCount }) => {
+      return singlesCount + doublesCount !== 0;
+    },
+    {
+      message: '試合数を選択してください。',
+      path: ['doublesCount'],
+    },
+  )
+  .refine(
+    async ({ activityId, singlesCount, doublesCount }) => {
+      const response = await axios.get<GetResponseData>(
+        `/api/activities/${activityId}`,
+      );
+      const { activity } = response.data;
       const { courtCount } = activity.place;
 
       return singlesCount + doublesCount <= courtCount;
     },
     ({ singlesCount, doublesCount }) => ({
-      message: '試合数の合計がコート数以下になる様に変更してください。',
-      path: [singlesCount, doublesCount],
+      message: '試合数の合計をコート数以下に変更してください。',
+      path: [singlesCount < doublesCount ? 'doublesCount' : 'singlesCount'],
     }),
   )
   .refine(
@@ -35,16 +50,7 @@ export const gameCreateSchema = z
       return playerCount <= memberIds.length;
     },
     {
-      message: '参加者を追加してください。',
+      message: '参加者を追加するか、試合数を変更してください。',
       path: ['memberIds'],
-    },
-  )
-  .refine(
-    ({ singlesCount, doublesCount }) => {
-      return singlesCount + doublesCount !== 0;
-    },
-    {
-      message: '試合数を入力してください。',
-      path: ['singlesCount, doublesCount'],
     },
   );

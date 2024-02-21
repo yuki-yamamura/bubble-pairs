@@ -1,6 +1,6 @@
-import EmptyState from '@/components/EmptyState';
+import { useGameForm } from './useGameForm';
+import Button from '@/components/Button';
 import Select from '@/components/form/Select';
-import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
@@ -9,63 +9,33 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Label } from '@/components/ui/label';
-import {
-  gameCreateSchema,
-  type GameCreateSchemaType,
-} from '@/features/games/validation';
 import CandidateTable from '@/features/members/components/CandidateTable';
 import MembersPicker from '@/features/members/components/MembersPicker';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
 
+import type { GameCreateSchema } from '@/features/games/validation';
 import type { Activity } from '@/types/models/Activity';
+import type { Options } from '@/types/Options';
 import type { Member } from '@prisma/client';
 
 type Props = {
   activity: Activity;
-  onSubmit: (fieldValues: GameCreateSchemaType) => void;
+  isSubmitting: boolean;
+  onSubmit: (fieldValues: GameCreateSchema) => Promise<void>;
 };
 
-const GameForm = ({ activity, onSubmit }: Props) => {
-  const defaultValues = {
-    activity: activity,
-    members: activity.participants.map(({ memberId }) => ({
-      memberId,
-    })),
-    singlesCount: '0',
-    doublesCount: '0',
-  } satisfies GameCreateSchemaType;
-  const form = useForm<GameCreateSchemaType>({
-    defaultValues,
-    resolver: zodResolver(gameCreateSchema),
-  });
+const GameForm = ({ activity, isSubmitting, onSubmit }: Props) => {
   const {
     control,
-    handleSubmit,
-    formState: { errors },
-  } = form;
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: 'members',
-  });
-  const submitHandler = handleSubmit((fieldValues) => {
-    onSubmit(fieldValues);
-  });
+    deleteMemberByIndex,
+    form,
+    errors,
+    restMembers,
+    shouldDisableSubmitButton,
+    submitHandler,
+    updateMembers,
+  } = useGameForm({ activity, onSubmit });
 
-  const updateMembers = (addedMembers: Member[]) => {
-    const values = addedMembers.map((member) => ({ memberId: member.id }));
-    append(values);
-  };
-
-  const restMembers = activity.participants
-    .filter((participant) => {
-      const selectedMemberIds = fields.map(({ memberId }) => memberId);
-
-      return !selectedMemberIds.includes(participant.memberId);
-    })
-    .map(({ member }) => member);
-  const gameDetailCountOptions = Array.from(
+  const gameDetailCountOptions: Options = Array.from(
     Array(activity.place.courtCount + 1),
     (_, index) => index,
   ).map((count) => ({
@@ -77,63 +47,50 @@ const GameForm = ({ activity, onSubmit }: Props) => {
     <Form {...form}>
       <form
         onSubmit={submitHandler}
-        className="mx-auto flex max-w-md flex-col gap-y-6"
+        className="mx-auto flex max-w-sm flex-col gap-y-4"
       >
-        <Label className="flex flex-col gap-y-2">
-          {`${activity.place.name} / ${activity.place.courtCount} コート`}
-        </Label>
         <FormField
           control={control}
-          name="members"
+          name="memberIds"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel className="required-field">
-                参加者（２名以上）
-              </FormLabel>
+              <FormLabel className="required">参加者</FormLabel>
               <FormControl>
                 <MembersPicker
                   members={restMembers}
-                  updateParticipants={updateMembers}
+                  updateMembers={updateMembers}
                 />
               </FormControl>
-              {field.value?.length === 0 ? (
-                <EmptyState
-                  src="/images/empty-box.png"
-                  alt="empty-box"
-                  className="w-180 h-40"
-                >
-                  <span>メンバーが選択されていません。</span>
-                </EmptyState>
-              ) : (
-                <CandidateTable
-                  data={
-                    field.value.map(
-                      ({ memberId }) =>
-                        activity.participants.find(
-                          (participant) => participant.memberId === memberId,
-                        )?.member as Member,
-                    ) ?? []
-                  }
-                  actions={{
-                    deleteRowByIndex: (index: number) => remove(index),
-                  }}
-                />
-              )}
+              <CandidateTable
+                data={field.value
+                  .map(
+                    ({ memberId }) =>
+                      activity.participants.find(
+                        (participant) => participant.memberId === memberId,
+                      )?.member,
+                  )
+                  // remove undefined so that TypeScript will recognize correct type.
+                  .filter((member): member is Member => !!member)}
+                actions={{
+                  deleteRowByIndex: deleteMemberByIndex,
+                }}
+              />
             </FormItem>
           )}
         />
-        {errors.members && <FormMessage>{errors.members.message}</FormMessage>}
+        {errors.memberIds && (
+          <FormMessage>{errors.memberIds.message}</FormMessage>
+        )}
         <FormField
           control={control}
           name="singlesCount"
-          rules={{ required: true }}
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="required">シングルス数</FormLabel>
               <Select
                 options={gameDetailCountOptions}
-                value={field.value}
-                defaultValue={field.value}
+                value={field.value.toString()}
+                defaultValue={field.value.toString()}
                 onValueChange={field.onChange}
               />
               {errors.singlesCount && (
@@ -145,14 +102,13 @@ const GameForm = ({ activity, onSubmit }: Props) => {
         <FormField
           control={control}
           name="doublesCount"
-          rules={{ required: true }}
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="required">ダブルス数</FormLabel>
               <Select
                 options={gameDetailCountOptions}
-                value={field.value}
-                defaultValue={field.value}
+                value={field.value.toString()}
+                defaultValue={field.value.toString()}
                 onValueChange={field.onChange}
               />
               {errors.doublesCount && (
@@ -161,7 +117,15 @@ const GameForm = ({ activity, onSubmit }: Props) => {
             </FormItem>
           )}
         />
-        <Button type="submit">ゲームをはじめる</Button>
+        <Button
+          type="submit"
+          isBusy={isSubmitting}
+          disabled={shouldDisableSubmitButton}
+          variant="primary-green"
+          className="self-center"
+        >
+          ゲームをはじめる
+        </Button>
       </form>
     </Form>
   );
