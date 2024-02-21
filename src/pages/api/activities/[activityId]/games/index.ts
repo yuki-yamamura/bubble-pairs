@@ -1,10 +1,6 @@
 import { DOUBLES_PLAYER_COUNT, SINGLES_PLAYER_COUNT } from '@/constants';
 import { findActivityById } from '@/features/activities/logic/repository';
 import { createGame, findAllGames } from '@/features/games/logic/repository';
-import {
-  calculateDoublesPlayerCount,
-  calculateSinglesPlayerCount,
-} from '@/features/games/logic/utils';
 import { gameCreateSchema } from '@/features/games/validation';
 import { withZod } from '@/lib/next';
 import { $Enums } from '@prisma/client';
@@ -37,8 +33,8 @@ const handlePost: NextApiHandler = withZod(
       throw activityResult.error;
     }
 
-    const singlesPlayerCount = calculateSinglesPlayerCount(singlesCount);
-    const doublesPlayerCount = calculateDoublesPlayerCount(doublesCount);
+    const singlesPlayerCount = singlesCount * SINGLES_PLAYER_COUNT;
+    const doublesPlayerCount = doublesCount * DOUBLES_PLAYER_COUNT;
     const totalPlayerCount = singlesPlayerCount + doublesPlayerCount;
 
     const currentGameDetails =
@@ -82,7 +78,7 @@ const handlePost: NextApiHandler = withZod(
           };
         }),
         ...Array.from(Array(doublesCount).keys()).map((index) => {
-          const start = singlesPlayerCount + calculateSinglesPlayerCount(index);
+          const start = singlesPlayerCount + index * SINGLES_PLAYER_COUNT;
           const end = start + DOUBLES_PLAYER_COUNT;
 
           return {
@@ -104,7 +100,7 @@ const handlePost: NextApiHandler = withZod(
     const data = {
       activity: {
         connect: {
-          id: request.body.activity.id,
+          id: request.body.activityId,
         },
       },
       gameDetails,
