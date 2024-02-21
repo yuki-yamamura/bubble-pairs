@@ -1,9 +1,9 @@
 import PageContainer from '@/components/PageContainer';
-import MemberList from '@/features/members/components/MemberList';
+import Members from '@/features/members/components/Members';
 
 const MembersScreen = () => (
   <PageContainer title="Members">
-    <MemberList />
+    <Members />
   </PageContainer>
 );
 

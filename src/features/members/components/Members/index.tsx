@@ -9,7 +9,7 @@ import toast from 'react-hot-toast';
 
 import type { Member } from '@prisma/client';
 
-const MemberList = () => {
+const Members = () => {
   const router = useRouter();
   const { members, isLoading, mutate } = useMembers();
 
@@ -22,16 +22,18 @@ const MemberList = () => {
     await mutate();
     toast.success('メンバーを削除しました。');
   };
-  const openMemberDetail = (memberId: Member['id']) => {
-    void router.push(`/members/${memberId}`);
+  const openMemberDetail = async (memberId: Member['id']) => {
+    await router.push(`/members/${memberId}`);
   };
+
+  if (isLoading) {
+    return <Loading text="メンバーを読み込んでいます..." />;
+  }
 
   return (
     <div>
       <CreateButton onClick={handleCreateButtonClick} />
-      {isLoading ? (
-        <Loading text="メンバーを読み込んでいます..." />
-      ) : members?.length === 0 ? (
+      {members?.length === 0 ? (
         <EmptyState src="/images/exploring.png" alt="exploring">
           <div className="text-center leading-7">
             <p>まずはメンバーを登録しましょう。</p>
@@ -51,4 +53,4 @@ const MemberList = () => {
   );
 };
 
-export default MemberList;
+export default Members;
