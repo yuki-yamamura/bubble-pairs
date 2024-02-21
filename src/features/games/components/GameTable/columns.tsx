@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import Button from '@/components/Button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,29 +6,29 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { $Enums } from '@prisma/client';
+import { Rule } from '@prisma/client';
 import { MoreHorizontal } from 'lucide-react';
 
 import type { Game } from '@/types/models/Game';
 import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
-  deleteGame: (id: string) => Promise<void>;
-  openGame: (id: string) => Promise<void>;
+  deleteGameById: (id: Game['id']) => Promise<void>;
+  openGame: (id: Game['id']) => Promise<void>;
 }): ColumnDef<Game>[] => {
   return [
     {
       id: 'gameNumber',
-      header: 'ゲーム No.',
+      header: 'No.',
       cell: ({ row }) => row.index + 1,
     },
     {
       id: 'singlesCount',
-      header: 'シングルス数',
+      header: '試合数',
       cell: ({ row }) => {
         const game = row.original;
         const singlesCount = game.gameDetails.filter(
-          (gameDetail) => gameDetail.rule === $Enums.Rule.SINGLES,
+          (gameDetail) => gameDetail.rule === Rule.SINGLES,
         ).length;
 
         return singlesCount;
@@ -36,30 +36,21 @@ export const createColumns = (actions: {
     },
     {
       id: 'doublesCount',
-      header: 'ダブルス数',
+      header: '試合数',
       cell: ({ row }) => {
         const game = row.original;
         const doublesCount = game.gameDetails.filter(
-          (gameDetail) => gameDetail.rule === $Enums.Rule.DOUBLES,
+          (gameDetail) => gameDetail.rule === Rule.DOUBLES,
         ).length;
 
         return doublesCount;
       },
     },
     {
-      id: 'playerCount',
-      header: '参加者数',
-      cell: ({ row }) => {
-        const { participants } = row.original.activity;
-
-        return participants.length;
-      },
-    },
-    {
       id: 'actions',
       cell: ({ row }) => {
         const game = row.original;
-        const { deleteGame, openGame } = actions;
+        const { deleteGameById, openGame } = actions;
 
         return (
           <DropdownMenu>
@@ -77,7 +68,7 @@ export const createColumns = (actions: {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => deleteGame(game.id)}
+                onClick={() => deleteGameById(game.id)}
                 className="text-destructive"
               >
                 削除

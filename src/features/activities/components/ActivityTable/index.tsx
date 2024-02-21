@@ -6,9 +6,9 @@ import type { Activity } from '@/types/models/Activity';
 type Props = {
   data: Activity[];
   actions: {
-    closeActivity: (id: string) => Promise<void>;
-    deleteActivity: (id: string) => Promise<void>;
-    openActivity: (id: string) => Promise<void>;
+    closeActivityById: (id: Activity['id']) => Promise<void>;
+    deleteActivityById: (id: Activity['id']) => Promise<void>;
+    openActivity: (id: Activity['id']) => Promise<void>;
   };
 };
 

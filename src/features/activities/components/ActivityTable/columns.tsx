@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui/button';
+import Button from '@/components/Button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,18 +13,18 @@ import type { Activity } from '@/types/models/Activity';
 import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
-  closeActivity: (id: string) => Promise<void>;
-  deleteActivity: (id: string) => Promise<void>;
-  openActivity: (id: string) => Promise<void>;
+  closeActivityById: (id: Activity['id']) => Promise<void>;
+  deleteActivityById: (id: Activity['id']) => Promise<void>;
+  openActivity: (id: Activity['id']) => Promise<void>;
 }): ColumnDef<Activity>[] => {
   return [
     {
       accessorKey: 'isOpen',
       header: undefined,
       cell: ({ row }) => {
-        const { isOpen } = row.original;
+        const activity = row.original;
 
-        return isOpen ? (
+        return activity.isOpen ? (
           <CircleDot size={16} className="text-slate-400" />
         ) : (
           <CheckCircle2 size={16} className="text-purple-400" />
@@ -45,34 +45,34 @@ export const createColumns = (actions: {
       accessorKey: 'games',
       header: () => <div className="text-right">試合数</div>,
       cell: ({ row }) => {
-        const gamesCount = row.original.games.length;
+        const { games } = row.original;
 
-        return <div className="text-right">{`${gamesCount} 回`}</div>;
+        return <div className="text-right">{`${games.length} 回`}</div>;
       },
     },
     {
       accessorKey: 'participants',
       header: () => <div className="whitespace-nowrap text-right">参加者</div>,
       cell: ({ row }) => {
-        const participantsCount = row.original.participants.length;
+        const { participants } = row.original;
 
-        return <div className="text-right">{`${participantsCount} 人`}</div>;
+        return <div className="text-right">{`${participants.length} 人`}</div>;
       },
     },
     {
       accessorKey: 'placeId',
       header: '場所',
       cell: ({ row }) => {
-        const placeName = row.original.place.name;
+        const { place } = row.original;
 
-        return placeName;
+        return place.name;
       },
     },
     {
       id: 'actions',
       cell: ({ row }) => {
         const activity = row.original;
-        const { closeActivity, deleteActivity, openActivity } = actions;
+        const { closeActivityById, deleteActivityById, openActivity } = actions;
 
         return (
           <DropdownMenu>
@@ -89,13 +89,15 @@ export const createColumns = (actions: {
                 詳細を見る
               </DropdownMenuItem>
               {activity.isOpen && (
-                <DropdownMenuItem onClick={() => closeActivity(activity.id)}>
-                  完了する
+                <DropdownMenuItem
+                  onClick={() => closeActivityById(activity.id)}
+                >
+                  終了する
                 </DropdownMenuItem>
               )}
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => deleteActivity(activity.id)}
+                onClick={() => deleteActivityById(activity.id)}
                 className="text-destructive"
               >
                 削除

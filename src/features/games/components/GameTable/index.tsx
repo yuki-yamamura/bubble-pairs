@@ -6,8 +6,8 @@ import type { Game } from '@/types/models/Game';
 type Props = {
   data: Game[];
   actions: {
-    deleteGame: (id: string) => Promise<void>;
-    openGame: (id: string) => Promise<void>;
+    deleteGameById: (id: Game['id']) => Promise<void>;
+    openGame: (id: Game['id']) => Promise<void>;
   };
 };
 
