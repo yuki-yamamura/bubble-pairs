@@ -48,12 +48,12 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
       >
         <FormField
           control={control}
-          name="participants"
+          name="memberIds"
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel className="required">参加者</FormLabel>
-              {errors.participants && (
-                <FormMessage>{errors.participants.message}</FormMessage>
+              {errors.memberIds && (
+                <FormMessage>{errors.memberIds.message}</FormMessage>
               )}
               <FormControl>
                 <MembersPicker

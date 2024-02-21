@@ -27,7 +27,7 @@ export const useActivityForm = ({
   updateMembers: (addedMembers: Member[]) => void;
 } => {
   const defaultValues = {
-    participants: [],
+    memberIds: [],
     placeId: places[0].id,
     isOpen: true,
   } satisfies ActivityCreateSchema;
@@ -43,7 +43,7 @@ export const useActivityForm = ({
   } = form;
   const { append, fields, remove } = useFieldArray({
     control,
-    name: 'participants',
+    name: 'memberIds',
   });
 
   const submitHandler = handleSubmit(async (fieldValues) => {

@@ -7,7 +7,7 @@ export type ActivityUpdateSchemaType = z.infer<typeof activityUpdateSchema>;
 export type ActivityCreateSchema = z.infer<typeof activityCreateSchema>;
 
 export const activityCreateSchema = z.object({
-  participants: z
+  memberIds: z
     .array(
       z.object({
         memberId: z.string(),

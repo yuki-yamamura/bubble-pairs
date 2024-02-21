@@ -34,13 +34,13 @@ const handlePost = withZod(
       return;
     }
 
-    const { participants, placeId, isOpen } = request.body;
+    const { memberIds, placeId, isOpen } = request.body;
     const data = {
       owner: {
         connect: { id: session.user.id },
       },
       participants: {
-        create: participants,
+        create: memberIds,
       },
       place: {
         connect: { id: placeId },
