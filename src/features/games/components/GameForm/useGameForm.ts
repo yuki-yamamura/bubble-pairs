@@ -1,10 +1,8 @@
-import {
-  gameCreateSchema,
-  type GameCreateSchema,
-} from '@/features/games/validation';
+import { gameCreateSchema } from '@/features/games/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useFieldArray, useForm } from 'react-hook-form';
 
+import type { GameCreateSchema } from '@/features/games/validation';
 import type { Activity } from '@/types/models/Activity';
 import type { Member } from '@prisma/client';
 import type { BaseSyntheticEvent } from 'react';
