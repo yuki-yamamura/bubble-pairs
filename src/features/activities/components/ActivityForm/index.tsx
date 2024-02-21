@@ -1,3 +1,4 @@
+import { useActivityForm } from './useActivityForm';
 import Button from '@/components/Button';
 import Select from '@/components/form/Select';
 import {
@@ -8,11 +9,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { activityCreateSchema } from '@/features/activities/validation';
 import CandidateTable from '@/features/members/components/CandidateTable';
 import MembersPicker from '@/features/members/components/MembersPicker';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useFieldArray, useForm } from 'react-hook-form';
 
 import type { ActivityCreateSchema } from '@/features/activities/validation';
 import type { Options } from '@/types/Options';
@@ -26,46 +24,26 @@ type Props = {
 };
 
 const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
-  const defaultValues = {
-    participants: [],
-    placeId: places[0].id,
-    isOpen: true,
-  } satisfies ActivityCreateSchema;
-  const form = useForm<ActivityCreateSchema>({
-    defaultValues,
-    resolver: zodResolver(activityCreateSchema),
-  });
   const {
     control,
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = form;
-  const { append, remove, fields } = useFieldArray({
-    control,
-    name: 'participants',
-  });
+    deleteMemberByIndex,
+    form,
+    errors,
+    restMembers,
+    shouldDisableSubmitButton,
+    submitHandler,
+    updateMembers,
+  } = useActivityForm({ members, places, onSubmit });
 
-  const updateParticipants = (addedMembers: Member[]) => {
-    const values = addedMembers.map((member) => ({ memberId: member.id }));
-    append(values);
-  };
-
-  // members who haven't joined an activity yet.
-  const restMembers = members.filter(
-    (member) => !fields.some((field) => field.memberId === member.id),
-  );
   const placeOptions: Options = places.map(({ id, name }) => ({
     value: id,
     label: name,
   }));
-  const shouldDisableSubmitButton =
-    JSON.stringify(defaultValues) === JSON.stringify(watch());
 
   return (
     <Form {...form}>
       <form
-        onSubmit={handleSubmit((fieldValues) => onSubmit(fieldValues))}
+        onSubmit={submitHandler}
         className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
       >
         <FormField
@@ -80,7 +58,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
               <FormControl>
                 <MembersPicker
                   members={restMembers}
-                  updateMembers={updateParticipants}
+                  updateMembers={updateMembers}
                 />
               </FormControl>
               <CandidateTable
@@ -91,7 +69,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
                   // remove undefined so that TypeScript will recognize correct type.
                   .filter((member): member is Member => !!member)}
                 actions={{
-                  deleteRowByIndex: (index: number) => remove(index),
+                  deleteRowByIndex: deleteMemberByIndex,
                 }}
               />
             </FormItem>
@@ -102,7 +80,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
           name="placeId"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel className="required">活動場所</FormLabel>
+              <FormLabel className="required">場所</FormLabel>
               <Select
                 options={placeOptions}
                 value={field.value}
