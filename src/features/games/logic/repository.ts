@@ -9,26 +9,27 @@ const prisma = new PrismaClient();
 
 export const createGame = (
   data: Prisma.GameCreateInput,
-): Promise<
-  Result<
-    Prisma.GameGetPayload<{
-      include: {
-        gameDetails: {
-          include: {
-            players: true;
-          };
-        };
-      };
-    }>
-  >
-> => {
+): Promise<Result<Game>> => {
   return withResult(() =>
     prisma.game.create({
       data,
       include: {
+        activity: {
+          include: {
+            participants: true,
+          },
+        },
         gameDetails: {
           include: {
-            players: true,
+            players: {
+              include: {
+                participant: {
+                  include: {
+                    member: true,
+                  },
+                },
+              },
+            },
           },
         },
       },
@@ -63,12 +64,10 @@ export const findAllGames = (): Promise<Result<Game[]>> => {
   )();
 };
 
-export const findGameById = (id: string): Promise<Result<Game | null>> => {
+export const findGameById = (id: Game['id']): Promise<Result<Game | null>> => {
   return withResult(() =>
     prisma.game.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
       include: {
         activity: {
           include: {
@@ -93,12 +92,10 @@ export const findGameById = (id: string): Promise<Result<Game | null>> => {
   )();
 };
 
-export const deleteGameById = (id: string): Promise<Result<Game>> => {
+export const deleteGameById = (id: Game['id']): Promise<Result<Game>> => {
   return withResult(() =>
     prisma.game.delete({
-      where: {
-        id,
-      },
+      where: { id },
       include: {
         activity: {
           include: {

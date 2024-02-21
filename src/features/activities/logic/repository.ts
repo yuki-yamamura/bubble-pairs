@@ -9,22 +9,39 @@ const prisma = new PrismaClient();
 
 export const createActivity = (
   data: Prisma.ActivityCreateInput,
-): Promise<
-  Result<
-    Prisma.ActivityGetPayload<{
-      include: {
-        place: true;
-        participants: true;
-      };
-    }>
-  >
-> => {
+): Promise<Result<Activity>> => {
   return withResult(() =>
     prisma.activity.create({
       data,
       include: {
+        participants: {
+          include: {
+            member: true,
+          },
+        },
         place: true,
-        participants: true,
+        games: {
+          include: {
+            activity: {
+              include: {
+                participants: true,
+              },
+            },
+            gameDetails: {
+              include: {
+                players: {
+                  include: {
+                    participant: {
+                      include: {
+                        member: true,
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
     }),
   )();
@@ -68,13 +85,11 @@ export const findAllActivities = (): Promise<Result<Activity[]>> => {
 };
 
 export const findActivityById = (
-  id: string,
+  id: Activity['id'],
 ): Promise<Result<Activity | null>> => {
   return withResult(() =>
     prisma.activity.findUnique({
-      where: {
-        id,
-      },
+      where: { id },
       include: {
         participants: {
           include: {
@@ -111,16 +126,14 @@ export const findActivityById = (
 
 export const updateActivity = ({
   id,
-  ...rest
-}: { id: string } & Prisma.ActivityUpdateInput): Promise<Result<Activity>> => {
+  ...data
+}: Pick<Activity, 'id'> & Prisma.ActivityUpdateInput): Promise<
+  Result<Activity>
+> => {
   return withResult(() =>
     prisma.activity.update({
-      data: {
-        ...rest,
-      },
-      where: {
-        id,
-      },
+      data,
+      where: { id },
       include: {
         participants: {
           include: {
@@ -155,12 +168,12 @@ export const updateActivity = ({
   )();
 };
 
-export const deleteActivityById = (id: string): Promise<Result<Activity>> => {
+export const deleteActivityById = (
+  id: Activity['id'],
+): Promise<Result<Activity>> => {
   return withResult(() =>
     prisma.activity.delete({
-      where: {
-        id,
-      },
+      where: { id },
       include: {
         place: true,
         participants: {
