@@ -4,7 +4,6 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 import type { ActivityCreateSchema } from '@/features/activities/validation';
 import type { Member, Place } from '@prisma/client';
-import type { BaseSyntheticEvent } from 'react';
 import type { Control, FieldErrors, UseFormReturn } from 'react-hook-form';
 
 type Props = {
@@ -24,9 +23,7 @@ export const useActivityForm = ({
   errors: FieldErrors<ActivityCreateSchema>;
   restMembers: Member[];
   shouldDisableSubmitButton: boolean;
-  submitHandler: (
-    e?: BaseSyntheticEvent<object, unknown, unknown> | undefined,
-  ) => Promise<void>;
+  submitHandler: () => Promise<void>;
   updateMembers: (addedMembers: Member[]) => void;
 } => {
   const defaultValues = {

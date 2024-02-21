@@ -4,7 +4,6 @@ import { useForm } from 'react-hook-form';
 
 import type PlaceForm from '.';
 import type { PlaceCreateSchema } from '@/features/places/validation';
-import type { BaseSyntheticEvent } from 'react';
 import type {
   FieldErrors,
   UseFormRegister,
@@ -24,9 +23,7 @@ export const usePlaceForm = ({
   form: UseFormReturn<PlaceCreateSchema>;
   register: UseFormRegister<PlaceCreateSchema>;
   shouldDisableSubmitButton: boolean;
-  submitHandler: (
-    e?: BaseSyntheticEvent<object, unknown, unknown> | undefined,
-  ) => Promise<void>;
+  submitHandler: () => Promise<void>;
 } => {
   const form = useForm<PlaceCreateSchema>({
     defaultValues,

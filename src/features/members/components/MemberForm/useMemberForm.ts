@@ -5,7 +5,6 @@ import { useForm } from 'react-hook-form';
 import type MemberForm from '.';
 import type { MemberCreateSchema } from '@/features/members/validation';
 import type { EmojiClickData } from 'emoji-picker-react';
-import type { BaseSyntheticEvent } from 'react';
 import type {
   Control,
   FieldErrors,
@@ -31,9 +30,7 @@ export const useMemberForm = ({
   register: UseFormRegister<MemberCreateSchema>;
   setFocus: UseFormSetFocus<MemberCreateSchema>;
   shouldDisableSubmitButton: boolean;
-  submitHandler: (
-    e?: BaseSyntheticEvent<object, unknown, unknown> | undefined,
-  ) => Promise<void>;
+  submitHandler: () => Promise<void>;
   watch: UseFormWatch<MemberCreateSchema>;
 } => {
   const form = useForm<MemberCreateSchema>({
