@@ -14,17 +14,19 @@ type Props = {
 const CandidateTable = ({ data, actions }: Props) => {
   const columns = createColumns(actions);
 
-  return data.length !== 0 ? (
-    <DataTable columns={columns} data={data} />
-  ) : (
-    <EmptyState
-      src="/images/empty-box.png"
-      alt="empty-box"
-      className="h-40 w-40"
-    >
-      <p className="text-sm text-slate-400">参加者が選択されていません。</p>
-    </EmptyState>
-  );
+  if (data.length === 0) {
+    return (
+      <EmptyState
+        src="/images/empty-box.png"
+        alt="empty-box"
+        className="h-40 w-40"
+      >
+        <p className="text-sm text-slate-400">参加者が選択されていません。</p>
+      </EmptyState>
+    );
+  }
+
+  return <DataTable columns={columns} data={data} />;
 };
 
 export default CandidateTable;
