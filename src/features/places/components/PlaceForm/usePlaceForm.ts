@@ -20,8 +20,8 @@ export const usePlaceForm = ({
   defaultValues,
   onSubmit,
 }: Props): {
-  form: UseFormReturn<PlaceCreateSchema>;
   errors: FieldErrors<PlaceCreateSchema>;
+  form: UseFormReturn<PlaceCreateSchema>;
   register: UseFormRegister<PlaceCreateSchema>;
   shouldDisableSubmitButton: boolean;
   submitHandler: (
@@ -46,8 +46,8 @@ export const usePlaceForm = ({
     JSON.stringify(defaultValues) === JSON.stringify(watch());
 
   return {
-    form,
     errors,
+    form,
     register,
     shouldDisableSubmitButton,
     submitHandler,

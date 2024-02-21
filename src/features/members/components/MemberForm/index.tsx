@@ -1,3 +1,4 @@
+import { useMemberForm } from './useMemberForm';
 import Button from '@/components/Button';
 import Emoji from '@/components/Emoji';
 import EmojiPicker from '@/components/EmojiPicker';
@@ -13,48 +14,35 @@ import {
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { levelMap, sexMap } from '@/constants';
-import { memberCreateSchema } from '@/features/members/validation';
-import { zodResolver } from '@hookform/resolvers/zod';
 import { Sex } from '@prisma/client';
 import { useEffect } from 'react';
-import { useForm } from 'react-hook-form';
 
-import type { ButtonProps } from '@/components/ui/button';
 import type { MemberCreateSchema } from '@/features/members/validation';
 import type { Options } from '@/types/Options';
-import type { EmojiClickData } from 'emoji-picker-react';
 
 type Props = {
   defaultValues: MemberCreateSchema;
   buttonLabel: string;
-  buttonVariant: ButtonProps['variant'];
   isSubmitting: boolean;
   onSubmit: (fieldValues: MemberCreateSchema) => Promise<void>;
 };
 const MemberForm = ({
   defaultValues,
   buttonLabel,
-  buttonVariant,
   isSubmitting,
   onSubmit,
 }: Props) => {
-  const form = useForm<MemberCreateSchema>({
-    defaultValues,
-    resolver: zodResolver(memberCreateSchema),
-  });
   const {
     control,
-    formState: { errors },
-    handleSubmit,
+    errors,
+    form,
     register,
+    onEmojiSelect,
     setFocus,
-    setValue,
+    shouldDisableSubmitButton,
+    submitHandler,
     watch,
-  } = form;
-
-  const handleEmojiSelect = (emoji: EmojiClickData, _: MouseEvent) => {
-    setValue('emojiUnicode', emoji.unified);
-  };
+  } = useMemberForm({ defaultValues, onSubmit });
 
   // use array to sort checkboxes (male -> female -> not-known).
   const sexOptions: Options = [Sex.MALE, Sex.FEMALE, Sex.NOT_KNOWN].map(
@@ -67,8 +55,6 @@ const MemberForm = ({
     value,
     label,
   }));
-  const shouldDisableSubmitButton =
-    JSON.stringify(defaultValues) === JSON.stringify(watch());
 
   useEffect(() => {
     setFocus('name');
@@ -82,11 +68,11 @@ const MemberForm = ({
         </div>
         <EmojiPicker
           initialUnicode={watch('emojiUnicode')}
-          onEmojiClick={handleEmojiSelect}
+          onEmojiClick={onEmojiSelect}
         />
       </div>
       <form
-        onSubmit={handleSubmit((fieldValues) => onSubmit(fieldValues))}
+        onSubmit={submitHandler}
         className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
       >
         <FormItem>
@@ -142,7 +128,7 @@ const MemberForm = ({
           type="submit"
           isBusy={isSubmitting}
           disabled={shouldDisableSubmitButton}
-          variant={buttonVariant}
+          variant="primary-green"
           className="self-center"
         >
           {buttonLabel}
