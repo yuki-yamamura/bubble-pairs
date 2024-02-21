@@ -1,11 +1,13 @@
 import { expect, test } from '@playwright/test';
 
 test.describe('not found page', () => {
-  test.describe('if a user visits a page that does not exist', () => {
-    test('navigates users to the home page', async ({ page }) => {
+  test.describe('if user visits a page that does not exist', () => {
+    test('show a page including a link to redirect to the home page', async ({
+      page,
+    }) => {
       await page.goto('/no-such-page');
 
-      // shows a 404 not found page to let the user return to the home page.
+      // shows the 404 page that contains a link to the home page.
       await expect(
         page.getByRole('heading', { name: 'ページが見つかりませんでした' }),
       ).toBeVisible();
