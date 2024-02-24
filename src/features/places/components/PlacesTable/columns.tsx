@@ -12,13 +12,13 @@ import type { Place } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
-  deletePlace: (placeId: Place['id']) => Promise<void>;
+  deletePlaceById: (placeId: Place['id']) => Promise<void>;
   openPlaceDetail: (placeId: Place['id']) => Promise<void>;
 }): ColumnDef<Place>[] => {
   return [
     {
       accessorKey: 'name',
-      header: '名前',
+      header: '場所名',
     },
     {
       accessorKey: 'courtCount',
@@ -28,7 +28,7 @@ export const createColumns = (actions: {
       id: 'actions',
       cell: ({ row }) => {
         const place = row.original;
-        const { deletePlace, openPlaceDetail } = actions;
+        const { deletePlaceById, openPlaceDetail } = actions;
 
         return (
           <DropdownMenu>
@@ -41,12 +41,12 @@ export const createColumns = (actions: {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => deletePlace(place.id)}>
+              <DropdownMenuItem onClick={() => openPlaceDetail(place.id)}>
                 詳細を開く
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => openPlaceDetail(place.id)}
+                onClick={() => deletePlaceById(place.id)}
                 className="text-destructive"
               >
                 削除

@@ -29,32 +29,41 @@ const PlaceForm = ({
 
   return (
     <Form {...form}>
-      <form onSubmit={submitHandler}>
+      <form
+        onSubmit={submitHandler}
+        className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
+      >
         <FormItem>
-          <FormLabel>
+          <FormLabel htmlFor="name" className="required">
             場所名
-            <Input {...register('name')} />
           </FormLabel>
+          <Input id="name" placeholder="A市立体育館" {...register('name')} />
           {errors.name && <FormMessage>{errors.name.message}</FormMessage>}
         </FormItem>
         <FormItem>
-          <FormLabel>
+          <FormLabel htmlFor="courtCount" className="required">
             コート数
-            <Input type="number" {...register('courtCount')} />
           </FormLabel>
+          <Input
+            id="courtCount"
+            type="number"
+            placeholder="1"
+            {...register('courtCount')}
+          />
           {errors.courtCount && (
             <FormMessage>{errors.courtCount.message}</FormMessage>
           )}
         </FormItem>
+        <Button
+          type="submit"
+          isBusy={isSubmitting}
+          disabled={shouldDisableSubmitButton}
+          variant={buttonVariant}
+          className="self-center"
+        >
+          {buttonLabel}
+        </Button>
       </form>
-      <Button
-        type="submit"
-        isBusy={isSubmitting}
-        disabled={shouldDisableSubmitButton}
-        variant={buttonVariant}
-      >
-        {buttonLabel}
-      </Button>
     </Form>
   );
 };

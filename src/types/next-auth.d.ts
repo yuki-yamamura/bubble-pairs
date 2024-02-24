@@ -1,4 +1,4 @@
-import type { DefaultSession } from 'next-auth';
+import type { User } from '@prisma/client';
 
 declare module 'next-auth' {
   /**
@@ -6,8 +6,6 @@ declare module 'next-auth' {
    * see: https://next-auth.js.org/getting-started/typescript#extend-default-interface-properties
    */
   interface Session {
-    user: {
-      id: string;
-    } & DefaultSession['user'];
+    user: User;
   }
 }

@@ -1,23 +1,40 @@
+import Loading from '@/components/Loading';
+import PlusButton from '@/components/PlusButton';
+import PlaceTable from '@/features/places/components/PlacesTable';
+import { usePlaces } from '@/features/places/hooks/usePlaces';
 import axios from 'axios';
-import Link from 'next/link';
-import useSWR from 'swr';
+import { useRouter } from 'next/router';
 
-import type { GetResponseData } from '@/types/api/places';
+import type { Place } from '@prisma/client';
 
 const Places = () => {
-  const { data } = useSWR<GetResponseData>('/api/places', (url: string) => {
-    return axios.get<GetResponseData>(url).then((response) => response.data);
-  });
+  const { places, isLoading, mutate } = usePlaces();
+  const router = useRouter();
+
+  const handlePlusButtonClick = async () => {
+    await router.push('/settings/places/new');
+  };
+
+  const deletePlaceById = async (placeId: Place['id']) => {
+    await axios.delete(`/api/places/${placeId}`);
+    await mutate();
+  };
+  const openPlaceDetail = async (placeId: Place['id']) => {
+    await router.push(`/settings/places/${placeId}`);
+  };
+
+  if (isLoading) {
+    return <Loading text="活動場所を読み込んでいます..." />;
+  }
 
   return (
-    <ul>
-      {data &&
-        data.places.map((place) => (
-          <li key={place.id}>
-            <Link href={`/places/${place.id}`}>{place.name}</Link>
-          </li>
-        ))}
-    </ul>
+    <div>
+      <PlusButton onClick={handlePlusButtonClick} />
+      <PlaceTable
+        data={places}
+        actions={{ deletePlaceById, openPlaceDetail }}
+      />
+    </div>
   );
 };
 

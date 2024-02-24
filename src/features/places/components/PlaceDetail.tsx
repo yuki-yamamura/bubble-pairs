@@ -1,9 +1,10 @@
 import PlaceForm from '@/features/places/components/PlaceForm';
 import axios from 'axios';
+import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
-import type { PlaceCreateSchema } from '../../validation';
+import type { PlaceCreateSchema } from '@/features/places/validation';
 import type { Place } from '@prisma/client';
 
 type Props = {
@@ -11,6 +12,7 @@ type Props = {
 };
 
 const PlaceDetail = ({ place }: Props) => {
+  const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(
     `/api/places/${place.id}`,
     async (url: string, { arg }: { arg: PlaceCreateSchema }) => {
@@ -21,6 +23,7 @@ const PlaceDetail = ({ place }: Props) => {
   const handleSubmit = async (fieldValues: PlaceCreateSchema) => {
     try {
       await trigger(fieldValues);
+      await router.push('/settings#places');
       toast.success('場所を更新しました。');
     } catch {
       toast.error('場所を更新できませんでした。');
