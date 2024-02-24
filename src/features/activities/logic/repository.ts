@@ -80,6 +80,11 @@ export const findAllActivities = (): Promise<Result<Activity[]>> => {
           },
         },
       },
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
     }),
   )();
 };

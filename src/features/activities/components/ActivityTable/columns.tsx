@@ -52,7 +52,9 @@ export const createColumns = (actions: {
     },
     {
       accessorKey: 'participants',
-      header: () => <div className="whitespace-nowrap text-right">参加者</div>,
+      header: () => (
+        <div className="whitespace-nowrap text-right">参加者数</div>
+      ),
       cell: ({ row }) => {
         const { participants } = row.original;
 
@@ -61,7 +63,7 @@ export const createColumns = (actions: {
     },
     {
       accessorKey: 'placeId',
-      header: '場所',
+      header: '活動場所',
       cell: ({ row }) => {
         const { place } = row.original;
 

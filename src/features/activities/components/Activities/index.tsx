@@ -1,9 +1,8 @@
 import Loading from '@/components/Loading';
-import { Button } from '@/components/ui/button';
+import PlusButton from '@/components/PlusButton';
 import ActivityTable from '@/features/activities/components/ActivityTable';
 import { useActivities } from '@/features/activities/hooks/useActivities';
 import axios from 'axios';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 
@@ -12,6 +11,10 @@ import type { Activity } from '@/types/models/Activity';
 const Activities = () => {
   const router = useRouter();
   const { activities, isLoading, mutate } = useActivities();
+
+  const handlePlusButtonClick = async () => {
+    await router.push('/activities/new');
+  };
 
   const closeActivityById = async (id: Activity['id']) => {
     try {
@@ -24,7 +27,6 @@ const Activities = () => {
       toast.error('アクティビティを終了できませんでした。');
     }
   };
-
   const deleteActivityById = async (id: Activity['id']) => {
     try {
       await axios.delete(`/api/activities/${id}`);
@@ -34,7 +36,6 @@ const Activities = () => {
       toast.error('アクティビティを削除できませんでした。');
     }
   };
-
   const openActivity = async (id: Activity['id']) => {
     await router.push(`/activities/${id}`);
   };
@@ -45,11 +46,7 @@ const Activities = () => {
 
   return (
     <div>
-      <div className="mb-4 flex justify-end">
-        <Button asChild>
-          <Link href={'/activities/new'}>アクティビティを追加</Link>
-        </Button>
-      </div>
+      <PlusButton onClick={handlePlusButtonClick} />
       <ActivityTable
         data={activities}
         actions={{
