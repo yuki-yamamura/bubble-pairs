@@ -13,7 +13,15 @@ export const createPlace = (
 };
 
 export const findAllPlaces = (): Promise<Result<Place[]>> => {
-  return withResult(() => prisma.place.findMany())();
+  return withResult(() =>
+    prisma.place.findMany({
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    }),
+  )();
 };
 
 export const findPlaceById = (

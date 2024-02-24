@@ -13,7 +13,15 @@ export const createMember = (
 };
 
 export const findAllMembers = (): Promise<Result<Member[]>> => {
-  return withResult(() => prisma.member.findMany())();
+  return withResult(() =>
+    prisma.member.findMany({
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    }),
+  )();
 };
 
 export const findMemberById = (
