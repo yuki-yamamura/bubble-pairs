@@ -1,4 +1,4 @@
-import { Emoji } from 'emoji-picker-react';
+import DecoratedMember from '@/features/members/components/DecoratedMember';
 
 import type { SelectableData } from '@/types/SelectableData';
 import type { Member } from '@prisma/client';
@@ -8,17 +8,6 @@ export const columns: ColumnDef<SelectableData<Member>>[] = [
   {
     accessorKey: 'name',
     header: '名前',
-    cell: ({ row }) => {
-      const { model: member } = row.original;
-
-      return (
-        <div className="flex items-center gap-x-4">
-          <div className="max-w-fit rounded-full bg-gray-50 p-2">
-            <Emoji unified={member.emojiUnicode} size={16} />
-          </div>
-          <span id={member.id}>{member.name}</span>
-        </div>
-      );
-    },
+    cell: ({ row }) => <DecoratedMember member={row.original.model} />,
   },
 ];

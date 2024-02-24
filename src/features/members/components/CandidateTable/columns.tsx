@@ -1,5 +1,5 @@
 import Button from '@/components/Button';
-import { Emoji } from 'emoji-picker-react';
+import DecoratedMember from '@/features/members/components/DecoratedMember';
 import { Trash2 } from 'lucide-react';
 
 import type { Member } from '@prisma/client';
@@ -12,18 +12,7 @@ export const createColumns = (actions: {
     {
       accessorKey: 'name',
       header: '名前',
-      cell: ({ row }) => {
-        const member = row.original;
-
-        return (
-          <div className="flex items-center gap-x-4">
-            <div className="max-w-fit rounded-full bg-gray-50 p-2">
-              <Emoji unified={member.emojiUnicode} size={16} />
-            </div>
-            {member.name}
-          </div>
-        );
-      },
+      cell: ({ row }) => <DecoratedMember member={row.original} />,
     },
     {
       id: 'deletion',

@@ -6,9 +6,11 @@ import {
   DialogHeader,
   DialogTrigger,
 } from '@/components/ui/dialog';
-import { type EmojiClickData, EmojiStyle } from 'emoji-picker-react';
+import { EmojiStyle } from 'emoji-picker-react';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+
+import type { EmojiClickData } from 'emoji-picker-react';
 
 const Picker = dynamic(() => import('emoji-picker-react'), { ssr: false });
 
