@@ -4,7 +4,7 @@ import { PlusIcon } from 'lucide-react';
 type Props = {
   onClick: () => void;
 };
-const CreateButton = ({ onClick }: Props) => (
+const PlusButton = ({ onClick }: Props) => (
   <Button
     type="button"
     onClick={onClick}
@@ -15,4 +15,4 @@ const CreateButton = ({ onClick }: Props) => (
   </Button>
 );
 
-export default CreateButton;
+export default PlusButton;

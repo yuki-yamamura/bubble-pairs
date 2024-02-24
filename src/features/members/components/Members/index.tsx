@@ -1,6 +1,6 @@
-import CreateButton from '@/components/CreateButton';
 import EmptyState from '@/components/EmptyState';
 import Loading from '@/components/Loading';
+import PlusButton from '@/components/PlusButton';
 import MemberTable from '@/features/members/components/MemberTable';
 import { useMembers } from '@/features/members/hooks/useMembers';
 import axios from 'axios';
@@ -13,7 +13,7 @@ const Members = () => {
   const router = useRouter();
   const { members, isLoading, mutate } = useMembers();
 
-  const handleCreateButtonClick = () => {
+  const handlePlusButtonClick = () => {
     void router.push('/members/new');
   };
 
@@ -32,7 +32,7 @@ const Members = () => {
 
   return (
     <div>
-      <CreateButton onClick={handleCreateButtonClick} />
+      <PlusButton onClick={handlePlusButtonClick} />
       {members?.length === 0 ? (
         <EmptyState src="/images/exploring.png" alt="exploring">
           <div className="text-center leading-7">
