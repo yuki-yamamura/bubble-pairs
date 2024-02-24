@@ -1,8 +1,5 @@
 import { DOUBLES_PLAYER_COUNT, SINGLES_PLAYER_COUNT } from '@/constants';
-import axios from 'axios';
 import { z } from 'zod';
-
-import type { GetResponseData } from '@/types/api/activities/[activityId]';
 
 export type GameCreateSchema = z.infer<typeof gameCreateSchema>;
 
@@ -26,21 +23,24 @@ export const gameCreateSchema = z
       path: ['doublesCount'],
     },
   )
-  .refine(
-    async ({ activityId, singlesCount, doublesCount }) => {
-      const response = await axios.get<GetResponseData>(
-        `/api/activities/${activityId}`,
-      );
-      const { activity } = response.data;
-      const { courtCount } = activity.place;
+  // todo: enable commented out code below after solving the error
+  // Error: Async refinement encountered during synchronous parse operation. Use .parseAsync instead.
 
-      return singlesCount + doublesCount <= courtCount;
-    },
-    ({ singlesCount, doublesCount }) => ({
-      message: '試合数の合計をコート数以下に変更してください。',
-      path: [singlesCount < doublesCount ? 'doublesCount' : 'singlesCount'],
-    }),
-  )
+  // .refine(
+  //   async ({ activityId, singlesCount, doublesCount }) => {
+  //     const response = await axios.get<GetResponseData>(
+  //       `/api/activities/${activityId}`,
+  //     );
+  //     const { activity } = response.data;
+  //     const { courtCount } = activity.place;
+
+  //     return singlesCount + doublesCount <= courtCount;
+  //   },
+  //   ({ singlesCount, doublesCount }) => ({
+  //     message: '試合数の合計をコート数以下に変更してください。',
+  //     path: [singlesCount < doublesCount ? 'doublesCount' : 'singlesCount'],
+  //   }),
+  // )
   .refine(
     ({ memberIds, singlesCount, doublesCount }) => {
       const playerCount =
