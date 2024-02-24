@@ -7,7 +7,7 @@ type Props = {
   game: Game;
 };
 const GameDetailScreen = ({ game }: Props) => (
-  <PageContainer>
+  <PageContainer title="Games">
     <GameDetail game={game} />
   </PageContainer>
 );
