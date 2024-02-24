@@ -17,18 +17,21 @@ import { levelMap, sexMap } from '@/constants';
 import { Sex } from '@prisma/client';
 import { useEffect } from 'react';
 
+import type { ButtonProps } from '@/components/ui/button';
 import type { MemberCreateSchema } from '@/features/members/validation';
 import type { Options } from '@/types/Options';
 
 type Props = {
   defaultValues: MemberCreateSchema;
   buttonLabel: string;
+  buttonVariant: ButtonProps['variant'];
   isSubmitting: boolean;
   onSubmit: (fieldValues: MemberCreateSchema) => Promise<void>;
 };
 const MemberForm = ({
   defaultValues,
   buttonLabel,
+  buttonVariant,
   isSubmitting,
   onSubmit,
 }: Props) => {
@@ -128,7 +131,7 @@ const MemberForm = ({
           type="submit"
           isBusy={isSubmitting}
           disabled={shouldDisableSubmitButton}
-          variant="primary-green"
+          variant={buttonVariant}
           className="self-center"
         >
           {buttonLabel}
