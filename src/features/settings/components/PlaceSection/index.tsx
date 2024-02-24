@@ -17,7 +17,6 @@ const PlaceSection = () => {
     await axios.delete(`/api/places/${placeId}`);
     await mutate();
   };
-  // eslint-disable-next-line @typescript-eslint/require-await
   const openPlaceDetail = async (placeId: Place['id']) => {
     await router.push(`/settings/places/${placeId}`);
   };

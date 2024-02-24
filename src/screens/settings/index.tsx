@@ -3,7 +3,7 @@ import PlaceSection from '@/features/settings/components/PlaceSection';
 import UserSection from '@/features/settings/components/UserSection';
 
 const SettingsScreen = () => (
-  <PageContainer>
+  <PageContainer title="Settings">
     <PlaceSection />
     <UserSection />
   </PageContainer>
