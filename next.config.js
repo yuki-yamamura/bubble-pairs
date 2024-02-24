@@ -12,6 +12,20 @@ const nextConfig = {
       ],
     ],
   },
+  redirects: () => {
+    return [
+      {
+        source: '/settings/places',
+        destination: '/settings',
+        permanent: true,
+      },
+      {
+        source: '/activities/:activityId/games',
+        destination: '/activities/:activityId',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 module.exports = nextConfig;

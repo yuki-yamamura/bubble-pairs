@@ -33,11 +33,12 @@ const getLabel = (path: string): string | null => {
   const activityDetailRegex = /^\/activities\/(.+)$/;
   const gameDetailRegex = /^\/activities\/(.+)\/games\/(.+)$/;
   const memberDetailRegex = /^\/members\/(.+)$/;
+  const placeDetailRegex = /^\/settings\/places\/(.+)$/;
 
   switch (true) {
-    // for paths under '/members' route
+    // for paths under '/members'
     case /^\/members\/new$/.test(path): {
-      return 'メンバー追加';
+      return '追加';
     }
     case memberDetailRegex.test(path): {
       return path.match(memberDetailRegex)?.at(1) as string;
@@ -46,23 +47,40 @@ const getLabel = (path: string): string | null => {
       return 'メンバー';
     }
 
-    // for paths under `/activities/[activityId]/games' route
+    // for paths under `/activities/[activityId]/games'
     case /^\/activities\/.+\/games\/new$/.test(path): {
-      return 'ゲーム追加';
+      return '追加';
     }
     case gameDetailRegex.test(path): {
       return path.match(gameDetailRegex)?.at(1) as string;
     }
+    case /^\/activities\/.+\/games\/?$/.test(path): {
+      return 'ゲーム';
+    }
 
-    // for paths under '/activities' route
+    // for paths under '/activities'
     case /^\/activities\/new$/.test(path): {
-      return 'アクティビティ追加';
+      return '追加';
     }
     case activityDetailRegex.test(path): {
       return path.match(activityDetailRegex)?.at(1) as string;
     }
     case /^\/activities\/?$/.test(path): {
       return 'アクティビティ';
+    }
+
+    // for paths under '/settings'
+    case /^\/settings\/places\/new$/.test(path): {
+      return '追加';
+    }
+    case placeDetailRegex.test(path): {
+      return path.match(placeDetailRegex)?.at(1) as string;
+    }
+    case /^\/settings\/places\/?$/.test(path): {
+      return '活動場所';
+    }
+    case /^\/settings\/?$/.test(path): {
+      return '設定';
     }
 
     // for the root path
