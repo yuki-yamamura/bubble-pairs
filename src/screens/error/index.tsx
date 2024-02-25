@@ -12,7 +12,7 @@ const ErrorScreen = () => (
       />
       <div className="flex flex-col items-center gap-y-2">
         <h1>問題が発生しました。</h1>
-        <Link text="ホームに戻る" Icon={ArrowLeft}></Link>
+        <Link href="/" text="ホームに戻る" Icon={ArrowLeft} />
       </div>
     </div>
   </div>
