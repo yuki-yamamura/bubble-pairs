@@ -1,6 +1,6 @@
 import { createBreadcrumbs } from '.';
 
-import type { Breadcrumb } from '@/types/Breadcrumb';
+import type { Breadcrumb } from '..';
 
 describe('createBreadcrumbs', () => {
   describe('returns correct breadcrumb depending on the path', () => {
@@ -21,7 +21,7 @@ describe('createBreadcrumbs', () => {
       const path = '/members/new';
       const expected: Breadcrumb[] = [
         { path: '/members', label: 'メンバー' },
-        { path: '/members/new', label: 'メンバー追加' },
+        { path: '/members/new', label: '追加' },
       ];
 
       // act
@@ -41,7 +41,7 @@ describe('createBreadcrumbs', () => {
         },
         {
           path: '/activities/clsm7h1vi0006dam59dq1legc/games/new',
-          label: 'ゲーム追加',
+          label: '追加',
         },
       ];
 

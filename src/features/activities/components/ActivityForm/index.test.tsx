@@ -93,7 +93,7 @@ describe('ActivityForm', () => {
       // assert
       await user.click(getSubmitButton());
       expect(mockFn).toHaveBeenCalledWith({
-        participants: [
+        memberIds: [
           { memberId: fakeMembers[0].id },
           { memberId: fakeMembers[1].id },
           { memberId: fakeMembers[2].id },

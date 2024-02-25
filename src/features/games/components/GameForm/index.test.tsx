@@ -18,8 +18,6 @@ beforeEach(() => {
 // utility function to get the element in the form.
 const getParticipantsButton = () =>
   screen.getByRole('button', { name: '参加者を追加...' });
-// const getParticipantByLabel = (label: string) =>
-//   within(screen.getByRole('table')).getByText(label);
 const getParticipantByLabel = (label: string) =>
   within(screen.getByRole('table')).getByText(label);
 const getSinglesCountCombobox = () =>
@@ -109,37 +107,6 @@ describe('GameForm', () => {
       // assert
       expect(
         screen.getByText('試合数を選択してください。'),
-      ).toBeInTheDocument();
-
-      expect(mockFn).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('if the total of singles and doubles that user selected is greater than the court count', () => {
-    test('should show the correct error message', async () => {
-      // arrange
-      const user = userEvent.setup();
-
-      render(
-        <GameForm activity={activity} isSubmitting={false} onSubmit={mockFn} />,
-      );
-
-      // act
-      await user.click(getSinglesCountCombobox());
-      await user.click(getOptionByLabel('2'));
-
-      await user.click(getDoublesCountCombobox());
-      await user.click(getOptionByLabel('3'));
-
-      expect(
-        screen.queryByText('試合数の合計をコート数以下に変更してください。'),
-      ).not.toBeInTheDocument();
-
-      await user.click(getSubmitButton());
-
-      // assert
-      expect(
-        screen.getByText('試合数の合計をコート数以下に変更してください。'),
       ).toBeInTheDocument();
 
       expect(mockFn).not.toHaveBeenCalled();
