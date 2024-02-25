@@ -62,7 +62,7 @@ const DataTable = <TData, TValue>({ columns, data }: Props<TData, TValue>) => {
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                データがありません。
               </TableCell>
             </TableRow>
           )}

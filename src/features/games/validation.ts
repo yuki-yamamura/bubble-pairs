@@ -23,7 +23,7 @@ export const gameCreateSchema = z
       path: ['doublesCount'],
     },
   )
-  // todo: enable commented out code below after solving the error
+  // todo: enable commented out code below and write test for it after solving the error
   // Error: Async refinement encountered during synchronous parse operation. Use .parseAsync instead.
 
   // .refine(

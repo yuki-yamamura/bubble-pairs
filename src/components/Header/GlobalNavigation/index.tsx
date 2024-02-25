@@ -1,3 +1,4 @@
+import Logo from '@/components/Logo';
 import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import {
@@ -14,7 +15,6 @@ import {
   SettingsIcon,
   SmileIcon,
 } from 'lucide-react';
-import { Nunito } from 'next/font/google';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
@@ -22,14 +22,9 @@ import { useState } from 'react';
 
 import type { LucideIcon } from 'lucide-react';
 
-const nunito = Nunito({
-  subsets: ['latin'],
-  display: 'swap',
-});
-
 const Navigation = () => {
   const router = useRouter();
-  const [open, setOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const { data: session } = useSession();
 
   if (!session) {
@@ -52,14 +47,14 @@ const Navigation = () => {
   ];
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
-      <SheetTrigger hidden={open} className="max-w-fit">
-        <Menu size={36} onClick={() => setOpen(true)} className="p-2" />
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
+      <SheetTrigger hidden={isOpen} className="max-w-fit">
+        <Menu size={36} onClick={() => setIsOpen(true)} className="p-2" />
       </SheetTrigger>
       <SheetContent side="left">
-        <SheetHeader className="mt-8">
-          <div className={cn('mb-8 text-center text-xl', nunito.className)}>
-            Bubble Pairs
+        <SheetHeader className="mb-8 mt-20">
+          <div className="flex justify-center">
+            <Logo />
           </div>
         </SheetHeader>
         <div className="flex items-center gap-x-4">
@@ -67,15 +62,17 @@ const Navigation = () => {
             <AvatarImage src="/images/dolphin.png" alt="guest" />
           </Avatar>
           <div className="flex flex-col">
-            <div>{session?.user.name}</div>
-            <div className="text-xs text-slate-400">{session?.user.email}</div>
+            <div className="line-clamp-1">{session?.user.name}</div>
+            <div className="line-clamp-1 text-xs text-slate-400">
+              {session?.user.email}
+            </div>
           </div>
         </div>
-        <Separator className="mb-8 mt-4" />
+        <Separator className="mb-8 mt-3" />
         <nav className="flex flex-col space-y-4">
           {navigationItems.map(({ href, label, Icon }) => (
             <Link
-              onClick={() => setOpen(false)}
+              onClick={() => setIsOpen(false)}
               href={href}
               key={href}
               onMouseOver={(e) => console.log(e.currentTarget.href)}
