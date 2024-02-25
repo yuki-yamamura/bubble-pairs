@@ -35,7 +35,7 @@ model Member {
   level        Level
   note         String?
   emojiUnicode String        @map("emoji_unicode")
-  owner        User          @relation(fields: [ownerId], references: [id])
+  owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   participants Participant[]
 
   @@map("members")
@@ -48,7 +48,7 @@ model Place {
   updatedAt  DateTime   @updatedAt @map("updated_at")
   name       String
   courtCount Int        @map("court_count")
-  owner      User       @relation(fields: [ownerId], references: [id])
+  owner      User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   Activity   Activity[]
 
   @@map("places")
@@ -60,7 +60,7 @@ model Activity {
   placeId      String        @map("place_id")
   createdAt    DateTime      @default(now()) @map("created_at")
   isOpen       Boolean
-  owner        User          @relation(fields: [ownerId], references: [id])
+  owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   place        Place         @relation(fields: [placeId], references: [id])
   games        Game[]
   participants Participant[]
@@ -73,7 +73,7 @@ model Participant {
   activityId String   @map("activity_id")
   memberId   String   @map("member_id")
   activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
-  member     Member   @relation(fields: [memberId], references: [id])
+  member     Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
   players    Player[]
 
   @@unique([activityId, memberId])
@@ -146,7 +146,7 @@ model Session {
 
 model User {
   id            String     @id @default(cuid())
-  name          String     @default("guest")
+  name          String     @default("owner")
   email         String     @unique
   emailVerified DateTime   @map("email_verified")
   image         String?

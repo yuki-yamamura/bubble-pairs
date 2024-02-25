@@ -18,7 +18,7 @@ const DeleteButton = ({ className }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(
-    '/api/users/[userId]',
+    `/api/users`,
     async (url: string) => {
       await axios.delete(url);
     },
