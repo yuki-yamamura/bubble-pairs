@@ -1,7 +1,11 @@
-import Navigation from './Navigation';
+import GlobalNavigation from './GlobalNavigation';
 
 const Header = () => {
-  return <Navigation />;
+  return (
+    <div className="py-4">
+      <GlobalNavigation />
+    </div>
+  );
 };
 
 export default Header;
