@@ -37,33 +37,6 @@ export const createGame = (
   )();
 };
 
-export const findAllGames = (): Promise<Result<Game[]>> => {
-  return withResult(() =>
-    prisma.game.findMany({
-      include: {
-        activity: {
-          include: {
-            participants: true,
-          },
-        },
-        gameDetails: {
-          include: {
-            players: {
-              include: {
-                participant: {
-                  include: {
-                    member: true,
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-    }),
-  )();
-};
-
 export const findGameById = (id: Game['id']): Promise<Result<Game | null>> => {
   return withResult(() =>
     prisma.game.findUnique({

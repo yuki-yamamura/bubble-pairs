@@ -11,8 +11,14 @@ import { z } from 'zod';
 import type { Prisma } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
-const handleGet: NextApiHandler = async (_, response) => {
-  const result = await findAllActivities();
+const handleGet: NextApiHandler = async (request, response) => {
+  const session = await getServerSession(request, response, authOptions);
+  if (!session) {
+    response.end(401);
+
+    return;
+  }
+  const result = await findAllActivities({ ownerId: session.user.id });
 
   if (result.type === 'success') {
     response.json({ activities: result.data });

@@ -47,7 +47,9 @@ export const createActivity = (
   )();
 };
 
-export const findAllActivities = (): Promise<Result<Activity[]>> => {
+export const findAllActivities = (
+  where: Prisma.ActivityWhereInput,
+): Promise<Result<Activity[]>> => {
   return withResult(() =>
     prisma.activity.findMany({
       include: {
@@ -80,11 +82,8 @@ export const findAllActivities = (): Promise<Result<Activity[]>> => {
           },
         },
       },
-      orderBy: [
-        {
-          createdAt: 'desc',
-        },
-      ],
+      where,
+      orderBy: [{ createdAt: 'desc' }],
     }),
   )();
 };

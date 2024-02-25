@@ -12,14 +12,13 @@ export const createMember = (
   return withResult(() => prisma.member.create({ data }))();
 };
 
-export const findAllMembers = (): Promise<Result<Member[]>> => {
+export const findAllMembers = async (
+  where: Prisma.MemberWhereInput,
+): Promise<Result<Member[]>> => {
   return withResult(() =>
     prisma.member.findMany({
-      orderBy: [
-        {
-          createdAt: 'desc',
-        },
-      ],
+      where,
+      orderBy: [{ createdAt: 'desc' }],
     }),
   )();
 };

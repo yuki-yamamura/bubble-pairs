@@ -12,14 +12,13 @@ export const createPlace = (
   return withResult(() => prisma.place.create({ data }))();
 };
 
-export const findAllPlaces = (): Promise<Result<Place[]>> => {
+export const findAllPlaces = (
+  where: Prisma.PlaceWhereInput,
+): Promise<Result<Place[]>> => {
   return withResult(() =>
     prisma.place.findMany({
-      orderBy: [
-        {
-          createdAt: 'desc',
-        },
-      ],
+      where,
+      orderBy: [{ createdAt: 'desc' }],
     }),
   )();
 };

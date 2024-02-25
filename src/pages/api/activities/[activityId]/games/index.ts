@@ -1,6 +1,6 @@
 import { DOUBLES_PLAYER_COUNT, SINGLES_PLAYER_COUNT } from '@/constants';
 import { findActivityById } from '@/features/activities/logic/repository';
-import { createGame, findAllGames } from '@/features/games/logic/repository';
+import { createGame } from '@/features/games/logic/repository';
 import { gameCreateSchema } from '@/features/games/validation';
 import { withZod } from '@/lib/next';
 import { $Enums } from '@prisma/client';
@@ -8,17 +8,6 @@ import { z } from 'zod';
 
 import type { Prisma } from '@prisma/client';
 import type { NextApiHandler } from 'next';
-
-const handleGet: NextApiHandler = async (_, response) => {
-  const result = await findAllGames();
-
-  if (result.type === 'success') {
-    response.json({ games: result.data });
-  } else {
-    console.error(result.error);
-    response.status(400).end();
-  }
-};
 
 const handlePost: NextApiHandler = withZod(
   z.object({
@@ -119,8 +108,6 @@ const handlePost: NextApiHandler = withZod(
 
 const handler: NextApiHandler = (request, response) => {
   switch (request.method) {
-    case 'GET':
-      return handleGet(request, response);
     case 'POST':
       return handlePost(request, response);
   }
