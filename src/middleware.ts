@@ -8,5 +8,10 @@ export default withAuth({
   },
   pages: {
     signIn: '/auth/signin',
+    error: '/500',
   },
 });
+
+export const config = {
+  matcher: ['/members/:path*', '/activities/:path*', '/settings/:path*'],
+};

@@ -1,35 +1,25 @@
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { getCsrfToken, signIn } from 'next-auth/react';
+import { authOptions } from '@/lib/next-auth';
+import SignInScreen from '@/screens/auth/signin';
+import { getServerSession } from 'next-auth';
 
 import type { GetServerSideProps } from 'next';
 
-type Props = {
-  csrfToken: string | undefined;
-};
-
-export const getServerSideProps: GetServerSideProps<Props> = async (
-  context,
-) => {
-  const csrfToken = await getCsrfToken(context);
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  const session = await getServerSession(req, res, authOptions);
+  if (session) {
+    return {
+      redirect: {
+        permanent: true,
+        destination: '/',
+      },
+    };
+  }
 
   return {
-    props: { csrfToken },
+    props: {},
   };
 };
-const Page = () => {
-  return (
-    <form
-      onSubmit={() => signIn('email', { email: 'yuki.yamamura@icloud.com' })}
-    >
-      <Label>
-        Email
-        <Input />
-      </Label>
-      <Button type="submit">Submit</Button>
-    </form>
-  );
-};
+
+const Page = () => <SignInScreen />;
 
 export default Page;
