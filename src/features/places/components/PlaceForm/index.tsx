@@ -48,7 +48,7 @@ const PlaceForm = ({
             id="courtCount"
             type="number"
             placeholder="1"
-            {...register('courtCount')}
+            {...register('courtCount', { valueAsNumber: true })}
           />
           {errors.courtCount && (
             <FormMessage>{errors.courtCount.message}</FormMessage>
