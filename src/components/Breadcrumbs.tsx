@@ -1,5 +1,5 @@
 import Link from '@/components/Link';
-import { useBreadcrumbs } from '@/context/breadcrumbs/useBreadcrumbs';
+import { useBreadcrumbs } from '@/context/useBreadcrumbs';
 import { ChevronRightIcon } from 'lucide-react';
 
 const Breadcrumbs = () => {

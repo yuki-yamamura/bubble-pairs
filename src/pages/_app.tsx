@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout';
-import { BreadcrumbsProvider } from '@/context/breadcrumbs/useBreadcrumbs';
+import { BreadcrumbsProvider } from '@/context/useBreadcrumbs';
+import { UserProvider } from '@/context/useUser';
 import ErrorScreen from '@/screens/error';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
@@ -28,13 +29,15 @@ const App = ({
     <div className={inter.className}>
       <Toaster />
       <SessionProvider session={session}>
-        <Layout>
-          <ErrorBoundary fallback={<ErrorScreen />}>
-            <BreadcrumbsProvider>
-              <Component {...pageProps} />
-            </BreadcrumbsProvider>
-          </ErrorBoundary>
-        </Layout>
+        <BreadcrumbsProvider>
+          <UserProvider>
+            <Layout>
+              <ErrorBoundary fallback={<ErrorScreen />}>
+                <Component {...pageProps} />
+              </ErrorBoundary>
+            </Layout>
+          </UserProvider>
+        </BreadcrumbsProvider>
       </SessionProvider>
     </div>
   );

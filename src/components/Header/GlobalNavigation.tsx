@@ -7,6 +7,7 @@ import {
   SheetHeader,
   SheetTrigger,
 } from '@/components/ui/sheet';
+import { useUser } from '@/context/useUser';
 import { cn } from '@/lib/shadcn-ui';
 import {
   ActivityIcon,
@@ -17,7 +18,6 @@ import {
 } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 
 import type { LucideIcon } from 'lucide-react';
@@ -25,11 +25,7 @@ import type { LucideIcon } from 'lucide-react';
 const Navigation = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
-  const { data: session } = useSession();
-
-  if (!session) {
-    // throw new Error();
-  }
+  const { user } = useUser();
 
   const isCurrentRoute = (path: string) => {
     if (path === '/') {
@@ -59,12 +55,12 @@ const Navigation = () => {
         </SheetHeader>
         <div className="flex items-center gap-x-4">
           <Avatar className="h-12 w-12 border border-border p-2">
-            <AvatarImage src="/images/dolphin.png" alt="guest" />
+            <AvatarImage src="/images/dolphin.png" />
           </Avatar>
           <div className="flex flex-col">
-            <div className="line-clamp-1">{session?.user.name}</div>
+            <div className="line-clamp-1">{user.name}</div>
             <div className="line-clamp-1 text-xs text-slate-400">
-              {session?.user.email}
+              {user.email}
             </div>
           </div>
         </div>
