@@ -11,9 +11,9 @@ const Breadcrumbs = () => {
         const isLastItem = index + 1 === breadcrumbs.length;
 
         return (
-          <div className="flex items-center" key={path}>
+          <div className="flex shrink-0 items-center" key={path}>
             {isLastItem ? (
-              <div className="text-slate-400">{label}</div>
+              <div className="line-clamp-1 text-slate-400">{label}</div>
             ) : (
               <Link href={path}>{label}</Link>
             )}

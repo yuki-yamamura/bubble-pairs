@@ -4,20 +4,20 @@ export const createBreadcrumbs = (path: string): Breadcrumb[] => {
   const params = path.split('/');
 
   if (path === '/') {
-    return [{ path, label: 'ホーム' }];
+    return [
+      {
+        path,
+        label: 'ホーム',
+      },
+    ];
   }
 
-  return (
-    params
-      .map((_, index) => params.slice(0, index + 1).join('/'))
-      // replace the first param with '/' to take care of the root path.
-      .map((path, index) => (index === 0 ? '/' : path))
-      .map((path) => toBreadcrumb(path))
-      // exclude unexpected breadcrumbs.
-      .filter((path): path is Breadcrumb => path !== null)
-      // take two of them to avoid being too long.
-      .slice(-2, params.length)
-  );
+  return params
+    .map((_, index) => params.slice(0, index + 1).join('/'))
+    .map((path, index) => (index === 0 ? '/' : path)) // take care of the path to home
+    .slice(-2, params.length) // pick the last two breadcrumbs because of the device width
+    .map((path) => toBreadcrumb(path))
+    .filter((path): path is Breadcrumb => path !== null); // exclude unexpected breadcrumbs
 };
 
 const toBreadcrumb = (path: string): Breadcrumb | null => {
@@ -30,51 +30,41 @@ const toBreadcrumb = (path: string): Breadcrumb | null => {
 };
 
 const getLabel = (path: string): string | null => {
-  const activityDetailRegex = /^\/activities\/(.+)$/;
-  const gameDetailRegex = /^\/activities\/(.+)\/games\/(.+)$/;
-  const memberDetailRegex = /^\/members\/(.+)$/;
-  const placeDetailRegex = /^\/settings\/places\/(.+)$/;
+  const activityDetailRegex = /^\/activities\/(^\/+)$/;
+  const gameDetailRegex = /^\/activities\/(.+)\/games\/(^\/+)$/;
+  const memberDetailRegex = /^\/members\/(^\/+)$/;
+  const placeDetailRegex = /^\/settings\/places\/(^\/+)$/;
 
   switch (true) {
-    // for paths under '/members'
-    case /^\/members\/new$/.test(path): {
+    // for the registration pages
+    case /^\/members\/new$/.test(path):
+    case /^\/activities\/.+\/games\/new$/.test(path):
+    case /^\/activities\/new$/.test(path):
+    case /^\/settings\/places\/new$/.test(path): {
       return '追加';
+    }
+    // for the detail pages
+    case activityDetailRegex.test(path): {
+      return path.match(activityDetailRegex)?.at(1) as string;
+    }
+    case gameDetailRegex.test(path): {
+      return path.match(gameDetailRegex)?.at(2) as string;
     }
     case memberDetailRegex.test(path): {
       return path.match(memberDetailRegex)?.at(1) as string;
     }
-    case /^\/members\/?$/.test(path): {
-      return 'メンバー';
+    case placeDetailRegex.test(path): {
+      return path.match(placeDetailRegex)?.at(1) as string;
     }
-
-    // for paths under `/activities/[activityId]/games'
-    case /^\/activities\/.+\/games\/new$/.test(path): {
-      return '追加';
-    }
-    case gameDetailRegex.test(path): {
-      return path.match(gameDetailRegex)?.at(1) as string;
+    // for the list pages
+    case /^\/activities\/?$/.test(path): {
+      return 'アクティビティ';
     }
     case /^\/activities\/.+\/games\/?$/.test(path): {
       return 'ゲーム';
     }
-
-    // for paths under '/activities'
-    case /^\/activities\/new$/.test(path): {
-      return '追加';
-    }
-    case activityDetailRegex.test(path): {
-      return path.match(activityDetailRegex)?.at(1) as string;
-    }
-    case /^\/activities\/?$/.test(path): {
-      return 'アクティビティ';
-    }
-
-    // for paths under '/settings'
-    case /^\/settings\/places\/new$/.test(path): {
-      return '追加';
-    }
-    case placeDetailRegex.test(path): {
-      return path.match(placeDetailRegex)?.at(1) as string;
+    case /^\/members\/?$/.test(path): {
+      return 'メンバー';
     }
     case /^\/settings\/places\/?$/.test(path): {
       return '活動場所';
@@ -82,13 +72,11 @@ const getLabel = (path: string): string | null => {
     case /^\/settings\/?$/.test(path): {
       return '設定';
     }
-
-    // for the root path
+    // for the home page
     case /^\/$/.test(path): {
       return 'ホーム';
     }
-
-    // otherwise return null
+    // otherwise, return null
     default: {
       return null;
     }
