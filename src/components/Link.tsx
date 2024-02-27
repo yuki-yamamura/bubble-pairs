@@ -1,19 +1,17 @@
+import { cn } from '@/lib/shadcn-ui';
 import LinkPrimitive from 'next/link';
 
-import type { LucideIcon } from 'lucide-react';
-import type { LinkProps } from 'next/link';
+type Props = React.ComponentPropsWithoutRef<typeof LinkPrimitive>;
 
-type Props = LinkProps & {
-  text: string;
-  Icon?: LucideIcon;
-};
-const Link = ({ text, Icon, ...rest }: Props) => (
+const Link = ({ className, children, ...rest }: Props) => (
   <LinkPrimitive
     {...rest}
-    className="flex items-center gap-x-2 text-primary-blue  underline-offset-4  hover:underline"
+    className={cn(
+      'text-primary-blue underline-offset-4  hover:underline',
+      className,
+    )}
   >
-    {Icon && <Icon size={16} />}
-    {text}
+    {children}
   </LinkPrimitive>
 );
 

@@ -1,5 +1,5 @@
 import Link from '@/components/Link';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeftIcon } from 'lucide-react';
 
 const ErrorScreen = () => (
   <div className="flex grow flex-col items-center justify-center">
@@ -12,7 +12,10 @@ const ErrorScreen = () => (
       />
       <div className="flex flex-col items-center gap-y-2">
         <h1>問題が発生しました。</h1>
-        <Link href="/" text="ホームに戻る" Icon={ArrowLeft} />
+        <Link href="/" className="flex items-center gap-x-2">
+          <ArrowLeftIcon size={16} />
+          ホームに戻る
+        </Link>
       </div>
     </div>
   </div>

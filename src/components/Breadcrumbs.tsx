@@ -15,7 +15,7 @@ const Breadcrumbs = () => {
             {isLastItem ? (
               <div className="text-slate-400">{label}</div>
             ) : (
-              <Link text={label} href={path} />
+              <Link href={path}>{label}</Link>
             )}
             {!isLastItem && (
               <ChevronRightIcon size={14} className="ml-2 mr-1 stroke-1" />

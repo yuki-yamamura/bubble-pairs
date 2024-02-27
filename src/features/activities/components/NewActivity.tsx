@@ -40,16 +40,16 @@ const NewActivity = () => {
   };
 
   if (isLoadingMembers || isLoadingPlaces) {
-    return <Loading text="読み込み中..." />;
+    return <Loading text="読み込んでいます..." />;
   }
 
   if (members.length < MINIMUM_PARTICIPANT_COUNT) {
     return (
       <EmptyState src="/images/looking-for-friends.png" alt="exploring">
-        <div className="text-center leading-7">
+        <div className="flex flex-col items-center leading-7">
           <p>アクティビティを開始するには 2 名以上のメンバーが必要です。</p>
           <p>
-            <Link href="/members" text="メンバーを登録"></Link>しましょう。
+            <Link href="/members">メンバーを登録</Link>しましょう。
           </p>
         </div>
       </EmptyState>
@@ -61,8 +61,9 @@ const NewActivity = () => {
       <EmptyState src="/images/exploring-the-globe.png" alt="exploring">
         <div className="text-center leading-7">
           <p>
-            アクティビティを開始するには、
-            <Link href="/settings/places/" text="場所の登録"></Link>が必要です。
+            アクティビティを開始するには
+            <Link href="/settings/places">活動場所の登録</Link>
+            が必要です。
           </p>
         </div>
       </EmptyState>
