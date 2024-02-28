@@ -3,14 +3,7 @@ import type { Breadcrumb } from '..';
 export const createBreadcrumbs = (path: string): Breadcrumb[] => {
   const params = path.split('/');
 
-  if (path === '/') {
-    return [
-      {
-        path,
-        label: 'ホーム',
-      },
-    ];
-  }
+  if (path === '/') return [];
 
   return params
     .map((_, index) => params.slice(0, index + 1).join('/'))

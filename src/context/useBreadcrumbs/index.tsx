@@ -14,10 +14,10 @@ const BreadcrumbsContext = createContext<BreadcrumbsContextType | null>(null);
 
 export const BreadcrumbsProvider = ({ children }: React.PropsWithChildren) => {
   const router = useRouter();
-  const breadcrumbs = createBreadcrumbs(router.asPath);
+  const value = { breadcrumbs: createBreadcrumbs(router.asPath) };
 
   return (
-    <BreadcrumbsContext.Provider value={{ breadcrumbs }}>
+    <BreadcrumbsContext.Provider value={value}>
       {children}
     </BreadcrumbsContext.Provider>
   );

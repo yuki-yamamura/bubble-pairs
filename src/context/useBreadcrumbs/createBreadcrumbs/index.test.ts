@@ -3,11 +3,11 @@ import { createBreadcrumbs } from '.';
 import type { Breadcrumb } from '..';
 
 describe('createBreadcrumbs', () => {
-  describe('returns the correct breadcrumb depending on the path', () => {
-    test("if the path is '/'", () => {
+  describe("if the path is '/'", () => {
+    test('returns an empty array because no breadcrumbs need in the home page', () => {
       // arrange
       const path = '/';
-      const expected: Breadcrumb[] = [{ path: '/', label: 'ホーム' }];
+      const expected: Breadcrumb[] = [];
 
       // act
       const result = createBreadcrumbs(path);
@@ -15,8 +15,10 @@ describe('createBreadcrumbs', () => {
       // assert
       expect(result.sort()).toEqual(expected);
     });
+  });
 
-    test("if the path is '/members/new'", () => {
+  describe('if the path is more complex', () => {
+    test('returns two of the breadcrumbs to navigate user', () => {
       // arrange
       const path = '/members/new';
       const expected: Breadcrumb[] = [
@@ -31,7 +33,7 @@ describe('createBreadcrumbs', () => {
       expect(result.sort()).toEqual(expected);
     });
 
-    test("if the path is '/activities/clsm7h1vi0006dam59dq1legc/games/new'", () => {
+    test('returns the breadcrumbs including id correctly', () => {
       // arrange
       const path = '/activities/clsm7h1vi0006dam59dq1legc/games/new';
       const expected: Breadcrumb[] = [
