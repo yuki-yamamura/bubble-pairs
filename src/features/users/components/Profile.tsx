@@ -1,18 +1,8 @@
 import UserSection from './UserSection';
-import Loading from '@/components/Loading';
-import { useSession } from 'next-auth/react';
+import { useUser } from '@/context/useUser';
 
 const Profile = () => {
-  const { data: session, status } = useSession();
-
-  if (status === 'loading') {
-    return <Loading />;
-  }
-  if (status === 'unauthenticated' || !session?.user) {
-    throw new Error();
-  }
-
-  const { user } = session;
+  const { user } = useUser();
 
   return (
     <div className="flex flex-col gap-y-12">

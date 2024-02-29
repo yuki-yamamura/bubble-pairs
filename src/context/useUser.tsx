@@ -10,7 +10,12 @@ type UserContextType = {
 const UserContext = createContext<UserContextType | null>(null);
 
 export const UserProvider = ({ children }: React.PropsWithChildren) => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+
+  if (status === 'loading') {
+    return null;
+  }
+
   // since all the pages in this repo are protected by the middleware, session must not be null.
   // so if the app throw an error caused of failing a session, that will be a bug.
   const value = session ? { user: session.user } : null;
