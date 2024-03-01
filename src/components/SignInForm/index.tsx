@@ -1,16 +1,18 @@
 import VerifyRequest from './VerifyRequest';
 import Button from '@/components/Button';
 import Logo from '@/components/Logo';
-import { useSignInForm } from '@/components/SignInForm/useSignInForm';
 import { Form, FormDescription, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useSignInForm } from '@/features/users/hooks/useSingInForm';
 import { cn } from '@/lib/shadcn-ui';
 import { ArrowRightIcon } from 'lucide-react';
 
 const SignInForm = () => {
-  const { form, formState, register, submitHandler, watch } = useSignInForm();
-  const { isSubmitting, isSubmitSuccessful, isValid } = formState;
-  const email = watch('email');
+  const { email, form, submitHandler } = useSignInForm();
+  const {
+    formState: { isSubmitting, isSubmitSuccessful, isValid },
+    register,
+  } = form;
 
   if (isSubmitSuccessful) {
     return <VerifyRequest email={email} />;
