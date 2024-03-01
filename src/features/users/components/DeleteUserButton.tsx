@@ -1,4 +1,5 @@
 import Button from '@/components/Button';
+import Loading from '@/components/Loading';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -10,15 +11,17 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useSWRMutation from 'swr/mutation';
 
-import type { ButtonProps } from '@/components/ui/button';
+import type { User } from '@prisma/client';
 
-type Props = ButtonProps;
+type Props = {
+  user: User;
+};
 
-const DeleteButton = ({ className }: Props) => {
+const DeleteUserButton = ({ user }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
   const { trigger, isMutating } = useSWRMutation(
-    `/api/users`,
+    `/api/users/${user.id}`,
     async (url: string) => {
       await axios.delete(url);
     },
@@ -33,12 +36,14 @@ const DeleteButton = ({ className }: Props) => {
     setIsOpen(false);
   };
 
+  if (isMutating) {
+    <Loading />;
+  }
+
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive" className={className}>
-          アカウントを削除
-        </Button>
+        <Button variant="destructive">アカウントを削除</Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogDescription className="mb-8 mt-4 text-center">
@@ -48,11 +53,7 @@ const DeleteButton = ({ className }: Props) => {
           <Button variant="outline" onClick={handleCancelButtonClick}>
             キャンセル
           </Button>
-          <Button
-            isBusy={isMutating}
-            variant="destructive"
-            onClick={handleActionButtonClick}
-          >
+          <Button variant="destructive" onClick={handleActionButtonClick}>
             アカウントを削除
           </Button>
         </div>
@@ -61,4 +62,4 @@ const DeleteButton = ({ className }: Props) => {
   );
 };
 
-export default DeleteButton;
+export default DeleteUserButton;

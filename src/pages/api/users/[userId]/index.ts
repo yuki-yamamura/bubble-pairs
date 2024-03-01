@@ -40,7 +40,13 @@ const handleDelete: NextApiHandler = withZod(
     }),
   }),
   async (request, response) => {
+    const session = await getServerSession(request, response, authOptions);
     const { userId } = request.query;
+
+    if (userId !== session?.user.id) {
+      response.status(403).end();
+    }
+
     const result = await deleteUserById(userId);
 
     if (result.type === 'success') {
