@@ -74,6 +74,12 @@
   .required::after {
     @apply pl-1 text-red-400 content-["*"];
   }
+
+  .scroll-table {
+    display: block;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+  }
 }
 
 * {

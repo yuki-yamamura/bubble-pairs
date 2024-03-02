@@ -27,7 +27,7 @@ const DataTable = <TData, TValue>({ columns, data }: Props<TData, TValue>) => {
   });
 
   return (
-    <div className="rounded-md border">
+    <div className="scroll-table rounded-md border">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
