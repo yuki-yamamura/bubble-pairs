@@ -2,8 +2,8 @@ import Link from '@/components/Link';
 import { ArrowLeftIcon } from 'lucide-react';
 
 const ErrorScreen = () => (
-  <div className="flex grow flex-col items-center justify-center">
-    <div className="flex flex-col items-center gap-y-2 md:-translate-y-1/4">
+  <div className="flex h-full grow flex-col items-center justify-center">
+    <div className="flex flex-col items-center gap-y-2 md:-translate-y-1/2">
       <img
         src="/images/coffee.png"
         alt="have a coffee"
