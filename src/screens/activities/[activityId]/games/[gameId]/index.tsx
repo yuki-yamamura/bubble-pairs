@@ -1,14 +1,16 @@
 import PageContainer from '@/components/PageContainer';
 import GameDetail from '@/features/games/components/GameDetail';
 
+import type { Activity } from '@/types/models/Activity';
 import type { Game } from '@/types/models/Game';
 
 type Props = {
+  activity: Activity;
   game: Game;
 };
-const GameDetailScreen = ({ game }: Props) => (
+const GameDetailScreen = ({ activity, game }: Props) => (
   <PageContainer title="Games">
-    <GameDetail game={game} />
+    <GameDetail activity={activity} game={game} />
   </PageContainer>
 );
 
