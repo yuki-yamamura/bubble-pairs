@@ -37,7 +37,7 @@ const Members = () => {
         <EmptyState src="/images/exploring.png" alt="exploring">
           <div className="text-center leading-7">
             <p>まずはメンバーを登録しましょう。</p>
-            <p>右下の「+」ボタンを押してください。</p>
+            <p>左下の「+」ボタンを押してください。</p>
           </div>
         </EmptyState>
       ) : (
