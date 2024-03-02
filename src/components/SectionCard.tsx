@@ -1,14 +1,22 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 type Props = React.PropsWithChildren<{
   title: string;
+  description?: string;
 }>;
 
-const SectionCard = ({ title, children }: Props) => (
+const SectionCard = ({ title, description, children }: Props) => (
   <section>
     <Card>
       <CardHeader>
         <CardTitle className="text-base font-light">{title}</CardTitle>
+        {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
       <CardContent>{children}</CardContent>
     </Card>

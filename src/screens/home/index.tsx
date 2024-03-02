@@ -1,20 +1,9 @@
+import Faq from './Faq';
 import FeatureCard from './FeatureCard';
+import OpenManualButton from './OpenManualButton';
 import SignInButton from './SignInButton';
-import Button from '@/components/Button';
 import PageContainer from '@/components/PageContainer';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/ui/accordion';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-} from '@/components/ui/card';
-import { ExternalLinkIcon } from 'lucide-react';
+import SectionCard from '@/components/SectionCard';
 
 import type { Session } from 'next-auth';
 
@@ -23,84 +12,34 @@ type Props = {
 };
 
 const HomeScreen = ({ session }: Props) => {
-  // for users who logged in.
   if (session) {
     return (
       <PageContainer title="Home">
         <div className="flex flex-col gap-y-16">
-          <Card>
-            <CardHeader className="text-base font-light">使い方</CardHeader>
-            <CardContent>
-              <CardDescription>
-                基本的な使い方については、マニュアルをご覧ください。
-              </CardDescription>
-              <div className="mt-12 flex items-center justify-end md:mt-4">
-                <Button variant="outline" onClick={() => console.log('foo!')}>
-                  <ExternalLinkIcon size={14} className="mr-1" />
-                  マニュアルを見る
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="text-base font-light">問い合わせ</CardHeader>
-            <CardContent>
-              <CardDescription>
-                ご質問や不具合については、以下のメールアドレスに連絡ください。
-              </CardDescription>
-              <div className="mt-2">
-                <a
-                  href={`mailto: contact@ymmr.dev`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-sm underline"
-                >
-                  contact@ymmr.dev
-                </a>
-              </div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardHeader className="text-base font-light">
-              FAQ / よくあるご質問
-            </CardHeader>
-            <CardContent>
-              <Accordion type="single" collapsible>
-                <AccordionItem value="question-1">
-                  <AccordionTrigger className="font-extralight">
-                    What is this?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    This is a peace of abstract art!
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="question-2">
-                  <AccordionTrigger className="font-extralight">
-                    What is this?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    This is a peace of abstract art!
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="question-3">
-                  <AccordionTrigger className="font-extralight">
-                    What is this?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    This is a peace of abstract art!
-                  </AccordionContent>
-                </AccordionItem>
-                <AccordionItem value="question-4">
-                  <AccordionTrigger className="font-extralight">
-                    What is this?
-                  </AccordionTrigger>
-                  <AccordionContent>
-                    This is a peace of abstract art!
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            </CardContent>
-          </Card>
+          <SectionCard
+            title="使い方"
+            description="はじめて使う方はマニュアルをご覧ください。"
+          >
+            <div className="mt-4 flex justify-end md:mt-0">
+              <OpenManualButton />
+            </div>
+          </SectionCard>
+          <SectionCard
+            title="お問い合わせ"
+            description="不具合につきましては、以下のメールアドレスにご連絡ください。"
+          >
+            <a
+              href={`mailto: contact@ymmr.dev`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-sm underline"
+            >
+              contact@ymmr.dev
+            </a>
+          </SectionCard>
+          <SectionCard title="よくあるご質問">
+            <Faq />
+          </SectionCard>
         </div>
       </PageContainer>
     );

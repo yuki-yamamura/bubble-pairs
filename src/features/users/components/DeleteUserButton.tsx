@@ -29,8 +29,8 @@ const DeleteUserButton = ({ user }: Props) => {
 
   const handleActionButtonClick = async () => {
     await trigger();
-    setIsOpen(false);
     await router.push('/');
+    router.reload();
   };
   const handleCancelButtonClick = () => {
     setIsOpen(false);
