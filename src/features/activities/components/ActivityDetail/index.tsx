@@ -37,18 +37,18 @@ const ActivityDetail = ({ activity }: Props) => {
   return (
     <div className="flex flex-col gap-y-16">
       <PlusButton onClick={handlePlusButtonClick} />
-      <header className="flex gap-x-4">
-        <div className="text-slate-400">{`開始日: ${dayjs(activity.createdAt).format('YYYY/MM/DD')}`}</div>
+      <header className="flex flex-col gap-y-4">
         <Badge
           className={cn(
             'max-w-fit',
             activity.isOpen
-              ? 'border-primary-green-foreground bg-primary-green text-primary-green-foreground'
-              : 'border-purple-400 bg-primary-foreground text-purple-400',
+              ? 'border-primary-green-foreground bg-primary-green text-primary-green-foreground hover:bg-primary-green hover:text-primary-green-foreground'
+              : 'border-purple-400 bg-primary-foreground text-purple-400 hover:bg-primary-foreground hover:text-purple-400',
           )}
         >
           {activity.isOpen ? 'Open' : 'Closed'}
         </Badge>
+        <div className="text-slate-400">{`開始日: ${dayjs(activity.createdAt).format('YYYY/MM/DD')}`}</div>
       </header>
       <section id="games">
         <h2 className="mb-4">ゲーム</h2>
@@ -56,7 +56,7 @@ const ActivityDetail = ({ activity }: Props) => {
           <EmptyState src="/images/playing-cards.png" alt="playing-cards">
             <div className="text-center leading-7">
               <p>ゲームをはじめましょう。</p>
-              <p>右下の「+」ボタンを押してください。</p>
+              <p>左下の「+」ボタンを押してください。</p>
             </div>
           </EmptyState>
         ) : (
