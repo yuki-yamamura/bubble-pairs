@@ -17,11 +17,12 @@ describe('createBreadcrumbs', () => {
     });
   });
 
-  describe('if the path is more complex', () => {
-    test('returns two of the breadcrumbs to navigate user', () => {
+  describe('if the path indicates a new member page', () => {
+    test('returns the correct breadcrumbs', () => {
       // arrange
       const path = '/members/new';
       const expected: Breadcrumb[] = [
+        { path: '/', label: 'ホーム' },
         { path: '/members', label: 'メンバー' },
         { path: '/members/new', label: '追加' },
       ];
@@ -32,18 +33,33 @@ describe('createBreadcrumbs', () => {
       // assert
       expect(result.sort()).toEqual(expected);
     });
+  });
 
-    test('returns the breadcrumbs including id correctly', () => {
+  describe('if the path indicates a game detail page', () => {
+    test('return the correct breadcrumbs', () => {
       // arrange
-      const path = '/activities/clsm7h1vi0006dam59dq1legc/games/new';
+      const path =
+        '/activities/clsm7h1vi0006dam59dq1legc/games/cltai9xl8000ycxxl6e251jod';
       const expected: Breadcrumb[] = [
+        {
+          path: '/',
+          label: 'ホーム',
+        },
+        {
+          path: '/activities',
+          label: 'アクティビティ',
+        },
+        {
+          path: '/activities/clsm7h1vi0006dam59dq1legc',
+          label: 'clsm7h1vi0006dam59dq1legc',
+        },
         {
           path: '/activities/clsm7h1vi0006dam59dq1legc/games',
           label: 'ゲーム',
         },
         {
-          path: '/activities/clsm7h1vi0006dam59dq1legc/games/new',
-          label: '追加',
+          path: '/activities/clsm7h1vi0006dam59dq1legc/games/cltai9xl8000ycxxl6e251jod',
+          label: 'cltai9xl8000ycxxl6e251jod',
         },
       ];
 

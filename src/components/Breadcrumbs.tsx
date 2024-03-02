@@ -1,9 +1,18 @@
 import Link from '@/components/Link';
 import { useBreadcrumbs } from '@/context/useBreadcrumbs';
+import { cn } from '@/lib/shadcn-ui';
 import { ChevronRightIcon } from 'lucide-react';
 
 const Breadcrumbs = () => {
   const { breadcrumbs } = useBreadcrumbs();
+
+  // since the label of breadcrumbs are too long to contain in a mobile device,
+  //   so only use the last two one for a mobile device.
+  const isMust = (index: number): boolean =>
+    breadcrumbs
+      .map((_, index) => index)
+      .slice(-2)
+      .includes(index);
 
   return (
     <nav className="flex gap-x-1 text-sm">
@@ -11,9 +20,15 @@ const Breadcrumbs = () => {
         const isLastItem = index + 1 === breadcrumbs.length;
 
         return (
-          <div className="flex shrink-0 items-center" key={path}>
+          <div
+            className={cn(
+              'hidden shrink-0 items-center md:flex',
+              isMust(index) && 'flex',
+            )}
+            key={path}
+          >
             {isLastItem ? (
-              <div className="line-clamp-1 text-slate-400">{label}</div>
+              <div className="text-slate-400">{label}</div>
             ) : (
               <Link href={path}>{label}</Link>
             )}
