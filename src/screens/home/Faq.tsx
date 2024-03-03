@@ -6,7 +6,11 @@ import {
 } from '@/components/ui/accordion';
 
 const Faq = () => (
-  <Accordion type="single" collapsible>
+  <Accordion
+    type="single"
+    collapsible
+    className="text-sm text-muted-foreground"
+  >
     <AccordionItem value="question-1">
       <AccordionTrigger>
         登録したメンバーや活動場所を削除できません。
@@ -31,7 +35,7 @@ const Faq = () => (
       <AccordionTrigger>
         アクティビティを終了するとどうなりますか？
       </AccordionTrigger>
-      <AccordionContent>ゲームの追加ができなくなります。</AccordionContent>
+      <AccordionContent>ゲームを追加できなくなります。</AccordionContent>
     </AccordionItem>
   </Accordion>
 );

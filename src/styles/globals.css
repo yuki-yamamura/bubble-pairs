@@ -61,7 +61,7 @@
   }
 
   body {
-    @apply bg-background text-sm !font-extralight text-foreground sm:text-base;
+    @apply bg-background text-sm font-extralight text-foreground sm:text-base;
 
     font-feature-settings:
       'rlig' 1,

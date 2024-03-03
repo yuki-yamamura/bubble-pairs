@@ -32,7 +32,7 @@ const GlobalNavigation = () => {
       <div className="mb-8 mt-20 flex flex-col gap-y-16 lg:px-4">
         <Logo />
         <div className="flex items-center gap-x-4">
-          <Avatar className="h-12 w-12 border border-border p-2">
+          <Avatar className="h-12 w-12 border-2 border-secondary p-2">
             <AvatarImage src="/images/dolphin.png" />
           </Avatar>
           <div className="flex flex-col">

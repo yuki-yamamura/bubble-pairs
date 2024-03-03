@@ -16,7 +16,7 @@ const FeatureCard = ({ title, headerImage, content }: Props) => (
       />
       <CardTitle className="text-lg font-light">{title}</CardTitle>
     </CardHeader>
-    <CardContent>
+    <CardContent className="text-muted-foreground">
       <p>{content}</p>
     </CardContent>
   </Card>
