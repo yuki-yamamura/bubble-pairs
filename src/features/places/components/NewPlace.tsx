@@ -26,10 +26,10 @@ const NewPlace = () => {
   const handleSubmit = async (fieldValues: PlaceCreateSchema) => {
     try {
       await trigger(fieldValues);
-      toast.success('活動場所を追加しました。');
+      toast.success('活動場所を登録しました。');
       await router.push('/settings');
     } catch {
-      toast.error('活動場所の追加に失敗しました。');
+      toast.error('活動場所を登録できませんでした。');
     }
   };
 

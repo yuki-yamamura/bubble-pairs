@@ -1,9 +1,10 @@
-import { useUserForm } from '../hooks/useUserForm';
 import Button from '@/components/Button';
 import SectionCard from '@/components/SectionCard';
 import { Form, FormItem } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useUserForm } from '@/features/users/hooks/useUserForm';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 
 import type { User } from '@prisma/client';
 
@@ -25,6 +26,7 @@ const EditEmailSection = ({ title, user }: Props) => {
     if (isEditing) {
       await submitHandler();
       setIsEditing(false);
+      toast.success('表示名を変更しました。');
     } else {
       setIsEditing(true);
     }

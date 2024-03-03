@@ -21,23 +21,26 @@ const PlaceForm = ({
   isSubmitting,
   onSubmit,
 }: Props) => {
-  const { form, errors, register, shouldDisableSubmitButton, submitHandler } =
-    usePlaceForm({
-      defaultValues,
-      onSubmit,
-    });
+  const { form, submitHandler } = usePlaceForm({
+    defaultValues,
+    onSubmit,
+  });
+  const {
+    formState: { errors },
+    register,
+  } = form;
 
   return (
     <Form {...form}>
       <form
         onSubmit={submitHandler}
-        className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
+        className="mx-auto flex w-full max-w-sm flex-col gap-y-6"
       >
         <FormItem>
           <FormLabel htmlFor="name" className="required">
-            場所名
+            名前
           </FormLabel>
-          <Input id="name" placeholder="A市立体育館" {...register('name')} />
+          <Input id="name" placeholder="体育館" {...register('name')} />
           {errors.name && <FormMessage>{errors.name.message}</FormMessage>}
         </FormItem>
         <FormItem>
@@ -57,7 +60,6 @@ const PlaceForm = ({
         <Button
           type="submit"
           isBusy={isSubmitting}
-          disabled={shouldDisableSubmitButton}
           variant={buttonVariant}
           className="self-center"
         >

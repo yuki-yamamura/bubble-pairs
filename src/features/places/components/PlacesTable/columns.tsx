@@ -18,7 +18,7 @@ export const createColumns = (actions: {
   return [
     {
       accessorKey: 'name',
-      header: '場所名',
+      header: '名前',
     },
     {
       accessorKey: 'courtCount',

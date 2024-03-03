@@ -18,7 +18,7 @@ const SectionCard = ({ title, description, children }: Props) => (
         <CardTitle className="text-base font-light">{title}</CardTitle>
         {description && <CardDescription>{description}</CardDescription>}
       </CardHeader>
-      <CardContent>{children}</CardContent>
+      <CardContent className="text-muted-foreground">{children}</CardContent>
     </Card>
   </section>
 );
