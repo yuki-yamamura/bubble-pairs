@@ -25,8 +25,8 @@ const NewGame = ({ activity }: Props) => {
 
   const handleSubmit = async (fieldValues: GameCreateSchema) => {
     try {
-      await trigger(fieldValues);
-      await router.push(`/activities/${activity.id}`);
+      const { game } = await trigger(fieldValues);
+      await router.push(`/activities/${activity.id}/games/${game.id}`);
       toast.success('ゲームを追加しました。');
     } catch {
       toast.error('ゲームの追加に失敗しました');
