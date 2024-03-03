@@ -1,11 +1,9 @@
-import { withResult } from '@/lib/prisma';
-import { PrismaClient } from '@prisma/client';
+import prisma from '@/lib/prisma';
+import { withResult } from '@/lib/prisma/withResult';
 
 import type { Game } from '@/types/models/Game';
 import type { Result } from '@/types/Result';
 import type { Prisma } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 export const createGame = (
   data: Prisma.GameCreateInput,
