@@ -22,7 +22,12 @@ export const createColumns = (actions: {
     },
     {
       accessorKey: 'courtCount',
-      header: 'コート数',
+      header: () => <div className="text-right">コート数</div>,
+      cell: ({ row }) => {
+        const { courtCount } = row.original;
+
+        return <div className="text-right">{`${courtCount} 面`}</div>;
+      },
     },
     {
       id: 'actions',

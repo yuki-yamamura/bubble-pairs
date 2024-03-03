@@ -24,36 +24,37 @@ export const createColumns = (actions: {
       cell: ({ row }) => row.index + 1,
     },
     {
-      header: '参加者数',
+      accessorKey: 'participants',
+      header: () => <div className="text-right">参加者数</div>,
       cell: ({ row }) => {
         const game = row.original;
         const totalParticipants = getAllPlayers(game).length;
 
-        return totalParticipants;
+        return <div className="text-right">{`${totalParticipants} 人`}</div>;
       },
     },
     {
-      id: 'singlesCount',
-      header: 'シングルス数',
+      accessorKey: 'singlesCount',
+      header: () => <div className="text-right">シングルス数</div>,
       cell: ({ row }) => {
         const game = row.original;
         const singlesCount = game.gameDetails.filter(
           (gameDetail) => gameDetail.rule === Rule.SINGLES,
         ).length;
 
-        return singlesCount;
+        return <div className="text-right">{`${singlesCount} 試合`}</div>;
       },
     },
     {
-      id: 'doublesCount',
-      header: 'ダブルス数',
+      accessorKey: 'doublesCount',
+      header: () => <div className="text-right">ダブルス数</div>,
       cell: ({ row }) => {
         const game = row.original;
         const doublesCount = game.gameDetails.filter(
           (gameDetail) => gameDetail.rule === Rule.DOUBLES,
         ).length;
 
-        return doublesCount;
+        return <div className="text-right">{`${doublesCount} 試合`}</div>;
       },
     },
     {
