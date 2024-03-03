@@ -1,7 +1,7 @@
-import ParticipantTable from '../ParticipantTable';
 import EmptyState from '@/components/EmptyState';
 import PlusButton from '@/components/PlusButton';
 import { Badge } from '@/components/ui/badge';
+import ParticipantTable from '@/features/activities/components/ParticipantTable';
 import { useActivities } from '@/features/activities/hooks/useActivities';
 import GameTable from '@/features/games/components/GameTable';
 import { cn } from '@/lib/shadcn-ui';
@@ -26,9 +26,13 @@ const ActivityDetail = ({ activity }: Props) => {
   };
 
   const deleteGameById = async (gameId: Game['id']) => {
-    await axios.delete(`/api/activities/${activity.id}/games/${gameId}`);
-    await mutate();
-    toast.success('ゲームを削除しました。');
+    try {
+      await axios.delete(`/api/activities/${activity.id}/games/${gameId}`);
+      await mutate();
+      toast.success('ゲームを削除しました。');
+    } catch {
+      toast.error('ゲームを削除できませんでした。');
+    }
   };
   const openGame = async (gameId: Game['id']) => {
     await router.push(`/activities/${activity.id}/games/${gameId}`);
@@ -38,6 +42,7 @@ const ActivityDetail = ({ activity }: Props) => {
     <div className="flex flex-col gap-y-16">
       <PlusButton onClick={handlePlusButtonClick} />
       <header className="flex flex-col gap-y-4">
+        <div className="text-sm text-slate-400">{`開始日: ${dayjs(activity.createdAt).format('YYYY/MM/DD')}`}</div>
         <Badge
           className={cn(
             'max-w-fit',
@@ -48,10 +53,8 @@ const ActivityDetail = ({ activity }: Props) => {
         >
           {activity.isOpen ? 'Open' : 'Closed'}
         </Badge>
-        <div className="text-slate-400">{`開始日: ${dayjs(activity.createdAt).format('YYYY/MM/DD')}`}</div>
       </header>
       <section id="games">
-        <h2 className="mb-4">ゲーム</h2>
         {activity.games.length === 0 ? (
           <EmptyState src="/images/playing-cards.png" alt="playing-cards">
             <div className="text-center leading-7">
@@ -60,10 +63,13 @@ const ActivityDetail = ({ activity }: Props) => {
             </div>
           </EmptyState>
         ) : (
-          <GameTable
-            actions={{ deleteGameById, openGame }}
-            data={activity?.games ?? []}
-          />
+          <>
+            <h2 className="mb-4">ゲーム</h2>
+            <GameTable
+              actions={{ deleteGameById, openGame }}
+              data={activity?.games ?? []}
+            />
+          </>
         )}
       </section>
       <section id="participants">

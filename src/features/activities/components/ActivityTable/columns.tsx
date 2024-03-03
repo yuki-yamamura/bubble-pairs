@@ -25,7 +25,7 @@ export const createColumns = (actions: {
         const activity = row.original;
 
         return activity.isOpen ? (
-          <CircleDot size={16} className="text-slate-400" />
+          <CircleDot size={16} className="text-primary-green-foreground" />
         ) : (
           <CheckCircle2 size={16} className="text-purple-400" />
         );

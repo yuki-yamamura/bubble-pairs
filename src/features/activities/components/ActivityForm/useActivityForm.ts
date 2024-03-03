@@ -4,7 +4,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 
 import type { ActivityCreateSchema } from '@/features/activities/validation';
 import type { Member, Place } from '@prisma/client';
-import type { Control, FieldErrors, UseFormReturn } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
 
 type Props = {
   members: Member[];
@@ -17,12 +17,9 @@ export const useActivityForm = ({
   places,
   onSubmit,
 }: Props): {
-  control: Control<ActivityCreateSchema>;
   deleteMemberByIndex: (index: number) => void;
   form: UseFormReturn<ActivityCreateSchema>;
-  errors: FieldErrors<ActivityCreateSchema>;
   restMembers: Member[];
-  shouldDisableSubmitButton: boolean;
   submitHandler: () => Promise<void>;
   updateMembers: (addedMembers: Member[]) => void;
 } => {
@@ -35,12 +32,7 @@ export const useActivityForm = ({
     defaultValues,
     resolver: zodResolver(activityCreateSchema),
   });
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    watch,
-  } = form;
+  const { control, handleSubmit } = form;
   const { append, fields, remove } = useFieldArray({
     control,
     name: 'memberIds',
@@ -60,16 +52,11 @@ export const useActivityForm = ({
 
     return !selectedMemberIds.includes(member.id);
   });
-  const shouldDisableSubmitButton =
-    JSON.stringify(defaultValues) === JSON.stringify(watch());
 
   return {
-    control,
     deleteMemberByIndex,
     form,
-    errors,
     restMembers,
-    shouldDisableSubmitButton,
     submitHandler,
     updateMembers,
   };

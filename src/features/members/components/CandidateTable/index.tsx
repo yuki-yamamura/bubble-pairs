@@ -16,13 +16,15 @@ const CandidateTable = ({ data, actions }: Props) => {
 
   if (data.length === 0) {
     return (
-      <EmptyState
-        src="/images/empty-box.png"
-        alt="empty-box"
-        className="h-40 w-40"
-      >
-        <p className="text-sm text-slate-400">参加者が選択されていません。</p>
-      </EmptyState>
+      <div className="p-4">
+        <EmptyState
+          src="/images/empty-box.png"
+          alt="empty-box"
+          className="h-40 w-40"
+        >
+          <p className="text-sm text-slate-400">参加者が選択されていません。</p>
+        </EmptyState>
+      </div>
     );
   }
 

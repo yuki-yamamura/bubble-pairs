@@ -49,7 +49,7 @@ const NewActivity = () => {
         <div className="flex flex-col items-center leading-7">
           <p>アクティビティを開始するには 2 名以上のメンバーが必要です。</p>
           <p>
-            <Link href="/members">メンバーを登録</Link>しましょう。
+            <Link href="/members/new">メンバーを登録</Link>しましょう。
           </p>
         </div>
       </EmptyState>
@@ -62,7 +62,7 @@ const NewActivity = () => {
         <div className="text-center leading-7">
           <p>
             アクティビティを開始するには
-            <Link href="/settings/places">活動場所の登録</Link>
+            <Link href="/settings/places/new">活動場所の登録</Link>
             が必要です。
           </p>
         </div>

@@ -25,15 +25,16 @@ type Props = {
 
 const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
   const {
-    control,
     deleteMemberByIndex,
     form,
-    errors,
     restMembers,
-    shouldDisableSubmitButton,
     submitHandler,
     updateMembers,
   } = useActivityForm({ members, places, onSubmit });
+  const {
+    control,
+    formState: { errors },
+  } = form;
 
   const placeOptions: Options = places.map(({ id, name }) => ({
     value: id,
@@ -44,7 +45,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
     <Form {...form}>
       <form
         onSubmit={submitHandler}
-        className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
+        className="mx-auto flex w-full max-w-sm flex-col gap-y-6"
       >
         <FormField
           control={control}
@@ -96,11 +97,10 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
         <Button
           type="submit"
           isBusy={isSubmitting}
-          disabled={shouldDisableSubmitButton}
           variant="primary-green"
           className="self-center"
         >
-          アクティビティをはじめる
+          アクティビティを開始
         </Button>
       </form>
     </Form>

@@ -1,3 +1,4 @@
+import EmptyState from '@/components/EmptyState';
 import Loading from '@/components/Loading';
 import PlusButton from '@/components/PlusButton';
 import ActivityTable from '@/features/activities/components/ActivityTable';
@@ -47,14 +48,23 @@ const Activities = () => {
   return (
     <div>
       <PlusButton onClick={handlePlusButtonClick} />
-      <ActivityTable
-        data={activities}
-        actions={{
-          closeActivityById,
-          deleteActivityById,
-          openActivity,
-        }}
-      />
+      {activities.length === 0 ? (
+        <EmptyState src="/images/calendar.png" alt="calendar">
+          <div className="flex flex-col items-center leading-7">
+            <p>アクティビティをはじめましょう。</p>
+            <p>画面左下にある「+」ボタンを押してください。</p>
+          </div>
+        </EmptyState>
+      ) : (
+        <ActivityTable
+          data={activities}
+          actions={{
+            closeActivityById,
+            deleteActivityById,
+            openActivity,
+          }}
+        />
+      )}
     </div>
   );
 };
