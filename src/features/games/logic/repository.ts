@@ -32,6 +32,11 @@ export const createGame = (
             },
           },
         },
+        resters: {
+          include: {
+            participant: true,
+          },
+        },
       },
     }),
   )();
@@ -60,6 +65,11 @@ export const findGameById = (id: Game['id']): Promise<Result<Game | null>> => {
             },
           },
         },
+        resters: {
+          include: {
+            participant: true,
+          },
+        },
       },
     }),
   )();
@@ -86,6 +96,11 @@ export const deleteGameById = (id: Game['id']): Promise<Result<Game>> => {
                 },
               },
             },
+          },
+        },
+        resters: {
+          include: {
+            participant: true,
           },
         },
       },

@@ -1,10 +1,10 @@
 import { gameCreateSchema } from '@/features/games/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { type Member, Rule } from '@prisma/client';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import type { GameCreateSchema } from '@/features/games/validation';
 import type { Activity } from '@/types/models/Activity';
-import type { Member } from '@prisma/client';
 import type { BaseSyntheticEvent } from 'react';
 import type { Control, FieldErrors, UseFormReturn } from 'react-hook-form';
 
@@ -22,11 +22,13 @@ export const useGameForm = ({
   form: UseFormReturn<GameCreateSchema>;
   errors: FieldErrors<GameCreateSchema>;
   restMembers: Member[];
+  shouldDisableApplyButton: boolean;
   shouldDisableSubmitButton: boolean;
   submitHandler: (
     e?: BaseSyntheticEvent<object, unknown, unknown> | undefined,
   ) => Promise<void>;
   updateMembers: (addedMembers: Member[]) => void;
+  onApplyPreviousValues: () => void;
 } => {
   const defaultValues = {
     activityId: activity.id,
@@ -44,6 +46,7 @@ export const useGameForm = ({
     control,
     formState: { errors },
     handleSubmit,
+    reset,
     watch,
   } = form;
   const { append, fields, remove } = useFieldArray({
@@ -58,6 +61,39 @@ export const useGameForm = ({
   const updateMembers = (addedMembers: Member[]) => {
     const values = addedMembers.map((member) => ({ memberId: member.id }));
     append(values);
+  };
+
+  const previousGame = activity.games.find(
+    (_, index) => index === activity.games.length - 1,
+  );
+  const shouldDisableApplyButton = previousGame === undefined;
+  const handleApplyPreviousValues = () => {
+    if (!previousGame) return;
+
+    const memberIds = previousGame.gameDetails
+      .map((gameDetail) => gameDetail)
+      .flat()
+      .map((gameDetail) => gameDetail.players)
+      .flat()
+      .map((player) => ({ memberId: player.participant.memberId }))
+      .concat(
+        previousGame.resters.map((rester) => ({
+          memberId: rester.participant.memberId,
+        })),
+      );
+    const singlesCount = previousGame.gameDetails.filter(
+      (gameDetail) => gameDetail.rule === Rule.SINGLES,
+    ).length;
+    const doublesCount = previousGame.gameDetails.filter(
+      (gameDetail) => gameDetail.rule === Rule.DOUBLES,
+    ).length;
+
+    reset({
+      activityId: activity.id,
+      memberIds,
+      singlesCount,
+      doublesCount,
+    });
   };
 
   const restMembers = activity.participants
@@ -76,8 +112,10 @@ export const useGameForm = ({
     form,
     errors,
     restMembers,
+    shouldDisableApplyButton,
     shouldDisableSubmitButton,
     submitHandler,
     updateMembers,
+    onApplyPreviousValues: handleApplyPreviousValues,
   };
 };

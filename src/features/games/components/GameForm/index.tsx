@@ -30,9 +30,11 @@ const GameForm = ({ activity, isSubmitting, onSubmit }: Props) => {
     form,
     errors,
     restMembers,
+    shouldDisableApplyButton,
     shouldDisableSubmitButton,
     submitHandler,
     updateMembers,
+    onApplyPreviousValues,
   } = useGameForm({ activity, onSubmit });
 
   const gameDetailCountOptions: Options = Array.from(
@@ -49,6 +51,15 @@ const GameForm = ({ activity, isSubmitting, onSubmit }: Props) => {
         onSubmit={submitHandler}
         className="mx-auto flex max-w-sm flex-col gap-y-4"
       >
+        <Button
+          type="button"
+          disabled={shouldDisableApplyButton}
+          variant="outline"
+          onClick={onApplyPreviousValues}
+          className="max-w-fit self-center"
+        >
+          前回の条件を使う
+        </Button>
         <FormField
           control={control}
           name="memberIds"

@@ -75,6 +75,7 @@ model Participant {
   activity   Activity @relation(fields: [activityId], references: [id], onDelete: Cascade)
   member     Member   @relation(fields: [memberId], references: [id], onDelete: Cascade)
   players    Player[]
+  resters    Rester[]
 
   @@unique([activityId, memberId])
   @@map("participants")
@@ -86,6 +87,7 @@ model Game {
   createdAt   DateTime     @default(now()) @map("created_at")
   activity    Activity     @relation(fields: [activityId], references: [id], onDelete: Cascade)
   gameDetails GameDetail[]
+  resters     Rester[]
 
   @@map("games")
 }
@@ -111,6 +113,16 @@ model Player {
 
   @@unique([gameDetailId, participantId])
   @@map("players")
+}
+
+model Rester {
+  id            String      @id @default(cuid())
+  gameId        String      @map("game_id")
+  participantId String      @map("participant_id")
+  game          Game        @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  participant   Participant @relation(fields: [participantId], references: [id], onDelete: Cascade)
+
+  @@map("resters")
 }
 
 // the models below depend on the Prisma adapter for NextAuth.js, and do not put any domain model under this comment.

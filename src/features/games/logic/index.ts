@@ -36,6 +36,7 @@ export const generateGame = (
   // pick players depending on how many the game needs players,
   //   and then shuffle them to make pairs random.
   const players = shuffleArray(sortedCandidates.slice(0, totalPlayers));
+  const resters = sortedCandidates.slice(totalPlayers);
 
   const gameDetails = generateGameDetails(players, singlesCount, doublesCount);
 
@@ -47,6 +48,15 @@ export const generateGame = (
     },
     gameDetails: {
       create: gameDetails,
+    },
+    resters: {
+      create: resters.map((rester) => ({
+        participant: {
+          connect: {
+            id: rester.id,
+          },
+        },
+      })),
     },
   } satisfies Prisma.GameCreateInput;
 };

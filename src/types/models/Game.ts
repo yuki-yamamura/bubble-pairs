@@ -20,5 +20,10 @@ export type Game = Prisma.GameGetPayload<{
         };
       };
     };
+    resters: {
+      include: {
+        participant: true;
+      };
+    };
   };
 }>;

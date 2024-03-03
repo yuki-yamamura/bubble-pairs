@@ -18,7 +18,7 @@ type Props = SelectProps & {
 };
 
 const Select = ({ options, value, onValueChange, ...rest }: Props) => (
-  <SelectPrimitive onValueChange={onValueChange} {...rest}>
+  <SelectPrimitive value={value} onValueChange={onValueChange} {...rest}>
     <FormControl>
       <SelectTrigger>
         <SelectValue

@@ -24,7 +24,7 @@ export const createColumns = (actions: {
     },
     {
       id: 'singlesCount',
-      header: '試合数',
+      header: 'シングルス数',
       cell: ({ row }) => {
         const game = row.original;
         const singlesCount = game.gameDetails.filter(
@@ -36,7 +36,7 @@ export const createColumns = (actions: {
     },
     {
       id: 'doublesCount',
-      header: '試合数',
+      header: 'ダブルス数',
       cell: ({ row }) => {
         const game = row.original;
         const doublesCount = game.gameDetails.filter(

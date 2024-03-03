@@ -28,6 +28,11 @@ export type Activity = Prisma.ActivityGetPayload<{
             };
           };
         };
+        resters: {
+          include: {
+            participant: true;
+          };
+        };
       };
     };
   };

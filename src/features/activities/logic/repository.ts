@@ -40,6 +40,11 @@ export const createActivity = (
                 },
               },
             },
+            resters: {
+              include: {
+                participant: true,
+              },
+            },
           },
         },
       },
@@ -77,6 +82,11 @@ export const findAllActivities = (
                     },
                   },
                 },
+              },
+            },
+            resters: {
+              include: {
+                participant: true,
               },
             },
           },
@@ -119,6 +129,11 @@ export const findActivityById = (
                     },
                   },
                 },
+              },
+            },
+            resters: {
+              include: {
+                participant: true,
               },
             },
           },
@@ -165,6 +180,11 @@ export const updateActivity = ({
                 },
               },
             },
+            resters: {
+              include: {
+                participant: true,
+              },
+            },
           },
         },
       },
@@ -203,6 +223,11 @@ export const deleteActivityById = (
                     },
                   },
                 },
+              },
+            },
+            resters: {
+              include: {
+                participant: true,
               },
             },
           },
