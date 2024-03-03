@@ -18,9 +18,13 @@ const Members = () => {
   };
 
   const deleteMember = async (memberId: Member['id']) => {
-    await axios.delete(`/api/members/${memberId}`);
-    await mutate();
-    toast.success('メンバーを削除しました。');
+    try {
+      await axios.delete(`/api/members/${memberId}`);
+      await mutate();
+      toast.success('メンバーを削除しました。');
+    } catch {
+      toast.error('メンバーを削除できませんでした。');
+    }
   };
   const openMemberDetail = async (memberId: Member['id']) => {
     await router.push(`/members/${memberId}`);
@@ -33,16 +37,16 @@ const Members = () => {
   return (
     <div>
       <PlusButton onClick={handlePlusButtonClick} />
-      {members?.length === 0 ? (
+      {members.length === 0 ? (
         <EmptyState src="/images/exploring.png" alt="exploring">
           <div className="text-center leading-7">
-            <p>まずはメンバーを登録しましょう。</p>
-            <p>左下の「+」ボタンを押してください。</p>
+            <p>メンバーを登録しましょう。</p>
+            <p>画面左下にある「+」ボタンを押してください。</p>
           </div>
         </EmptyState>
       ) : (
         <MemberTable
-          data={members ?? []}
+          data={members}
           actions={{
             deleteMember,
             openMemberDetail,

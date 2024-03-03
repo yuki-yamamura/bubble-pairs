@@ -56,7 +56,7 @@ const ActivityDetail = ({ activity }: Props) => {
           <EmptyState src="/images/playing-cards.png" alt="playing-cards">
             <div className="text-center leading-7">
               <p>ゲームをはじめましょう。</p>
-              <p>左下の「+」ボタンを押してください。</p>
+              <p>画面左下にある「+」ボタンを押してください。</p>
             </div>
           </EmptyState>
         ) : (

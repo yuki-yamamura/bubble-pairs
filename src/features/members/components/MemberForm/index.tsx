@@ -35,17 +35,17 @@ const MemberForm = ({
   isSubmitting,
   onSubmit,
 }: Props) => {
+  const { form, onEmojiSelect, submitHandler } = useMemberForm({
+    defaultValues,
+    onSubmit,
+  });
   const {
     control,
-    errors,
-    form,
+    formState: { errors },
     register,
-    onEmojiSelect,
     setFocus,
-    shouldDisableSubmitButton,
-    submitHandler,
     watch,
-  } = useMemberForm({ defaultValues, onSubmit });
+  } = form;
 
   // use array to sort checkboxes (male -> female -> not-known).
   const sexOptions: Options = [Sex.MALE, Sex.FEMALE, Sex.NOT_KNOWN].map(
@@ -76,7 +76,7 @@ const MemberForm = ({
       </div>
       <form
         onSubmit={submitHandler}
-        className="mx-auto flex w-full max-w-sm flex-col gap-y-4"
+        className="mx-auto flex w-full max-w-sm flex-col gap-y-6"
       >
         <FormItem>
           <FormLabel htmlFor="name" className="required">
@@ -130,7 +130,6 @@ const MemberForm = ({
         <Button
           type="submit"
           isBusy={isSubmitting}
-          disabled={shouldDisableSubmitButton}
           variant={buttonVariant}
           className="self-center"
         >
