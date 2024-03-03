@@ -13,22 +13,20 @@ export const sendVerificationRequest = async (
   const result = await transport.sendMail({
     to: identifier,
     from: `Bubble Pairs <${provider.from}>`,
-    subject: 'Bubble Pairs のログイン用リンク',
+    subject: 'ログイン用のリンク',
     text: text({ url, host }),
     html: html({ url, host, theme }),
   });
   const failed = result.rejected.concat(result.pending).filter(Boolean);
   if (failed.length) {
-    throw new Error('メールを送信できませんでした。');
+    throw new Error('Failed to send an email.');
   }
 };
 
 const html = (params: { url: string; host: string; theme: Theme }) => {
-  const { url, host, theme } = params;
+  const { url, theme } = params;
 
-  const escapedHost = host.replace(/\./g, '&#8203;.');
-
-  const brandColor = theme.brandColor || '#346df1';
+  const brandColor = theme.brandColor || '#4F86F7';
   const color = {
     background: '#f9f9f9',
     text: '#444',
@@ -45,7 +43,7 @@ const html = (params: { url: string; host: string; theme: Theme }) => {
     <tr>
       <td align="center"
         style="padding: 10px 0px; font-size: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
-        Sign in to <strong>${escapedHost}</strong>
+        Bubble Pairs にログイン
       </td>
     </tr>
     <tr>
@@ -54,8 +52,8 @@ const html = (params: { url: string; host: string; theme: Theme }) => {
           <tr>
             <td align="center" style="border-radius: 5px;" bgcolor="${color.buttonBackground}"><a href="${url}"
                 target="_blank"
-                style="font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: ${color.buttonText}; text-decoration: none; border-radius: 5px; padding: 10px 20px; border: 1px solid ${color.buttonBorder}; display: inline-block; font-weight: bold;">Sign
-                in</a></td>
+                style="font-size: 18px; font-family: Helvetica, Arial, sans-serif; color: ${color.buttonText}; text-decoration: none; border-radius: 5px; padding: 10px 20px; border: 1px solid ${color.buttonBorder}; display: inline-block; font-weight: bold;">ログイン
+                </a></td>
           </tr>
         </table>
       </td>
@@ -63,7 +61,7 @@ const html = (params: { url: string; host: string; theme: Theme }) => {
     <tr>
       <td align="center"
         style="padding: 0px 0px 10px 0px; font-size: 16px; line-height: 22px; font-family: Helvetica, Arial, sans-serif; color: ${color.text};">
-        If you did not request this email you can safely ignore it.
+        メールに心当たりがない場合は無視してください。
       </td>
     </tr>
   </table>

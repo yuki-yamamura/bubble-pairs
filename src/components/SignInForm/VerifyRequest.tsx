@@ -2,7 +2,7 @@ type Props = {
   email: string;
 };
 const VerifyRequest = ({ email }: Props) => (
-  <div className="flex flex-col items-center gap-y-2 md:-translate-y-1/2">
+  <div className="flex flex-col items-center gap-y-2">
     <img
       src="/images/inbox.png"
       alt="inbox"
