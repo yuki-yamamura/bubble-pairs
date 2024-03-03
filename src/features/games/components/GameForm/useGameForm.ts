@@ -1,3 +1,4 @@
+import { getAllPlayers } from '../../logic';
 import { gameCreateSchema } from '@/features/games/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { type Member, Rule } from '@prisma/client';
@@ -70,11 +71,7 @@ export const useGameForm = ({
   const handleApplyPreviousValues = () => {
     if (!previousGame) return;
 
-    const memberIds = previousGame.gameDetails
-      .map((gameDetail) => gameDetail)
-      .flat()
-      .map((gameDetail) => gameDetail.players)
-      .flat()
+    const memberIds = getAllPlayers(previousGame)
       .map((player) => ({ memberId: player.participant.memberId }))
       .concat(
         previousGame.resters.map((rester) => ({

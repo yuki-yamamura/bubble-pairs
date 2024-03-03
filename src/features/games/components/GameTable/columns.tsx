@@ -6,6 +6,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { getAllPlayers } from '@/features/games/logic';
 import { Rule } from '@prisma/client';
 import { MoreHorizontal } from 'lucide-react';
 
@@ -21,6 +22,15 @@ export const createColumns = (actions: {
       id: 'gameNumber',
       header: 'No.',
       cell: ({ row }) => row.index + 1,
+    },
+    {
+      header: '参加者数',
+      cell: ({ row }) => {
+        const game = row.original;
+        const totalParticipants = getAllPlayers(game).length;
+
+        return totalParticipants;
+      },
     },
     {
       id: 'singlesCount',

@@ -4,8 +4,20 @@ import { Rule } from '@prisma/client';
 
 import type { GameCreateSchema } from '@/features/games/validation';
 import type { Activity } from '@/types/models/Activity';
+import type { Game } from '@/types/models/Game';
 import type { Participant } from '@/types/models/Participant';
-import type { Player, Prisma } from '@prisma/client';
+import type { Player } from '@/types/models/Player';
+import type { Prisma } from '@prisma/client';
+
+export const getAllPlayers = (game: Game): Player[] => {
+  const tmp = game.gameDetails
+    .map((gameDetail) => gameDetail)
+    .flat()
+    .map((gameDetail) => gameDetail.players)
+    .flat();
+
+  return tmp;
+};
 
 /**
  * generate a new game depending on the conditions.
@@ -72,9 +84,7 @@ const calculateTotalGamesPerParticipant = (
   totalGames: number;
 }[] => {
   const allPlayers: Player[] = activity.games
-    .map((game) => game.gameDetails)
-    .flat()
-    .map((gameDetail) => gameDetail.players)
+    .map((game) => getAllPlayers(game))
     .flat();
 
   return participants.map((participant) => ({
