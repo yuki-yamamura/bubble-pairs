@@ -2,7 +2,6 @@ import EmptyState from '@/components/EmptyState';
 import PlusButton from '@/components/PlusButton';
 import { Badge } from '@/components/ui/badge';
 import ParticipantTable from '@/features/activities/components/ParticipantTable';
-import { useActivities } from '@/features/activities/hooks/useActivities';
 import GameTable from '@/features/games/components/GameTable';
 import { cn } from '@/lib/shadcn-ui';
 import axios from 'axios';
@@ -19,7 +18,6 @@ type Props = {
 
 const ActivityDetail = ({ activity }: Props) => {
   const router = useRouter();
-  const { mutate } = useActivities();
 
   const handlePlusButtonClick = async () => {
     await router.push(`/activities/${activity.id}/games/new`);
@@ -28,7 +26,7 @@ const ActivityDetail = ({ activity }: Props) => {
   const deleteGameById = async (gameId: Game['id']) => {
     try {
       await axios.delete(`/api/activities/${activity.id}/games/${gameId}`);
-      await mutate();
+      router.reload();
       toast.success('ゲームを削除しました。');
     } catch {
       toast.error('ゲームを削除できませんでした。');
@@ -38,11 +36,13 @@ const ActivityDetail = ({ activity }: Props) => {
     await router.push(`/activities/${activity.id}/games/${gameId}`);
   };
 
+  const formattedDate = dayjs(activity.createdAt).format('YYYY/MM/DD');
+
   return (
     <div className="flex flex-col gap-y-16">
       <PlusButton onClick={handlePlusButtonClick} />
       <header className="flex flex-col gap-y-4">
-        <div className="text-sm text-slate-400">{`開始日: ${dayjs(activity.createdAt).format('YYYY/MM/DD')}`}</div>
+        <div className="text-sm text-slate-400">{`開始日: ${formattedDate}`}</div>
         <Badge
           className={cn(
             'max-w-fit',

@@ -7,7 +7,7 @@ import { useFieldArray, useForm } from 'react-hook-form';
 import type { GameCreateSchema } from '@/features/games/validation';
 import type { Activity } from '@/types/models/Activity';
 import type { BaseSyntheticEvent } from 'react';
-import type { Control, FieldErrors, UseFormReturn } from 'react-hook-form';
+import type { UseFormReturn } from 'react-hook-form';
 
 type Props = {
   activity: Activity;
@@ -18,13 +18,10 @@ export const useGameForm = ({
   activity,
   onSubmit,
 }: Props): {
-  control: Control<GameCreateSchema>;
   deleteMemberByIndex: (index: number) => void;
   form: UseFormReturn<GameCreateSchema>;
-  errors: FieldErrors<GameCreateSchema>;
   restMembers: Member[];
   shouldDisableApplyButton: boolean;
-  shouldDisableSubmitButton: boolean;
   submitHandler: (
     e?: BaseSyntheticEvent<object, unknown, unknown> | undefined,
   ) => Promise<void>;
@@ -43,21 +40,12 @@ export const useGameForm = ({
     defaultValues,
     resolver: zodResolver(gameCreateSchema),
   });
-  const {
-    control,
-    formState: { errors },
-    handleSubmit,
-    reset,
-    watch,
-  } = form;
+  const { control, handleSubmit, reset } = form;
   const { append, fields, remove } = useFieldArray({
     control,
     name: 'memberIds',
   });
 
-  const submitHandler = handleSubmit(async (fieldValues) => {
-    await onSubmit(fieldValues);
-  });
   const deleteMemberByIndex = (index: number) => remove(index);
   const updateMembers = (addedMembers: Member[]) => {
     const values = addedMembers.map((member) => ({ memberId: member.id }));
@@ -68,6 +56,18 @@ export const useGameForm = ({
     (_, index) => index === activity.games.length - 1,
   );
   const shouldDisableApplyButton = previousGame === undefined;
+  const restMembers = activity.participants
+    .filter((participant) => {
+      const selectedMemberIds = fields.map(({ memberId }) => memberId);
+
+      return !selectedMemberIds.includes(participant.memberId);
+    })
+    .map(({ member }) => member);
+
+  const submitHandler = handleSubmit(async (fieldValues) => {
+    await onSubmit(fieldValues);
+  });
+  // handler for the previous conditions button
   const handleApplyPreviousValues = () => {
     if (!previousGame) return;
 
@@ -93,24 +93,11 @@ export const useGameForm = ({
     });
   };
 
-  const restMembers = activity.participants
-    .filter((participant) => {
-      const selectedMemberIds = fields.map(({ memberId }) => memberId);
-
-      return !selectedMemberIds.includes(participant.memberId);
-    })
-    .map(({ member }) => member);
-  const shouldDisableSubmitButton =
-    JSON.stringify(defaultValues) === JSON.stringify(watch());
-
   return {
-    control,
     deleteMemberByIndex,
     form,
-    errors,
     restMembers,
     shouldDisableApplyButton,
-    shouldDisableSubmitButton,
     submitHandler,
     updateMembers,
     onApplyPreviousValues: handleApplyPreviousValues,

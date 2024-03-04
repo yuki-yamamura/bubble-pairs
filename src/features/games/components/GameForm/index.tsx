@@ -25,17 +25,18 @@ type Props = {
 
 const GameForm = ({ activity, isSubmitting, onSubmit }: Props) => {
   const {
-    control,
     deleteMemberByIndex,
     form,
-    errors,
     restMembers,
     shouldDisableApplyButton,
-    shouldDisableSubmitButton,
     submitHandler,
     updateMembers,
     onApplyPreviousValues,
   } = useGameForm({ activity, onSubmit });
+  const {
+    control,
+    formState: { errors },
+  } = form;
 
   const gameDetailCountOptions: Options = Array.from(
     Array(activity.place.courtCount + 1),
@@ -49,7 +50,7 @@ const GameForm = ({ activity, isSubmitting, onSubmit }: Props) => {
     <Form {...form}>
       <form
         onSubmit={submitHandler}
-        className="mx-auto flex max-w-sm flex-col gap-y-4"
+        className="mx-auto flex max-w-sm flex-col gap-y-6"
       >
         <Button
           type="button"
@@ -131,7 +132,6 @@ const GameForm = ({ activity, isSubmitting, onSubmit }: Props) => {
         <Button
           type="submit"
           isBusy={isSubmitting}
-          disabled={shouldDisableSubmitButton}
           variant="primary-green"
           className="self-center"
         >
