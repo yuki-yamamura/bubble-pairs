@@ -1,5 +1,4 @@
 import Button from '@/components/Button';
-import Loading from '@/components/Loading';
 import {
   AlertDialog,
   AlertDialogContent,
@@ -36,10 +35,6 @@ const DeleteUserButton = ({ user }: Props) => {
     setIsOpen(false);
   };
 
-  if (isMutating) {
-    <Loading />;
-  }
-
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
       <AlertDialogTrigger asChild>
@@ -53,7 +48,11 @@ const DeleteUserButton = ({ user }: Props) => {
           <Button variant="outline" onClick={handleCancelButtonClick}>
             キャンセル
           </Button>
-          <Button variant="destructive" onClick={handleActionButtonClick}>
+          <Button
+            isBusy={isMutating}
+            variant="destructive"
+            onClick={handleActionButtonClick}
+          >
             アカウントを削除
           </Button>
         </div>

@@ -31,7 +31,7 @@ const Members = () => {
   };
 
   if (isLoading) {
-    return <Loading text="メンバーを読み込んでいます..." />;
+    return <Loading />;
   }
 
   return (

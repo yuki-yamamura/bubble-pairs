@@ -32,7 +32,7 @@ const Places = () => {
   };
 
   if (isLoading) {
-    return <Loading text="活動場所を読み込んでいます..." />;
+    return <Loading />;
   }
 
   return (

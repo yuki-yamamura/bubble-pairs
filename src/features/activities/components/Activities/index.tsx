@@ -42,7 +42,7 @@ const Activities = () => {
   };
 
   if (isLoading) {
-    return <Loading text="アクティビティを読み込んでいます..." />;
+    return <Loading />;
   }
 
   return (

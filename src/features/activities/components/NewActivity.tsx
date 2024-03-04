@@ -40,7 +40,7 @@ const NewActivity = () => {
   };
 
   if (isLoadingMembers || isLoadingPlaces) {
-    return <Loading text="読み込んでいます..." />;
+    return <Loading />;
   }
 
   if (members.length < MINIMUM_PARTICIPANT_COUNT) {
