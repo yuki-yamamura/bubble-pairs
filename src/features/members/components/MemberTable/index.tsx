@@ -6,7 +6,7 @@ import type { Member } from '@prisma/client';
 type Props = {
   data: Member[];
   actions: {
-    deleteMember: (memberId: Member['id']) => Promise<void>;
+    deleteMember: (member: Member) => Promise<void>;
     openMemberDetail: (memberId: Member['id']) => Promise<void>;
   };
 };

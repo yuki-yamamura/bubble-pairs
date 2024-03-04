@@ -12,7 +12,7 @@ import type { Place } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
-  deletePlaceById: (placeId: Place['id']) => Promise<void>;
+  deletePlace: (place: Place) => Promise<void>;
   openPlaceDetail: (placeId: Place['id']) => Promise<void>;
 }): ColumnDef<Place>[] => {
   return [
@@ -33,7 +33,7 @@ export const createColumns = (actions: {
       id: 'actions',
       cell: ({ row }) => {
         const place = row.original;
-        const { deletePlaceById, openPlaceDetail } = actions;
+        const { deletePlace, openPlaceDetail } = actions;
 
         return (
           <DropdownMenu>
@@ -51,7 +51,7 @@ export const createColumns = (actions: {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => deletePlaceById(place.id)}
+                onClick={() => deletePlace(place)}
                 className="text-destructive"
               >
                 削除

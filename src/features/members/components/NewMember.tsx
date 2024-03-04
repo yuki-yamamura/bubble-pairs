@@ -35,6 +35,7 @@ const NewMember = () => {
     level: Level.BEGINNER,
     note: null,
     emojiUnicode: '1f9d1', // adult unicode: I think this is suitable as a default avatar.
+    isDeleted: false,
   };
 
   return (

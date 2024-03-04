@@ -15,7 +15,10 @@ export const findAllPlaces = (
 ): Promise<Result<Place[]>> => {
   return withResult(() =>
     prisma.place.findMany({
-      where,
+      where: {
+        ...where,
+        isDeleted: false,
+      },
       orderBy: [{ createdAt: 'desc' }],
     }),
   )();
@@ -26,7 +29,10 @@ export const findPlaceById = (
 ): Promise<Result<Place | null>> => {
   return withResult(() =>
     prisma.place.findUnique({
-      where: { id },
+      where: {
+        id,
+        isDeleted: false,
+      },
     }),
   )();
 };

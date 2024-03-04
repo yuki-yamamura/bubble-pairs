@@ -12,6 +12,7 @@ const NewPlace = () => {
   const defaultValues: PlaceCreateSchema = {
     name: '',
     courtCount: 1,
+    isDeleted: false,
   };
 
   const { trigger, isMutating } = useSWRMutation(

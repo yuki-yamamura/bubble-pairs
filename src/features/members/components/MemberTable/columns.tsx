@@ -14,7 +14,7 @@ import type { Member } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
 
 export const createColumns = (actions: {
-  deleteMember: (memberId: Member['id']) => Promise<void>;
+  deleteMember: (member: Member) => Promise<void>;
   openMemberDetail: (memberId: Member['id']) => Promise<void>;
 }): ColumnDef<Member>[] => {
   return [
@@ -55,7 +55,7 @@ export const createColumns = (actions: {
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => deleteMember(member.id)}
+                onClick={() => deleteMember(member)}
                 className="text-destructive"
               >
                 削除

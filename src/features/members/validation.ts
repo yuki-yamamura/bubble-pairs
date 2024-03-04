@@ -17,6 +17,7 @@ export const memberCreateSchema = schemaForType<
     level: z.nativeEnum(Level),
     note: z.string().nullable().optional(),
     emojiUnicode: z.string(),
+    isDeleted: z.boolean(),
   }),
 );
 
@@ -27,5 +28,6 @@ export const memberUpdateSchema = schemaForType<Prisma.MemberUpdateInput>()(
     level: z.nativeEnum(Level).optional(),
     note: z.string().nullable().optional(),
     emojiUnicode: z.string().optional(),
+    isDeleted: z.boolean(),
   }),
 );

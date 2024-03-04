@@ -13,6 +13,7 @@ export const placeCreateSchema = schemaForType<
   z.object({
     name: z.string().min(1, '場所名を入力してください。'),
     courtCount: z.number().positive('1 以上のコート数を入力してください。'),
+    isDeleted: z.boolean(),
   }),
 );
 
@@ -23,5 +24,6 @@ export const placeUpdateSchema = schemaForType<Prisma.PlaceUpdateInput>()(
       .number()
       .positive('1 以上のコート数を入力してください。')
       .optional(),
+    isDeleted: z.boolean(),
   }),
 );

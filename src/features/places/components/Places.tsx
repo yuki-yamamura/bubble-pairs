@@ -18,9 +18,12 @@ const Places = () => {
     await router.push('/settings/places/new');
   };
 
-  const deletePlaceById = async (placeId: Place['id']) => {
+  const deletePlace = async (place: Place) => {
     try {
-      await axios.delete(`/api/places/${placeId}`);
+      await axios.put(`/api/places/${place.id}`, {
+        ...place,
+        isDeleted: true,
+      });
       await mutate();
       toast.success('活動場所を削除しました。');
     } catch {
@@ -54,7 +57,7 @@ const Places = () => {
           </h2>
           <PlaceTable
             data={places}
-            actions={{ deletePlaceById, openPlaceDetail }}
+            actions={{ deletePlace, openPlaceDetail }}
           />
         </div>
       )}

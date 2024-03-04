@@ -6,7 +6,7 @@ import type { Place } from '@prisma/client';
 type Props = {
   data: Place[];
   actions: {
-    deletePlaceById: (placeId: Place['id']) => Promise<void>;
+    deletePlace: (place: Place) => Promise<void>;
     openPlaceDetail: (placeId: Place['id']) => Promise<void>;
   };
 };

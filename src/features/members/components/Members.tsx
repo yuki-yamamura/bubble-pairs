@@ -17,9 +17,12 @@ const Members = () => {
     void router.push('/members/new');
   };
 
-  const deleteMember = async (memberId: Member['id']) => {
+  const deleteMember = async (member: Member) => {
     try {
-      await axios.delete(`/api/members/${memberId}`);
+      await axios.put(`/api/members/${member.id}`, {
+        ...member,
+        isDeleted: true,
+      });
       await mutate();
       toast.success('メンバーを削除しました。');
     } catch {

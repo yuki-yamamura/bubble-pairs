@@ -11,6 +11,7 @@ export const fakeMembers: Member[] = [
     sex: Sex.NOT_KNOWN,
     level: Level.INTERMEDIATE,
     note: null,
+    isDeleted: false,
   },
   {
     id: '2',
@@ -22,6 +23,7 @@ export const fakeMembers: Member[] = [
     sex: Sex.FEMALE,
     level: Level.ELEMENTARY,
     note: null,
+    isDeleted: false,
   },
   {
     id: '3',
@@ -33,6 +35,7 @@ export const fakeMembers: Member[] = [
     sex: Sex.MALE,
     level: Level.BEGINNER,
     note: '毎月第３土曜日は仕事のため欠席。',
+    isDeleted: false,
   },
   {
     id: '4',
@@ -44,6 +47,7 @@ export const fakeMembers: Member[] = [
     sex: Sex.FEMALE,
     level: Level.ADVANCED,
     note: null,
+    isDeleted: false,
   },
   {
     id: '5',
@@ -55,5 +59,6 @@ export const fakeMembers: Member[] = [
     sex: Sex.FEMALE,
     level: Level.BEGINNER,
     note: null,
+    isDeleted: false,
   },
 ];

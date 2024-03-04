@@ -15,7 +15,10 @@ export const findAllMembers = async (
 ): Promise<Result<Member[]>> => {
   return withResult(() =>
     prisma.member.findMany({
-      where,
+      where: {
+        ...where,
+        isDeleted: false,
+      },
       orderBy: [{ createdAt: 'desc' }],
     }),
   )();
@@ -26,7 +29,10 @@ export const findMemberById = (
 ): Promise<Result<Member | null>> => {
   return withResult(() =>
     prisma.member.findUnique({
-      where: { id },
+      where: {
+        id,
+        isDeleted: false,
+      },
     }),
   )();
 };
