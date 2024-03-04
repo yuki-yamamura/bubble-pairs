@@ -7,7 +7,7 @@ type Props = {
 };
 
 const DecoratedMember = ({ member: { id, emojiUnicode, name } }: Props) => (
-  <div className="flex items-center gap-x-4">
+  <div className="flex max-w-fit items-center gap-x-4">
     <div className="max-w-fit shrink-0 rounded-full bg-slate-50 p-2 text-sm">
       <Emoji unified={emojiUnicode} size={14} />
     </div>

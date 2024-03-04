@@ -48,7 +48,7 @@ const GameDetail = ({ activity, game }: Props) => {
                 </header>
                 <div className="flex items-center justify-evenly">
                   {/* on the left side */}
-                  <div className="w-5/12">
+                  <div className="flex w-5/12 justify-center">
                     {rule === Rule.SINGLES ? (
                       <Player player={players[0]} />
                     ) : (
@@ -59,7 +59,7 @@ const GameDetail = ({ activity, game }: Props) => {
                     VS
                   </div>
                   {/* on the right side */}
-                  <div className="w-5/12">
+                  <div className="flex w-5/12 justify-center">
                     {rule === Rule.SINGLES ? (
                       <Player player={players[1]} />
                     ) : (
