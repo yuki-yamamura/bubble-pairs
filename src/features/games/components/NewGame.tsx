@@ -1,21 +1,22 @@
+import Loading from '@/components/Loading';
+import { useActivity } from '@/features/activities/hooks/useActivity';
 import GameForm from '@/features/games/components/GameForm';
 import axios from 'axios';
+import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 import type { GameCreateSchema } from '@/features/games/validation';
 import type { PostResponseData } from '@/types/api/games';
-import type { Activity } from '@/types/models/Activity';
 
-type Props = {
-  activity: Activity;
-};
-
-const NewGame = ({ activity }: Props) => {
+const NewGame = () => {
   const router = useRouter();
+  const params = useParams();
+  const activityId = params.activityId as string;
+  const { activity, isLoading, mutate } = useActivity(activityId);
   const { trigger, isMutating } = useSWRMutation(
-    `/api/activities/${activity.id}/games`,
+    `/api/activities/${activityId}/games`,
     (url: string, { arg }: { arg: GameCreateSchema }) => {
       return axios
         .post<PostResponseData>(url, arg)
@@ -26,12 +27,23 @@ const NewGame = ({ activity }: Props) => {
   const handleSubmit = async (fieldValues: GameCreateSchema) => {
     try {
       const { game } = await trigger(fieldValues);
-      await router.push(`/activities/${activity.id}/games/${game.id}`);
+      await router.push(`/activities/${activityId}/games/${game.id}`);
+      await mutate();
       toast.success('ゲームを追加しました。');
     } catch {
       toast.error('ゲームの追加に失敗しました');
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!activity) {
+    void router.push('/404');
+
+    return null;
+  }
 
   return (
     <GameForm
