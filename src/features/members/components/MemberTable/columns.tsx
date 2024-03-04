@@ -7,6 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { levelMap, sexMap } from '@/constants';
+import DecoratedMember from '@/features/members/components/DecoratedMember';
 import { MoreHorizontal } from 'lucide-react';
 
 import type { Member } from '@prisma/client';
@@ -20,6 +21,7 @@ export const createColumns = (actions: {
     {
       accessorKey: 'name',
       header: '名前',
+      cell: ({ row }) => <DecoratedMember member={row.original} />,
     },
     {
       accessorKey: 'sex',
