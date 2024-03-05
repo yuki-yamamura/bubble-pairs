@@ -63,7 +63,7 @@ export const createColumns = (actions: {
     },
     {
       accessorKey: 'placeId',
-      header: '活動場所',
+      header: '場所',
       cell: ({ row }) => {
         const { place } = row.original;
 

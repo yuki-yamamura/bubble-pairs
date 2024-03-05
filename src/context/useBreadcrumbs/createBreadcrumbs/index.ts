@@ -61,7 +61,7 @@ const getLabel = (path: string): string | null => {
       return path.match(placeDetailRegex)?.at(1) as string;
     }
     case /^\/settings\/places\/?$/.test(path): {
-      return '活動場所';
+      return '場所';
     }
     case /^\/settings\/?$/.test(path): {
       return '設定';

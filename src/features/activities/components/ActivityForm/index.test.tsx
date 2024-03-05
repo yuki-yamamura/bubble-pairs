@@ -19,8 +19,7 @@ const getParticipantsButton = () =>
   screen.getByRole('button', { name: '参加者を追加...' });
 const getParticipantByLabel = (label: string) =>
   within(screen.getByRole('table')).getByText(label);
-const getPlaceCombobox = () =>
-  screen.getByRole('combobox', { name: '活動場所' });
+const getPlaceCombobox = () => screen.getByRole('combobox', { name: '場所' });
 const getSubmitButton = () =>
   screen.getByRole('button', { name: 'アクティビティをはじめる' });
 const getCheckboxByLabel = (label: string) =>

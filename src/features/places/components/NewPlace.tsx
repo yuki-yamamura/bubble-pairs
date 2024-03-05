@@ -32,10 +32,10 @@ const NewPlace = () => {
   const handleSubmit = async (fieldValues: PlaceCreateSchema) => {
     try {
       await trigger(fieldValues);
-      toast.success('活動場所を登録しました。');
+      toast.success('場所を登録しました。');
       await router.push('/settings');
     } catch {
-      toast.error('活動場所を登録できませんでした。');
+      toast.error('場所を登録できませんでした。');
     }
   };
 
@@ -46,7 +46,7 @@ const NewPlace = () => {
   return (
     <PlaceForm
       defaultValues={defaultValues}
-      buttonLabel="活動場所を登録"
+      buttonLabel="場所を登録"
       buttonVariant="primary-green"
       isSubmitting={isMutating}
       onSubmit={handleSubmit}

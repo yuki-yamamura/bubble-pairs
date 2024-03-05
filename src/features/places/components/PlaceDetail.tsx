@@ -24,9 +24,9 @@ const PlaceDetail = ({ place }: Props) => {
     try {
       await trigger(fieldValues);
       await router.push('/settings#places');
-      toast.success('活動場所を更新しました。');
+      toast.success('場所を更新しました。');
     } catch {
-      toast.error('活動場所を更新できませんでした。');
+      toast.error('場所を更新できませんでした。');
     }
   };
 

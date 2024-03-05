@@ -62,7 +62,7 @@ const NewActivity = () => {
         <div className="text-center leading-7">
           <p>
             アクティビティを開始するには
-            <Link href="/settings/places/new">活動場所の登録</Link>
+            <Link href="/settings/places/new">場所の登録</Link>
             が必要です。
           </p>
         </div>

@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 // constants using within the tests
-const buttonLabel = '活動場所を登録';
+const buttonLabel = '場所を登録';
 
 // utility functions to get the element in the form
 const getName = () => screen.getByRole('textbox', { name: '場所名' });

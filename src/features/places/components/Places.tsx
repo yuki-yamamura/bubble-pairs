@@ -26,9 +26,9 @@ const Places = () => {
         isDeleted: true,
       });
       await mutate();
-      toast.success('活動場所を削除しました。');
+      toast.success('場所を削除しました。');
     } catch {
-      toast.error('活動場所を削除できませんでした。');
+      toast.error('場所を削除できませんでした。');
     }
   };
   const openPlaceDetail = async (placeId: Place['id']) => {
@@ -43,10 +43,10 @@ const Places = () => {
     <div>
       <PlusButton onClick={handlePlusButtonClick} />
       {places.length === 0 ? (
-        <SectionCard title="活動場所">
+        <SectionCard title="場所">
           <EmptyState src="/images/building.png" alt="building">
             <div className="text-center text-sm leading-7">
-              <p>活動場所を登録しましょう。</p>
+              <p>場所を登録しましょう。</p>
               <p>画面左下にある「+」ボタンを押してください。</p>
             </div>
           </EmptyState>
@@ -54,7 +54,7 @@ const Places = () => {
       ) : (
         <div>
           <h2 id="places" className="mb-4">
-            活動場所
+            場所
           </h2>
           <div className="flex flex-col gap-y-12">
             <PlaceTable

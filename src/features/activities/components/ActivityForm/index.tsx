@@ -81,7 +81,7 @@ const ActivityForm = ({ members, places, isSubmitting, onSubmit }: Props) => {
           name="placeId"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel className="required">活動場所</FormLabel>
+              <FormLabel className="required">場所</FormLabel>
               <Select
                 options={placeOptions}
                 value={field.value}
