@@ -49,6 +49,28 @@ export const updatePlace = ({
   )();
 };
 
+export const updateDefaultPlace = (
+  defaultPlaceId: Place['id'],
+): Promise<Result<[Prisma.BatchPayload, Place]>> => {
+  return withResult(() =>
+    prisma.$transaction([
+      prisma.place.updateMany({
+        data: {
+          isDefault: false,
+        },
+      }),
+      prisma.place.update({
+        data: {
+          isDefault: true,
+        },
+        where: {
+          id: defaultPlaceId,
+        },
+      }),
+    ]),
+  )();
+};
+
 export const deletePlaceById = (id: Place['id']): Promise<Result<Place>> => {
   return withResult(() =>
     prisma.place.delete({

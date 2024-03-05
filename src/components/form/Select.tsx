@@ -6,9 +6,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { type SelectProps } from '@radix-ui/react-select';
 
 import type { Options } from '@/types/Options';
+import type { SelectProps } from '@radix-ui/react-select';
 import type { NonUndefined } from 'react-hook-form';
 
 type Props = SelectProps & {

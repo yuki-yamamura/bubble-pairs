@@ -1,4 +1,6 @@
+import Loading from '@/components/Loading';
 import PlaceForm from '@/features/places/components/PlaceForm';
+import { usePlaces } from '@/features/places/hooks/usePlaces';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import toast from 'react-hot-toast';
@@ -9,9 +11,12 @@ import type { PostResponseData } from '@/types/api/places';
 
 const NewPlace = () => {
   const router = useRouter();
+  const { places, isLoading } = usePlaces();
   const defaultValues: PlaceCreateSchema = {
     name: '',
     courtCount: 1,
+    // set default place if that is a first one.
+    isDefault: places.length === 0,
     isDeleted: false,
   };
 
@@ -33,6 +38,10 @@ const NewPlace = () => {
       toast.error('活動場所を登録できませんでした。');
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
 
   return (
     <PlaceForm

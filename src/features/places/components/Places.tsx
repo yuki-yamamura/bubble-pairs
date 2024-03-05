@@ -1,3 +1,4 @@
+import DefaultPlaceSection from './DefaultPlaceSection';
 import EmptyState from '@/components/EmptyState';
 import Loading from '@/components/Loading';
 import PlusButton from '@/components/PlusButton';
@@ -55,10 +56,13 @@ const Places = () => {
           <h2 id="places" className="mb-4">
             活動場所
           </h2>
-          <PlaceTable
-            data={places}
-            actions={{ deletePlace, openPlaceDetail }}
-          />
+          <div className="flex flex-col gap-y-12">
+            <PlaceTable
+              data={places}
+              actions={{ deletePlace, openPlaceDetail }}
+            />
+            {places.length > 0 && <DefaultPlaceSection />}
+          </div>
         </div>
       )}
     </div>

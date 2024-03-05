@@ -49,6 +49,7 @@ model Place {
   updatedAt  DateTime   @updatedAt @map("updated_at")
   name       String
   courtCount Int        @map("court_count")
+  isDefault  Boolean    @map("is_default")
   isDeleted  Boolean    @map("is_deleted")
   owner      User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   Activity   Activity[]
