@@ -35,6 +35,7 @@ describe('MemberForm', () => {
         sex: Sex.MALE,
         level: Level.BEGINNER,
         note: null,
+        isDeleted: false,
       };
 
       // act
@@ -78,6 +79,7 @@ describe('MemberForm', () => {
         sex: Sex.MALE,
         level: Level.BEGINNER,
         note: null,
+        isDeleted: false,
       };
 
       render(
@@ -118,6 +120,7 @@ describe('MemberForm', () => {
         sex: 'MALE',
         level: 'BEGINNER',
         note: null,
+        isDeleted: false,
       };
 
       render(

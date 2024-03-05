@@ -8,6 +8,7 @@ export const fakePlaces: Place[] = [
     updatedAt: new Date('2023-02-02T13:00:00+09:00'),
     name: 'A アリーナ',
     courtCount: 4,
+    isDefault: true,
     isDeleted: false,
   },
   {
@@ -17,6 +18,7 @@ export const fakePlaces: Place[] = [
     updatedAt: new Date('2023-02-03T13:00:00+09:00'),
     name: 'B 小学校',
     courtCount: 2,
+    isDefault: false,
     isDeleted: false,
   },
   {
@@ -26,6 +28,7 @@ export const fakePlaces: Place[] = [
     updatedAt: new Date('2023-02-03T13:00:00+09:00'),
     name: 'C 体育館',
     courtCount: 1,
+    isDefault: false,
     isDeleted: false,
   },
 ];

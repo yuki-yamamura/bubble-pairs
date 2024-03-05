@@ -14,7 +14,7 @@ beforeEach(() => {
 const buttonLabel = '場所を登録';
 
 // utility functions to get the element in the form
-const getName = () => screen.getByRole('textbox', { name: '場所名' });
+const getName = () => screen.getByRole('textbox', { name: '名前' });
 const getCourtCount = () =>
   screen.getByRole('spinbutton', { name: 'コート数' });
 const getSubmitButton = () => screen.getByRole('button', { name: buttonLabel });
@@ -26,6 +26,8 @@ describe('PlaceForm', () => {
       const defaultValues: PlaceCreateSchema = {
         name: '',
         courtCount: 1,
+        isDefault: true,
+        isDeleted: false,
       };
       // act
       render(
@@ -51,6 +53,8 @@ describe('PlaceForm', () => {
       const defaultValues: PlaceCreateSchema = {
         name: '',
         courtCount: 1,
+        isDefault: true,
+        isDeleted: false,
       };
 
       render(
@@ -74,6 +78,8 @@ describe('PlaceForm', () => {
       expect(mockFn).toHaveBeenCalledWith({
         name: 'A市立体育館',
         courtCount: 4,
+        isDefault: true,
+        isDeleted: false,
       });
     });
   });
@@ -85,6 +91,8 @@ describe('PlaceForm', () => {
       const defaultValues: PlaceCreateSchema = {
         name: '',
         courtCount: 1,
+        isDefault: true,
+        isDeleted: false,
       };
 
       render(
@@ -121,6 +129,8 @@ describe('PlaceForm', () => {
       const defaultValues: PlaceCreateSchema = {
         name: '',
         courtCount: 1,
+        isDefault: true,
+        isDeleted: false,
       };
 
       render(
