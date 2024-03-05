@@ -9,6 +9,7 @@
     "lint:es": "eslint --fix 'src/**/*.{js,jsx,ts,tsx}'",
     "lint:style": "stylelint --fix 'src/**/*.{css,scss}'",
     "lint": "npm run -s lint:es; npm run -s lint:style",
+    "postinstall": "prisma generate",
     "prepare": "husky install",
     "start": "next start",
     "test": "jest --watch --verbose",
