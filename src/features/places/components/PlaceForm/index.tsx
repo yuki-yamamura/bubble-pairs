@@ -2,6 +2,7 @@ import { usePlaceForm } from './usePlaceForm';
 import Button from '@/components/Button';
 import { Form, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { useEffect } from 'react';
 
 import type { ButtonProps } from '@/components/ui/button';
 import type { PlaceCreateSchema } from '@/features/places/validation';
@@ -28,7 +29,12 @@ const PlaceForm = ({
   const {
     formState: { errors },
     register,
+    setFocus,
   } = form;
+
+  useEffect(() => {
+    setFocus('name');
+  }, [setFocus]);
 
   return (
     <Form {...form}>
