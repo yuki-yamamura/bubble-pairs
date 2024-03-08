@@ -54,7 +54,7 @@ const handlePost: NextApiHandler = withZod(
       response.status(201).json({ member: result.data });
     } else {
       console.error(result.error);
-      response.status(400);
+      response.status(400).end();
     }
   },
 );
