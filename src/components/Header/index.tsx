@@ -7,7 +7,7 @@ const Header = () => {
   const { data: session } = useSession();
 
   return (
-    <header className="flex-start flex w-full pb-4 pt-12">
+    <header className="flex-start sticky z-10 flex w-full pb-4 pt-12">
       <div className={cn(session && 'absolute left-4 top-12 lg:hidden')}>
         {session ? <MobileNavigation /> : <Logo />}
       </div>

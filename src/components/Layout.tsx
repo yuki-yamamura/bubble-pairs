@@ -10,7 +10,7 @@ const Layout = ({ children }: Props) => {
   const { data: session } = useSession();
 
   return (
-    <div className="mx-auto flex w-full flex-col pb-32">
+    <div className="mx-auto flex w-full flex-col">
       <Head>
         <title>Bubble Pairs</title>
       </Head>
@@ -21,9 +21,9 @@ const Layout = ({ children }: Props) => {
             <Separator orientation="vertical" />
           </aside>
         )}
-        <div className="mx-auto min-h-screen w-full max-w-screen-lg px-4 lg:px-8">
+        <div className="mx-auto flex min-h-svh w-full max-w-screen-lg flex-col px-4 lg:px-8">
           <Header />
-          <main className="h-full">{children}</main>
+          <main className="grow">{children}</main>
         </div>
       </div>
     </div>

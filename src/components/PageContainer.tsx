@@ -11,7 +11,7 @@ const nunito = Nunito({
 type Props = React.PropsWithChildren<{ title: string }>;
 
 const PageContainer = ({ title, children }: Props) => (
-  <div className="mx-auto min-h-screen w-full max-w-screen-md sm:px-10">
+  <div className="mx-auto w-full max-w-screen-md pb-20 sm:px-10">
     <header className="flex flex-col pb-12 pt-8">
       <h1 className={cn('text-lg sm:text-xl', nunito.className)}>{title}</h1>
       <Separator className="mb-2 mt-1" />
