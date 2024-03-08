@@ -74,7 +74,6 @@ const GlobalNavigation = () => {
           <Link
             href={href}
             key={href}
-            onMouseOver={(e) => console.log(e.currentTarget.href)}
             className={cn(
               'flex items-center gap-x-3 rounded-lg py-2 pl-2 hover:bg-accent focus:bg-accent',
               isCurrentRoute(href) && 'bg-accent',
