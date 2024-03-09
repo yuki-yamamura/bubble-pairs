@@ -51,7 +51,7 @@ const ActivityDetail = () => {
 
   return (
     <div className="flex flex-col gap-y-16">
-      <PlusButton onClick={handlePlusButtonClick} />
+      {activity.isOpen && <PlusButton onClick={handlePlusButtonClick} />}
       <header className="flex flex-col gap-y-4">
         <div className="text-sm text-slate-400">{`開始日: ${formattedDate}`}</div>
         <Badge
