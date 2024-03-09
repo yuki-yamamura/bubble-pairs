@@ -50,7 +50,7 @@ export const createActivity = (
   )();
 };
 
-export const findAllActivities = (
+export const findActivities = (
   where: Prisma.ActivityWhereInput,
 ): Promise<Result<Activity[]>> => {
   return withResult(() =>

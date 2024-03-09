@@ -10,7 +10,7 @@ export const createMember = (
   return withResult(() => prisma.member.create({ data }))();
 };
 
-export const findAllMembers = async (
+export const findMembers = async (
   where: Prisma.MemberWhereInput,
 ): Promise<Result<Member[]>> => {
   return withResult(() =>

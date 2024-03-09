@@ -1,6 +1,6 @@
 import {
   createActivity,
-  findAllActivities,
+  findActivities,
 } from '@/features/activities/logic/repository';
 import { activityCreateSchema } from '@/features/activities/validation';
 import { withZod } from '@/lib/next';
@@ -18,7 +18,7 @@ const handleGet: NextApiHandler = async (request, response) => {
 
     return;
   }
-  const result = await findAllActivities({
+  const result = await findActivities({
     owner: {
       email: session.user.email,
     },

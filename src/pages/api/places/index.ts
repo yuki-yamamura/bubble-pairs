@@ -1,4 +1,4 @@
-import { createPlace, findAllPlaces } from '@/features/places/logic/repository';
+import { createPlace, findPlaces } from '@/features/places/logic/repository';
 import { placeCreateSchema } from '@/features/places/validation';
 import { withZod } from '@/lib/next';
 import { authOptions } from '@/lib/next-auth';
@@ -15,7 +15,7 @@ const handleGet: NextApiHandler = async (request, response) => {
 
     return;
   }
-  const result = await findAllPlaces({
+  const result = await findPlaces({
     owner: {
       email: session.user.email,
     },

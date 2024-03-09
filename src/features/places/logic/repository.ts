@@ -10,7 +10,7 @@ export const createPlace = (
   return withResult(() => prisma.place.create({ data }))();
 };
 
-export const findAllPlaces = (
+export const findPlaces = (
   where: Prisma.PlaceWhereInput,
 ): Promise<Result<Place[]>> => {
   return withResult(() =>

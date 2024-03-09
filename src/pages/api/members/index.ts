@@ -1,7 +1,4 @@
-import {
-  createMember,
-  findAllMembers,
-} from '@/features/members/logic/repository';
+import { createMember, findMembers } from '@/features/members/logic/repository';
 import { memberCreateSchema } from '@/features/members/validation';
 import { withZod } from '@/lib/next';
 import { authOptions } from '@/lib/next-auth';
@@ -19,7 +16,7 @@ const handleGet: NextApiHandler = async (request, response) => {
     return;
   }
 
-  const result = await findAllMembers({
+  const result = await findMembers({
     owner: {
       email: session.user.email,
     },
