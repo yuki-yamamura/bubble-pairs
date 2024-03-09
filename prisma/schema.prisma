@@ -62,7 +62,7 @@ model Activity {
   ownerId      String        @map("owner_id")
   placeId      String        @map("place_id")
   createdAt    DateTime      @default(now()) @map("created_at")
-  isOpen       Boolean
+  isOpen       Boolean       @map("is_open")
   owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
   place        Place         @relation(fields: [placeId], references: [id])
   games        Game[]
