@@ -18,7 +18,11 @@ const handleGet: NextApiHandler = async (request, response) => {
 
     return;
   }
-  const result = await findAllActivities({ ownerId: session.user.id });
+  const result = await findAllActivities({
+    owner: {
+      email: session.user.email,
+    },
+  });
 
   if (result.type === 'success') {
     response.json({ activities: result.data });
@@ -40,10 +44,12 @@ const handlePost = withZod(
       return;
     }
 
-    const { memberIds, placeId, isOpen } = request.body;
+    const { memberIds, placeId, ...rest } = request.body;
     const data = {
       owner: {
-        connect: { id: session.user.id },
+        connect: {
+          email: session.user.email,
+        },
       },
       participants: {
         create: memberIds,
@@ -51,7 +57,7 @@ const handlePost = withZod(
       place: {
         connect: { id: placeId },
       },
-      isOpen,
+      ...rest,
     } satisfies Prisma.ActivityCreateInput;
     const result = await createActivity(data);
 

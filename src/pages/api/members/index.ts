@@ -19,7 +19,11 @@ const handleGet: NextApiHandler = async (request, response) => {
     return;
   }
 
-  const result = await findAllMembers({ ownerId: session.user.id });
+  const result = await findAllMembers({
+    owner: {
+      email: session.user.email,
+    },
+  });
 
   if (result.type === 'success') {
     response.json({ members: result.data });
@@ -44,7 +48,7 @@ const handlePost: NextApiHandler = withZod(
 
     const data = {
       owner: {
-        connect: { id: session.user.id },
+        connect: { email: session.user.email },
       },
       ...request.body,
     } satisfies Prisma.MemberCreateInput;

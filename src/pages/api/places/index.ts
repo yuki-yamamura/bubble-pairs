@@ -15,7 +15,11 @@ const handleGet: NextApiHandler = async (request, response) => {
 
     return;
   }
-  const result = await findAllPlaces({ ownerId: session.user.id });
+  const result = await findAllPlaces({
+    owner: {
+      email: session.user.email,
+    },
+  });
 
   if (result.type === 'success') {
     response.json({ places: result.data });
@@ -39,7 +43,7 @@ const handlePost: NextApiHandler = withZod(
 
     const data = {
       owner: {
-        connect: { id: session.user.id },
+        connect: { email: session.user.email },
       },
       ...request.body,
     } satisfies Prisma.PlaceCreateInput;
