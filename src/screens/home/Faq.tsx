@@ -29,7 +29,9 @@ const Faq = () => (
       <AccordionTrigger>
         アクティビティを終了するとどうなりますか？
       </AccordionTrigger>
-      <AccordionContent>ゲームを追加できなくなります。</AccordionContent>
+      <AccordionContent>
+        ゲームを追加できなくなり、公開リンクが失効します。
+      </AccordionContent>
     </AccordionItem>
   </Accordion>
 );

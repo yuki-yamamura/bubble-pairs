@@ -18,9 +18,9 @@ const Activities = () => {
   };
 
   const copyActivityUrl = async (id: Activity['id']) => {
-    const activityUrl = `${window.location.href}/${id}`;
+    const activityUrl = `${window.location.href}/${id}/published`;
     await navigator.clipboard.writeText(activityUrl);
-    toast.success('URL をコピーしました。');
+    toast.success('公開リンクをコピーしました。');
   };
   const closeActivityById = async (id: Activity['id']) => {
     try {

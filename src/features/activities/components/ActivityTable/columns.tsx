@@ -92,7 +92,7 @@ export const createColumns = (
               </DropdownMenuItem>
               {activity.isOpen && (
                 <DropdownMenuItem onClick={() => copyActivityUrl(activity.id)}>
-                  URL をコピー
+                  公開リンクをコピー
                 </DropdownMenuItem>
               )}
               {activity.isOpen && (
