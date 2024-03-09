@@ -5,15 +5,11 @@ import type { Activity } from '@/types/models/Activity';
 
 type Props = {
   data: Activity[];
-  actions: {
-    closeActivityById: (id: Activity['id']) => Promise<void>;
-    deleteActivityById: (id: Activity['id']) => Promise<void>;
-    openActivity: (id: Activity['id']) => Promise<void>;
-  };
+  actions: Parameters<typeof createColumns>;
 };
 
 const ActivityTable = ({ data, actions }: Props) => {
-  const columns = createColumns(actions);
+  const columns = createColumns(...actions);
 
   return <DataTable columns={columns} data={data} />;
 };

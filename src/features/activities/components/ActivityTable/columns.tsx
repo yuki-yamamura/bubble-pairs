@@ -12,11 +12,12 @@ import { CheckCircle2, CircleDot, MoreHorizontal } from 'lucide-react';
 import type { Activity } from '@/types/models/Activity';
 import type { ColumnDef } from '@tanstack/react-table';
 
-export const createColumns = (actions: {
-  closeActivityById: (id: Activity['id']) => Promise<void>;
-  deleteActivityById: (id: Activity['id']) => Promise<void>;
-  openActivity: (id: Activity['id']) => Promise<void>;
-}): ColumnDef<Activity>[] => {
+export const createColumns = (
+  closeActivityById: (id: Activity['id']) => Promise<void>,
+  copyActivityUrl: (id: Activity['id']) => Promise<void>,
+  deleteActivityById: (id: Activity['id']) => Promise<void>,
+  openActivity: (id: Activity['id']) => Promise<void>,
+): ColumnDef<Activity>[] => {
   return [
     {
       accessorKey: 'isOpen',
@@ -74,7 +75,6 @@ export const createColumns = (actions: {
       id: 'actions',
       cell: ({ row }) => {
         const activity = row.original;
-        const { closeActivityById, deleteActivityById, openActivity } = actions;
 
         return (
           <DropdownMenu>
@@ -90,6 +90,11 @@ export const createColumns = (actions: {
               <DropdownMenuItem onClick={() => openActivity(activity.id)}>
                 詳細を見る
               </DropdownMenuItem>
+              {activity.isOpen && (
+                <DropdownMenuItem onClick={() => copyActivityUrl(activity.id)}>
+                  URL をコピー
+                </DropdownMenuItem>
+              )}
               {activity.isOpen && (
                 <DropdownMenuItem
                   onClick={() => closeActivityById(activity.id)}

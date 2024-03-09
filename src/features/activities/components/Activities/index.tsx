@@ -17,6 +17,11 @@ const Activities = () => {
     await router.push('/activities/new');
   };
 
+  const copyActivityUrl = async (id: Activity['id']) => {
+    const activityUrl = `${window.location.href}/${id}`;
+    await navigator.clipboard.writeText(activityUrl);
+    toast.success('URL をコピーしました。');
+  };
   const closeActivityById = async (id: Activity['id']) => {
     try {
       await axios.put(`/api/activities/${id}`, {
@@ -58,11 +63,12 @@ const Activities = () => {
       ) : (
         <ActivityTable
           data={activities}
-          actions={{
+          actions={[
             closeActivityById,
+            copyActivityUrl,
             deleteActivityById,
             openActivity,
-          }}
+          ]}
         />
       )}
     </div>
