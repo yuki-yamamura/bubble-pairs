@@ -21,7 +21,11 @@ import { signOut } from 'next-auth/react';
 
 import type { LucideIcon } from 'lucide-react';
 
-const GlobalNavigation = () => {
+type Props = {
+  onLinkClick?: () => void;
+};
+
+const GlobalNavigation = ({ onLinkClick }: Props) => {
   const router = useRouter();
   const { user } = useUser();
 
@@ -72,8 +76,9 @@ const GlobalNavigation = () => {
       <nav className="flex flex-col space-y-4 lg:px-4">
         {navigationItems.map(({ href, label, Icon }) => (
           <Link
-            href={href}
             key={href}
+            href={href}
+            onClick={onLinkClick}
             className={cn(
               'flex items-center gap-x-3 rounded-lg py-2 pl-2 hover:bg-accent focus:bg-accent',
               isCurrentRoute(href) && 'bg-accent',

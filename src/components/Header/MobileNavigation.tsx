@@ -5,6 +5,7 @@ import { useState } from 'react';
 
 const MobileNavigation = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const closeNavigation = () => setIsOpen(false);
 
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -15,7 +16,7 @@ const MobileNavigation = () => {
         <Menu size={20} onClick={() => setIsOpen(true)} />
       </SheetTrigger>
       <SheetContent side="left">
-        <GlobalNavigation />
+        <GlobalNavigation onLinkClick={closeNavigation} />
       </SheetContent>
     </Sheet>
   );
