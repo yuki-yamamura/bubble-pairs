@@ -5,14 +5,11 @@ import type { Member } from '@prisma/client';
 
 type Props = {
   data: Member[];
-  actions: {
-    deleteMember: (member: Member) => Promise<void>;
-    openMemberDetail: (memberId: Member['id']) => Promise<void>;
-  };
+  actions: Parameters<typeof createColumns>;
 };
 
 const MemberTable = ({ data, actions }: Props) => {
-  const columns = createColumns(actions);
+  const columns = createColumns(...actions);
 
   return <DataTable columns={columns} data={data} />;
 };

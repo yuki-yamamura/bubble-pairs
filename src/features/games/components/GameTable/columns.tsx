@@ -13,10 +13,10 @@ import { MoreHorizontal } from 'lucide-react';
 import type { Game } from '@/types/models/Game';
 import type { ColumnDef } from '@tanstack/react-table';
 
-export const createColumns = (actions: {
-  deleteGameById: (id: Game['id']) => Promise<void>;
-  openGame: (id: Game['id']) => Promise<void>;
-}): ColumnDef<Game>[] => {
+export const createColumns = (
+  deleteGameById: (id: Game['id']) => Promise<void>,
+  openGame: (id: Game['id']) => Promise<void>,
+): ColumnDef<Game>[] => {
   return [
     {
       id: 'gameNumber',
@@ -61,7 +61,6 @@ export const createColumns = (actions: {
       id: 'actions',
       cell: ({ row }) => {
         const game = row.original;
-        const { deleteGameById, openGame } = actions;
 
         return (
           <DropdownMenu>

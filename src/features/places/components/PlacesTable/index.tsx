@@ -5,14 +5,11 @@ import type { Place } from '@prisma/client';
 
 type Props = {
   data: Place[];
-  actions: {
-    deletePlace: (place: Place) => Promise<void>;
-    openPlaceDetail: (placeId: Place['id']) => Promise<void>;
-  };
+  actions: Parameters<typeof createColumns>;
 };
 
 const PlaceTable = ({ data, actions }: Props) => {
-  const columns = createColumns(actions);
+  const columns = createColumns(...actions);
 
   return <DataTable columns={columns} data={data} />;
 };

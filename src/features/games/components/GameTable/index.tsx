@@ -5,14 +5,11 @@ import type { Game } from '@/types/models/Game';
 
 type Props = {
   data: Game[];
-  actions: {
-    deleteGameById: (id: Game['id']) => Promise<void>;
-    openGame: (id: Game['id']) => Promise<void>;
-  };
+  actions: Parameters<typeof createColumns>;
 };
 
 const GameTable = ({ data, actions }: Props) => {
-  const columns = createColumns(actions);
+  const columns = createColumns(...actions);
 
   return <DataTable columns={columns} data={data} />;
 };

@@ -5,9 +5,9 @@ import { Trash2 } from 'lucide-react';
 import type { Member } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
 
-export const createColumns = (actions: {
-  deleteRowByIndex: (index: number) => void;
-}): ColumnDef<Member>[] => {
+export const createColumns = (
+  deleteRowByIndex: (index: number) => void,
+): ColumnDef<Member>[] => {
   return [
     {
       accessorKey: 'name',
@@ -17,7 +17,6 @@ export const createColumns = (actions: {
     {
       id: 'deletion',
       cell: ({ row }) => {
-        const { deleteRowByIndex } = actions;
         const member = row.original;
 
         return (

@@ -59,7 +59,7 @@ const Places = () => {
           <div className="flex flex-col gap-y-12">
             <PlaceTable
               data={places}
-              actions={{ deletePlace, openPlaceDetail }}
+              actions={[deletePlace, openPlaceDetail]}
             />
             {places.length > 0 && <DefaultPlaceSection />}
           </div>

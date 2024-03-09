@@ -50,10 +50,7 @@ const Members = () => {
       ) : (
         <MemberTable
           data={members}
-          actions={{
-            deleteMember,
-            openMemberDetail,
-          }}
+          actions={[deleteMember, openMemberDetail]}
         />
       )}
     </div>

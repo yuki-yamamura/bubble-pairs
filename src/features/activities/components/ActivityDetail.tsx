@@ -77,7 +77,7 @@ const ActivityDetail = () => {
           <>
             <h2 className="mb-4">ゲーム</h2>
             <GameTable
-              actions={{ deleteGameById, openGame }}
+              actions={[deleteGameById, openGame]}
               data={activity?.games ?? []}
             />
           </>

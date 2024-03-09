@@ -13,10 +13,10 @@ import { MoreHorizontal } from 'lucide-react';
 import type { Member } from '@prisma/client';
 import type { ColumnDef } from '@tanstack/react-table';
 
-export const createColumns = (actions: {
-  deleteMember: (member: Member) => Promise<void>;
-  openMemberDetail: (memberId: Member['id']) => Promise<void>;
-}): ColumnDef<Member>[] => {
+export const createColumns = (
+  deleteMember: (member: Member) => Promise<void>,
+  openMemberDetail: (memberId: Member['id']) => Promise<void>,
+): ColumnDef<Member>[] => {
   return [
     {
       accessorKey: 'name',
@@ -37,7 +37,6 @@ export const createColumns = (actions: {
       id: 'actions',
       cell: ({ row }) => {
         const member = row.original;
-        const { deleteMember, openMemberDetail } = actions;
 
         return (
           <DropdownMenu>

@@ -6,13 +6,11 @@ import type { Member } from '@prisma/client';
 
 type Props = {
   data: Member[];
-  actions: {
-    deleteRowByIndex: (index: number) => void;
-  };
+  actions: Parameters<typeof createColumns>;
 };
 
 const CandidateTable = ({ data, actions }: Props) => {
-  const columns = createColumns(actions);
+  const columns = createColumns(...actions);
 
   if (data.length === 0) {
     return (

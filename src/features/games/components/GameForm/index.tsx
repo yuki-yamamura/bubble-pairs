@@ -83,9 +83,7 @@ const GameForm = ({ activity, isSubmitting, onSubmit }: Props) => {
                   )
                   // remove undefined so that TypeScript will recognize correct type.
                   .filter((member): member is Member => !!member)}
-                actions={{
-                  deleteRowByIndex: deleteMemberByIndex,
-                }}
+                actions={[deleteMemberByIndex]}
               />
             </FormItem>
           )}
