@@ -1,5 +1,5 @@
 export { default } from 'next-auth/middleware';
 
 export const config = {
-  matcher: ['/((?!articles/.+/published|auth/.*|images/.*).{1,})'],
+  matcher: ['/((?!activities/.+/published).{1,})'],
 };
