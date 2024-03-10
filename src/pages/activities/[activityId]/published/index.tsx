@@ -23,8 +23,8 @@ export const getServerSideProps: GetServerSideProps<Props, Params> = async ({
     console.error(result.error);
     throw result.error;
   }
-  // as well as an activity not found, a closed activity does not show any page.
-  //   closed activities
+  // as well as the case that an activity is not found,
+  // we won't show any pages if an activity is closed.
   const { data: activity } = result;
   if (!activity?.isOpen) {
     return {
