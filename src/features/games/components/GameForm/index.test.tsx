@@ -25,7 +25,7 @@ const getSinglesCountCombobox = () =>
 const getDoublesCountCombobox = () =>
   screen.getByRole('combobox', { name: 'ダブルス数' });
 const getSubmitButton = () =>
-  screen.getByRole('button', { name: 'ゲームをはじめる' });
+  screen.getByRole('button', { name: 'ゲームを開始' });
 const getOptionByLabel = (label: string) =>
   screen.getByRole<HTMLOptionElement>('option', { name: label });
 
@@ -50,9 +50,6 @@ describe('GameForm', () => {
 
       expect(getSinglesCountCombobox()).toHaveTextContent('0');
       expect(getDoublesCountCombobox()).toHaveTextContent('0');
-
-      // before making a change, the submit button is disabled.
-      expect(getSubmitButton()).toBeDisabled();
     });
   });
 

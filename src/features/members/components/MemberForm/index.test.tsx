@@ -106,6 +106,7 @@ describe('MemberForm', () => {
         sex: 'MALE',
         level: 'INTERMEDIATE',
         note: '水曜日のみ参加',
+        isDeleted: false,
       });
     });
   });
