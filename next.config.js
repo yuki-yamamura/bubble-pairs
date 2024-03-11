@@ -19,11 +19,6 @@ const nextConfig = {
         destination: '/settings',
         permanent: true,
       },
-      {
-        source: '/activities/:activityId/games',
-        destination: '/activities/:activityId',
-        permanent: true,
-      },
     ];
   },
 };
