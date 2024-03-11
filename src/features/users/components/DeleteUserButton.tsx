@@ -7,10 +7,13 @@ import {
 } from '@/components/ui/alert-dialog';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { signOut } from 'next-auth/react';
 import { useState } from 'react';
+import toast from 'react-hot-toast';
 import useSWRMutation from 'swr/mutation';
 
 import type { User } from '@prisma/client';
+import type { AxiosError } from 'axios';
 
 type Props = {
   user: User;
@@ -19,7 +22,7 @@ type Props = {
 const DeleteUserButton = ({ user }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const { trigger, isMutating } = useSWRMutation(
+  const { error, trigger, isMutating } = useSWRMutation<void, AxiosError>(
     `/api/users/${user.id}`,
     async (url: string) => {
       await axios.delete(url);
@@ -28,6 +31,13 @@ const DeleteUserButton = ({ user }: Props) => {
 
   const handleActionButtonClick = async () => {
     await trigger();
+    if (error) {
+      toast.error('ユーザーを削除できませんでした。');
+
+      return;
+    }
+
+    await signOut();
     await router.push('/');
     router.reload();
   };

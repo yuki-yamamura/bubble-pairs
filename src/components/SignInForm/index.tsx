@@ -19,7 +19,7 @@ const SignInForm = () => {
   }
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center md:-translate-y-1/2">
       <Logo className="mb-12 text-2xl" />
       <Form {...form}>
         <FormDescription className="mb-12 px-8">
