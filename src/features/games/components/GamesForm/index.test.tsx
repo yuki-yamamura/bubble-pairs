@@ -20,6 +20,8 @@ const getParticipantsButton = () =>
   screen.getByRole('button', { name: '参加者を追加...' });
 const getParticipantByLabel = (label: string) =>
   within(screen.getByRole('table')).getByText(label);
+const getGameCountCombobox = () =>
+  screen.getByRole('combobox', { name: '試合数' });
 const getSinglesCountCombobox = () =>
   screen.getByRole('combobox', { name: 'シングルス数' });
 const getDoublesCountCombobox = () =>
@@ -53,7 +55,7 @@ describe('GameForm', () => {
     });
   });
 
-  describe('if user picks the five of the participants and selects doubles count', () => {
+  describe('if user picks the five of the participants and selects doubles count, in order to create two games', () => {
     test('should call a callback function with the correct values', async () => {
       // arrange
       const memberIds = activity.participants.map((participant) => ({
@@ -62,6 +64,7 @@ describe('GameForm', () => {
       const expected = {
         activityId: activity.id,
         memberIds,
+        gameCount: 2,
         singlesCount: 0,
         doublesCount: 1,
       } satisfies GameCreateSchema;
@@ -71,6 +74,8 @@ describe('GameForm', () => {
         <GameForm activity={activity} isSubmitting={false} onSubmit={mockFn} />,
       );
 
+      await user.click(getGameCountCombobox());
+      await user.click(getOptionByLabel('2'));
       await user.click(getDoublesCountCombobox());
       await user.click(getOptionByLabel('1'));
 

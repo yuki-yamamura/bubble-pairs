@@ -5,5 +5,5 @@ export type GetResponseData = {
 };
 
 export type PostResponseData = {
-  game: Game;
+  games: Game[];
 };

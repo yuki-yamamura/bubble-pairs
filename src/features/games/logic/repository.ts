@@ -5,38 +5,42 @@ import type { Game } from '@/types/models/Game';
 import type { Result } from '@/types/Result';
 import type { Prisma } from '@prisma/client';
 
-export const createGame = (
-  data: Prisma.GameCreateInput,
-): Promise<Result<Game>> => {
+export const createGames = (
+  data: Prisma.GameCreateInput[],
+): Promise<Result<Game[]>> => {
   return withResult(() =>
-    prisma.game.create({
-      data,
-      include: {
-        activity: {
+    prisma.$transaction(
+      data.map((gameCreateInput) =>
+        prisma.game.create({
+          data: gameCreateInput,
           include: {
-            participants: true,
-          },
-        },
-        gameDetails: {
-          include: {
-            players: {
+            activity: {
               include: {
-                participant: {
+                participants: true,
+              },
+            },
+            gameDetails: {
+              include: {
+                players: {
                   include: {
-                    member: true,
+                    participant: {
+                      include: {
+                        member: true,
+                      },
+                    },
                   },
                 },
               },
             },
+            resters: {
+              include: {
+                participant: true,
+              },
+            },
           },
-        },
-        resters: {
-          include: {
-            participant: true,
-          },
-        },
-      },
-    }),
+        }),
+      ),
+    ),
   )();
 };
 

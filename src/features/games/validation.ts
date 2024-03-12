@@ -11,6 +11,7 @@ export const gameCreateSchema = z
         memberId: z.string(),
       }),
     ),
+    gameCount: z.coerce.number(),
     singlesCount: z.coerce.number(),
     doublesCount: z.coerce.number(),
   })

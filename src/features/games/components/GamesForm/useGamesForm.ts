@@ -14,7 +14,7 @@ type Props = {
   onSubmit: (fieldValues: GameCreateSchema) => Promise<void>;
 };
 
-export const useGameForm = ({
+export const useGamesForm = ({
   activity,
   onSubmit,
 }: Props): {
@@ -33,6 +33,7 @@ export const useGameForm = ({
     memberIds: activity.participants.map(({ memberId }) => ({
       memberId,
     })),
+    gameCount: 1,
     singlesCount: 0,
     doublesCount: 0,
   } satisfies GameCreateSchema;

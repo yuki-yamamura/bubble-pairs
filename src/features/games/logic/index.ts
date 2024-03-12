@@ -22,7 +22,7 @@ export const getAllPlayers = (game: Game): Player[] => {
  */
 export const generateGame = (
   conditions: GameCreateSchema & { activity: Activity },
-) => {
+): Prisma.GameCreateInput => {
   const { activity, memberIds, singlesCount, doublesCount } = conditions;
 
   const totalPlayers =
