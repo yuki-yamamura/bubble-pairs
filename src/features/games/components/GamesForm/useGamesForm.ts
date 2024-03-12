@@ -1,7 +1,6 @@
-import { getAllPlayers } from '../../logic';
 import { gameCreateSchema } from '@/features/games/validation';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { type Member, Rule } from '@prisma/client';
+import { type Member } from '@prisma/client';
 import { useFieldArray, useForm } from 'react-hook-form';
 
 import type { GameCreateSchema } from '@/features/games/validation';
@@ -53,10 +52,11 @@ export const useGamesForm = ({
     append(values);
   };
 
+  const serializedPreviousValues = localStorage.getItem('previous-game-values');
   const previousGame = activity.games.find(
     (_, index) => index === activity.games.length - 1,
   );
-  const shouldDisableApplyButton = previousGame === undefined;
+  const shouldDisableApplyButton = !previousGame || !serializedPreviousValues;
   const restMembers = activity.participants
     .filter((participant) => {
       const selectedMemberIds = fields.map(({ memberId }) => memberId);
@@ -66,32 +66,26 @@ export const useGamesForm = ({
     .map(({ member }) => member);
 
   const submitHandler = handleSubmit(async (fieldValues) => {
-    await onSubmit(fieldValues);
+    try {
+      await onSubmit(fieldValues);
+      localStorage.setItem('previous-game-values', JSON.stringify(fieldValues));
+    } catch (error) {
+      if (error instanceof Error) {
+        throw error;
+      }
+    }
   });
   // handler for the previous conditions button
   const handleApplyPreviousValues = () => {
     if (!previousGame) return;
+    if (!serializedPreviousValues) return;
 
-    const memberIds = getAllPlayers(previousGame)
-      .map((player) => ({ memberId: player.participant.memberId }))
-      .concat(
-        previousGame.resters.map((rester) => ({
-          memberId: rester.participant.memberId,
-        })),
-      );
-    const singlesCount = previousGame.gameDetails.filter(
-      (gameDetail) => gameDetail.rule === Rule.SINGLES,
-    ).length;
-    const doublesCount = previousGame.gameDetails.filter(
-      (gameDetail) => gameDetail.rule === Rule.DOUBLES,
-    ).length;
+    const previousValues = JSON.parse(
+      serializedPreviousValues,
+    ) as GameCreateSchema;
+    gameCreateSchema.parse(previousValues);
 
-    reset({
-      activityId: activity.id,
-      memberIds,
-      singlesCount,
-      doublesCount,
-    });
+    reset(previousValues);
   };
 
   return {
