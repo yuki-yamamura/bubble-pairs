@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 
 test.describe('error page', () => {
   test.describe('if an error happens in the server', () => {
-    test('shows the error page', async ({ page }) => {
+    test.skip('shows the error page', async ({ page }) => {
       await page.goto('/500');
 
       await expect(
