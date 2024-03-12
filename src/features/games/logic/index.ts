@@ -10,13 +10,11 @@ import type { Player } from '@/types/models/Player';
 import type { Prisma } from '@prisma/client';
 
 export const getAllPlayers = (game: Game): Player[] => {
-  const tmp = game.gameDetails
+  return game.gameDetails
     .map((gameDetail) => gameDetail)
     .flat()
     .map((gameDetail) => gameDetail.players)
     .flat();
-
-  return tmp;
 };
 
 /**
