@@ -36,9 +36,7 @@ const PublishedActivityDetail = ({ activity }: Props) => {
         <ol className="space-y-12">
           {games.map((game) => {
             const gameNumber =
-              activity.games
-                .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
-                .findIndex(({ id }) => id === game.id) + 1;
+              activity.games.findIndex(({ id }) => id === game.id) + 1;
 
             return (
               <li key={game.id}>
