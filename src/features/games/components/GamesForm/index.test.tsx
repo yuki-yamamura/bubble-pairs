@@ -101,14 +101,14 @@ describe('GameForm', () => {
       await user.click(getOptionByLabel('0'));
 
       expect(
-        screen.queryByText('試合数を選択してください。'),
+        screen.queryByText('1 試合ごとの内訳を入力してください。'),
       ).not.toBeInTheDocument();
 
       await user.click(getSubmitButton());
 
       // assert
       expect(
-        screen.getByText('試合数を選択してください。'),
+        screen.getByText('1 試合ごとの内訳を入力してください。'),
       ).toBeInTheDocument();
 
       expect(mockFn).not.toHaveBeenCalled();
@@ -129,15 +129,13 @@ describe('GameForm', () => {
       await user.click(getOptionByLabel('2'));
 
       expect(
-        screen.queryByText('参加者を追加するか、試合数を変更してください。'),
+        screen.queryByText('参加者が足りません。'),
       ).not.toBeInTheDocument();
 
       await user.click(getSubmitButton());
 
       // assert
-      expect(
-        screen.getByText('参加者を追加するか、試合数を変更してください。'),
-      ).toBeInTheDocument();
+      expect(screen.getByText('参加者が足りません。')).toBeInTheDocument();
 
       expect(mockFn).not.toHaveBeenCalled();
     });

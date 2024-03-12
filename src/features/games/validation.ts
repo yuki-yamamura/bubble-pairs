@@ -20,8 +20,16 @@ export const gameCreateSchema = z
       return singlesCount + doublesCount !== 0;
     },
     {
-      message: '試合数を選択してください。',
+      path: ['singlesCount'],
+    },
+  )
+  .refine(
+    ({ singlesCount, doublesCount }) => {
+      return singlesCount + doublesCount !== 0;
+    },
+    {
       path: ['doublesCount'],
+      message: '1 試合ごとの内訳を入力してください。',
     },
   )
   // todo: enable commented out code below and write test for it after solving the error
@@ -51,7 +59,7 @@ export const gameCreateSchema = z
       return playerCount <= memberIds.length;
     },
     {
-      message: '参加者を追加するか、試合数を変更してください。',
+      message: '参加者が足りません。',
       path: ['memberIds'],
     },
   );

@@ -130,9 +130,6 @@ const GamesForm = ({ activity, isSubmitting, onSubmit }: Props) => {
                   defaultValue={field.value.toString()}
                   onValueChange={field.onChange}
                 />
-                {errors.singlesCount && (
-                  <FormMessage>{errors.singlesCount.message}</FormMessage>
-                )}
               </FormItem>
             )}
           />
