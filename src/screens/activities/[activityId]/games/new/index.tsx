@@ -1,9 +1,9 @@
 import PageContainer from '@/components/PageContainer';
-import NewGame from '@/features/games/components/NewGame';
+import NewGames from '@/features/games/components/NewGames';
 
 const NewGameScreen = () => (
   <PageContainer title="Games">
-    <NewGame />
+    <NewGames />
   </PageContainer>
 );
 

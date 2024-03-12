@@ -44,6 +44,7 @@ export const createActivity = (
               },
             },
           },
+          orderBy: [{ createdAt: 'desc' }],
         },
       },
     }),

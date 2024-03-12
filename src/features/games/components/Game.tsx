@@ -11,10 +11,7 @@ type Props = {
 };
 
 const Game = ({ activity, game }: Props) => {
-  const gameNumber =
-    activity.games
-      .sort((a, b) => (a.createdAt > b.createdAt ? 1 : -1))
-      .findIndex(({ id }) => id === game.id) + 1;
+  const gameNumber = activity.games.findIndex(({ id }) => id === game.id) + 1;
   const resters: Participant[] = game.resters
     .map(({ participantId }) =>
       activity.participants.find(

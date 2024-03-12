@@ -20,6 +20,8 @@ const getParticipantsButton = () =>
   screen.getByRole('button', { name: '参加者を追加...' });
 const getParticipantByLabel = (label: string) =>
   within(screen.getByRole('table')).getByText(label);
+const getGameCountCombobox = () =>
+  screen.getByRole('combobox', { name: '試合数' });
 const getSinglesCountCombobox = () =>
   screen.getByRole('combobox', { name: 'シングルス数' });
 const getDoublesCountCombobox = () =>
@@ -53,7 +55,7 @@ describe('GameForm', () => {
     });
   });
 
-  describe('if user picks the five of the participants and selects doubles count', () => {
+  describe('if user picks the five of the participants and selects doubles count, in order to create two games', () => {
     test('should call a callback function with the correct values', async () => {
       // arrange
       const memberIds = activity.participants.map((participant) => ({
@@ -62,6 +64,7 @@ describe('GameForm', () => {
       const expected = {
         activityId: activity.id,
         memberIds,
+        gameCount: 2,
         singlesCount: 0,
         doublesCount: 1,
       } satisfies GameCreateSchema;
@@ -71,6 +74,8 @@ describe('GameForm', () => {
         <GameForm activity={activity} isSubmitting={false} onSubmit={mockFn} />,
       );
 
+      await user.click(getGameCountCombobox());
+      await user.click(getOptionByLabel('2'));
       await user.click(getDoublesCountCombobox());
       await user.click(getOptionByLabel('1'));
 
@@ -96,14 +101,14 @@ describe('GameForm', () => {
       await user.click(getOptionByLabel('0'));
 
       expect(
-        screen.queryByText('試合数を選択してください。'),
+        screen.queryByText('1 試合ごとの内訳を入力してください。'),
       ).not.toBeInTheDocument();
 
       await user.click(getSubmitButton());
 
       // assert
       expect(
-        screen.getByText('試合数を選択してください。'),
+        screen.getByText('1 試合ごとの内訳を入力してください。'),
       ).toBeInTheDocument();
 
       expect(mockFn).not.toHaveBeenCalled();
@@ -124,15 +129,13 @@ describe('GameForm', () => {
       await user.click(getOptionByLabel('2'));
 
       expect(
-        screen.queryByText('参加者を追加するか、試合数を変更してください。'),
+        screen.queryByText('参加者が足りません。'),
       ).not.toBeInTheDocument();
 
       await user.click(getSubmitButton());
 
       // assert
-      expect(
-        screen.getByText('参加者を追加するか、試合数を変更してください。'),
-      ).toBeInTheDocument();
+      expect(screen.getByText('参加者が足りません。')).toBeInTheDocument();
 
       expect(mockFn).not.toHaveBeenCalled();
     });

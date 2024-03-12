@@ -1,6 +1,6 @@
 import Loading from '@/components/Loading';
 import { useActivity } from '@/features/activities/hooks/useActivity';
-import GameForm from '@/features/games/components/GameForm';
+import GamesForm from '@/features/games/components/GamesForm';
 import axios from 'axios';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/router';
@@ -10,7 +10,7 @@ import useSWRMutation from 'swr/mutation';
 import type { GameCreateSchema } from '@/features/games/validation';
 import type { PostResponseData } from '@/types/api/games';
 
-const NewGame = () => {
+const NewGames = () => {
   const router = useRouter();
   const params = useParams();
   const activityId = params.activityId as string;
@@ -26,8 +26,8 @@ const NewGame = () => {
 
   const handleSubmit = async (fieldValues: GameCreateSchema) => {
     try {
-      const { game } = await trigger(fieldValues);
-      await router.push(`/activities/${activityId}/games/${game.id}`);
+      const { games } = await trigger(fieldValues);
+      await router.push(`/activities/${activityId}/games/${games[0].id}`);
       await mutate();
       toast.success('ゲームを追加しました。');
     } catch {
@@ -46,7 +46,7 @@ const NewGame = () => {
   }
 
   return (
-    <GameForm
+    <GamesForm
       activity={activity}
       isSubmitting={isMutating}
       onSubmit={handleSubmit}
@@ -54,4 +54,4 @@ const NewGame = () => {
   );
 };
 
-export default NewGame;
+export default NewGames;
