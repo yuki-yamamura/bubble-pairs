@@ -1,5 +1,4 @@
 import { useDefaultPlaceForm } from './useDefaultPlaceForm';
-import { usePlaces } from '../../hooks/usePlaces';
 import Button from '@/components/Button';
 import Select from '@/components/form/Select';
 import SectionCard from '@/components/SectionCard';
@@ -8,14 +7,11 @@ import { useState } from 'react';
 import toast from 'react-hot-toast';
 
 import type { Options } from '@/types/Options';
-import type { Place } from '@prisma/client';
 
 const DefaultPlaceSection = () => {
   const [isEditing, setIsEditing] = useState(false);
-  const { places, mutate } = usePlaces();
-  // default place must always be only one.
-  const defaultPlace = places.find((place) => place.isDefault) as Place;
-  const { form, isBusy, submitHandler } = useDefaultPlaceForm({ defaultPlace });
+  const { currentDefaultPlace, form, isBusy, sortedPlaces, submitHandler } =
+    useDefaultPlaceForm();
   const { control } = form;
 
   const handleCancelButtonClick = () => {
@@ -25,7 +21,6 @@ const DefaultPlaceSection = () => {
   const handleSaveButtonClick = async () => {
     if (isEditing) {
       await submitHandler();
-      await mutate();
       setIsEditing(false);
       toast.success('いつも使う場所を更新しました。');
     } else {
@@ -34,15 +29,10 @@ const DefaultPlaceSection = () => {
   };
 
   // make sure that the default place is the first choice in the options.
-  const placeOptions: Options = [
-    places.find((place) => place.isDefault),
-    ...places.filter((place) => !place.isDefault),
-  ]
-    .filter((place): place is Place => !!place)
-    .map(({ id, name }) => ({
-      value: id,
-      label: name,
-    }));
+  const placeOptions: Options = sortedPlaces.map(({ id, name }) => ({
+    value: id,
+    label: name,
+  }));
 
   return (
     <SectionCard
@@ -69,9 +59,11 @@ const DefaultPlaceSection = () => {
           </form>
         </Form>
       ) : (
-        <div className="pl-[13px] pt-[9px] tracking-normal">
-          {defaultPlace.name}
-        </div>
+        currentDefaultPlace && (
+          <div className="pl-[13px] pt-[9px] tracking-normal">
+            {currentDefaultPlace.name}
+          </div>
+        )
       )}
       <div className="mt-4 flex justify-end gap-x-2">
         {isEditing && (
@@ -84,7 +76,7 @@ const DefaultPlaceSection = () => {
           variant="outline"
           onClick={handleSaveButtonClick}
         >
-          {isEditing ? '保存' : '変更'}
+          {isEditing ? '保存' : currentDefaultPlace ? '変更' : '登録'}
         </Button>
       </div>
     </SectionCard>
