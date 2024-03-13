@@ -46,14 +46,17 @@ const HomeScreen = ({ session }: Props) => {
   }
 
   return (
-    <main className="flex h-full flex-col gap-y-20">
+    <main className="flex h-full flex-col gap-y-20 pb-20">
       <section id="hero" className="flex flex-col items-center">
         <img src="/images/gestures.png" alt="gestures" className="h-80 w-80" />
         <h2 className="pb-6 text-2xl font-light italic tracking-wide">
           ペア決めを簡単に
         </h2>
         <div className="pb-4 leading-8 md:pb-6 md:text-center md:leading-10">
-          <p>Bubble Pairs はバドミントンのペア決めを簡単にするアプリです。</p>
+          <p>
+            <strong className="font-light">Bubble Pairs</strong>{' '}
+            はバドミントンのペア決めを簡単にするアプリです。
+          </p>
           <p>試合前のペア決めが大変だと思うことはありませんか？</p>
           <p>いつもの作業はアプリに任せて、試合を楽しみましょう。</p>
         </div>
