@@ -33,10 +33,16 @@ const DefaultPlaceSection = () => {
     }
   };
 
-  const placeOptions: Options = places.map(({ id, name }) => ({
-    value: id,
-    label: name,
-  }));
+  // make sure that the default place is the first choice in the options.
+  const placeOptions: Options = [
+    places.find((place) => place.isDefault),
+    ...places.filter((place) => !place.isDefault),
+  ]
+    .filter((place): place is Place => !!place)
+    .map(({ id, name }) => ({
+      value: id,
+      label: name,
+    }));
 
   return (
     <SectionCard
