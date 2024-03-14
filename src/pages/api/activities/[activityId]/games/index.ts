@@ -1,11 +1,11 @@
 import { findActivityById } from '@/features/activities/logic/repository';
-import { generateGame } from '@/features/games/logic';
-import { createGames } from '@/features/games/logic/repository';
+import { generateGameInput } from '@/features/games/logic';
+import { createGame } from '@/features/games/logic/repository';
 import { gameCreateSchema } from '@/features/games/validation';
 import { withZod } from '@/lib/next';
 import { z } from 'zod';
 
-import type { Prisma } from '@prisma/client';
+import type { Game } from '@prisma/client';
 import type { NextApiHandler } from 'next';
 
 const handlePost: NextApiHandler = withZod(
@@ -14,33 +14,36 @@ const handlePost: NextApiHandler = withZod(
   }),
   async (request, response) => {
     const { activityId, gameCount } = request.body;
-    const inputs: Prisma.GameCreateInput[] = [];
+    const games: Game[] = [];
 
     for (let i = 0; i < gameCount; i++) {
-      const result = await findActivityById(activityId);
+      const activityResult = await findActivityById(activityId);
 
-      if (result.type === 'error') {
-        console.error(result.error);
+      if (activityResult.type === 'error') {
+        console.error(activityResult.error);
         response.status(400).end();
-      } else if (!result.data) {
+      } else if (!activityResult.data) {
         response.status(400).end();
       } else {
-        const newGame = generateGame({
-          activity: result.data,
+        const data = generateGameInput({
+          activity: activityResult.data,
           ...request.body,
         });
-        inputs.push(newGame);
+        // I couldn't make a transaction in this case because of a technical problem:
+        //   - calculating the players depends on previous activity, so we have to commit insert queries within a transaction.
+        //   - it seems like Prism does not offer the way to solve the above problem.
+        const gameResult = await createGame(data);
+
+        if (gameResult.type === 'success') {
+          games.push(gameResult.data);
+        } else {
+          console.error(gameResult.error);
+          response.status(400).end();
+        }
       }
     }
 
-    const result = await createGames(inputs);
-
-    if (result.type === 'success') {
-      response.json({ games: result.data });
-    } else {
-      console.error(result.error);
-      response.status(400).end();
-    }
+    response.json({ games });
   },
 );
 

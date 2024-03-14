@@ -20,7 +20,7 @@ export const getAllPlayers = (game: Game): Player[] => {
 /**
  * generate a new game depending on the conditions.
  */
-export const generateGame = (
+export const generateGameInput = (
   conditions: GameCreateSchema & { activity: Activity },
 ): Prisma.GameCreateInput => {
   const { activity, memberIds, singlesCount, doublesCount } = conditions;
@@ -48,7 +48,11 @@ export const generateGame = (
   const players = shuffleArray(sortedCandidates.slice(0, totalPlayers));
   const resters = sortedCandidates.slice(totalPlayers);
 
-  const gameDetails = generateGameDetails(players, singlesCount, doublesCount);
+  const gameDetails = generateGameDetailInputs(
+    players,
+    singlesCount,
+    doublesCount,
+  );
 
   return {
     activity: {
@@ -98,7 +102,7 @@ const calculateTotalGamesPerParticipant = (
  * make sure that the number of participants in the argument
  *   equals the sum of singles and doubles counts before calling this function.
  */
-const generateGameDetails = (
+const generateGameDetailInputs = (
   participants: Participant[],
   singlesCount: number,
   doublesCount: number,
