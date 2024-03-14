@@ -1,4 +1,4 @@
-import { activityHandler } from './activities';
+import { activityHandler } from './activitiesHandler';
 import { membersHandler } from './membersHandler';
 import { placesHandler } from './placesHandler';
 
