@@ -26,8 +26,8 @@ const NewGames = () => {
 
   const handleSubmit = async (fieldValues: GameCreateSchema) => {
     try {
-      const { games } = await trigger(fieldValues);
-      await router.push(`/activities/${activityId}/games/${games[0].id}`);
+      await trigger(fieldValues);
+      await router.push(`/activities/${activityId}`);
       await mutate();
       toast.success('ゲームを追加しました。');
     } catch {

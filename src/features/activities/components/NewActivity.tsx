@@ -31,8 +31,8 @@ const NewActivity = () => {
 
   const handleSubmit = async (fieldValues: ActivityCreateSchema) => {
     try {
-      const data = await trigger(fieldValues);
-      await router.push(`/activities/${data.activity.id}`);
+      await trigger(fieldValues);
+      await router.push('/activities');
       toast.success('アクティビティを開始しました。');
     } catch {
       toast.error('アクティビティを開始できませんでした。');
