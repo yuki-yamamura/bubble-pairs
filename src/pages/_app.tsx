@@ -4,6 +4,7 @@ import { UserProvider } from '@/context/useUser';
 import ErrorScreen from '@/screens/error';
 import { Inter } from 'next/font/google';
 import { SessionProvider } from 'next-auth/react';
+import NextNProgress from 'nextjs-progressbar';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Toaster } from 'react-hot-toast';
 
@@ -28,6 +29,7 @@ const App = ({
   return (
     <div className={inter.className}>
       <Toaster />
+      <NextNProgress color="rgb(79, 134, 247)" />
       <SessionProvider session={session}>
         <BreadcrumbsProvider>
           <UserProvider>
