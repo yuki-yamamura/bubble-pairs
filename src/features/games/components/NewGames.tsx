@@ -29,9 +29,9 @@ const NewGames = () => {
       await trigger(fieldValues);
       await router.push(`/activities/${activityId}`);
       await mutate();
-      toast.success('ゲームを追加しました。');
+      toast.success('試合を追加しました。');
     } catch {
-      toast.error('ゲームの追加に失敗しました');
+      toast.error('試合の追加に失敗しました');
     }
   };
 

@@ -55,7 +55,7 @@ describe('createBreadcrumbs', () => {
         },
         {
           path: '/activities/clsm7h1vi0006dam59dq1legc/games',
-          label: 'ゲーム',
+          label: '試合',
         },
         {
           path: '/activities/clsm7h1vi0006dam59dq1legc/games/cltai9xl8000ycxxl6e251jod',

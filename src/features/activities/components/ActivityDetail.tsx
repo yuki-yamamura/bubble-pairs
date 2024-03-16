@@ -28,9 +28,9 @@ const ActivityDetail = () => {
     try {
       await axios.delete(`/api/activities/${activityId}/games/${gameId}`);
       await mutate();
-      toast.success('ゲームを削除しました。');
+      toast.success('試合を削除しました。');
     } catch {
-      toast.error('ゲームを削除できませんでした。');
+      toast.error('試合を削除できませんでした。');
     }
   };
   const openGame = async (gameId: Game['id']) => {
@@ -69,13 +69,13 @@ const ActivityDetail = () => {
         {activity.games.length === 0 ? (
           <EmptyState src="/images/playing-cards.png" alt="playing-cards">
             <div className="text-center leading-7">
-              <p>ゲームをはじめましょう。</p>
+              <p>試合をはじめましょう。</p>
               <p>画面左下にある「+」ボタンを押してください。</p>
             </div>
           </EmptyState>
         ) : (
           <>
-            <h2 className="mb-4">ゲーム</h2>
+            <h2 className="mb-4">試合</h2>
             <GameTable
               actions={[deleteGameById, openGame]}
               data={activity.games}

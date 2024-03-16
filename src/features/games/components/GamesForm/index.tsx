@@ -158,7 +158,7 @@ const GamesForm = ({ activity, isSubmitting, onSubmit }: Props) => {
           variant="primary-green"
           className="self-center"
         >
-          ゲームを開始
+          試合を開始
         </Button>
       </form>
     </Form>

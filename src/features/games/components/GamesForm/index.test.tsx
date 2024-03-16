@@ -27,7 +27,7 @@ const getSinglesCountCombobox = () =>
 const getDoublesCountCombobox = () =>
   screen.getByRole('combobox', { name: 'ダブルス数' });
 const getSubmitButton = () =>
-  screen.getByRole('button', { name: 'ゲームを開始' });
+  screen.getByRole('button', { name: '試合を開始' });
 const getOptionByLabel = (label: string) =>
   screen.getByRole<HTMLOptionElement>('option', { name: label });
 

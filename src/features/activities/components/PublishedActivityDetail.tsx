@@ -28,7 +28,7 @@ const PublishedActivityDetail = ({ activity }: Props) => {
         <div className="flex grow items-center justify-center">
           <EmptyState src="/images/empty-box.png" alt="empty-box">
             <div className="text-center leading-7">
-              <p>ゲームが開始されていません。</p>
+              <p>試合が開始されていません。</p>
             </div>
           </EmptyState>
         </div>

@@ -40,7 +40,7 @@ const getLabel = (path: string): string | null => {
       return path.match(gameDetailRegex)?.at(2) as string;
     }
     case /^\/activities\/.+\/games\/?$/.test(path): {
-      return 'ゲーム';
+      return '試合';
     }
     // for the activity pages
     case activityDetailRegex.test(path): {
