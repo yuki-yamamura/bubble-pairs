@@ -26,7 +26,7 @@ const GameDetails = ({ gameDetails }: Props) => (
             <div>{`第 ${courtNumber} コート`}</div>
             <div className="pt-1 text-xs text-muted-foreground">{`${ruleMap.get(rule) as string}`}</div>
           </header>
-          <div className="flex items-center justify-evenly">
+          <div className="flex items-center justify-evenly text-muted-foreground">
             {/* on the left side */}
             <div className="flex w-5/12 justify-center">
               {rule === Rule.SINGLES ? (
@@ -35,7 +35,9 @@ const GameDetails = ({ gameDetails }: Props) => (
                 <Pair players={[players[0], players[1]]} />
               )}
             </div>
-            <div className={cn('w-2/12 text-center', nunito.className)}>VS</div>
+            <div className={cn('w-2/12 text-center text-sm', nunito.className)}>
+              VS
+            </div>
             {/* on the right side */}
             <div className="flex w-5/12 justify-center">
               {rule === Rule.SINGLES ? (
